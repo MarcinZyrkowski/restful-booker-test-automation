@@ -19,6 +19,7 @@ ext {
     lombokVersion = '1.18.40'
     restAssuredVersion = '5.5.6'
     assertJVersion = '4.0.0-M1'
+    datafakerVersion = '2.4.4'
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation "io.rest-assured:rest-assured:${restAssuredVersion}"
     implementation "org.assertj:assertj-core:${assertJVersion}"
+    implementation "net.datafaker:datafaker:${datafakerVersion}"
 }
 
 test {
