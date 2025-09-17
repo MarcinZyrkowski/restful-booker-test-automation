@@ -1,9 +1,11 @@
-package org.example.assertion;
+package org.example.assertion.response;
 
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
+import org.example.assertion.HttpAssertion;
+import org.example.mapper.ResponseMapper;
 
-public class StringResponseAssertion extends HttpAssertion<StringResponseAssertion>{
+public class StringResponseAssertion extends HttpAssertion<StringResponseAssertion> {
 
   private String responseBody;
 
@@ -16,7 +18,7 @@ public class StringResponseAssertion extends HttpAssertion<StringResponseAsserti
   }
 
   public StringResponseAssertion body() {
-    responseBody = response.getBody().asString();
+    responseBody = ResponseMapper.map(response).toStringResponse();
     return this;
   }
 

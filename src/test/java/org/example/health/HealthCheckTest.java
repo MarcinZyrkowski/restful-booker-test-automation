@@ -1,8 +1,8 @@
-package org.example.auth;
+package org.example.health;
 
 import io.restassured.response.Response;
 import org.example.SpringContext;
-import org.example.assertion.StringResponseAssertion;
+import org.example.assertion.response.StringResponseAssertion;
 import org.junit.jupiter.api.Test;
 
 class HealthCheckTest extends SpringContext {
