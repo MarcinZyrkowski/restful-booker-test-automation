@@ -18,7 +18,7 @@ public class CollectionUtils {
         .findAny();
   }
 
-  public static <K, V> Map<K, V> filterNonNullValues(Map<K, V> map) {
+  public static <K, V> Map<K, V> filterNonNullValues(@NonNull Map<K, V> map) {
     return map.entrySet()
         .stream()
         .filter(entry -> entry.getValue() != null)
