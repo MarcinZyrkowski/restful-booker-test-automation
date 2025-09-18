@@ -1,15 +1,15 @@
 package org.example.client;
 
 import io.restassured.response.Response;
-import org.example.config.Config;
+import org.example.config.AppConfig;
 import org.example.model.request.UserRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookerClient extends RestClient {
 
-  public BookerClient(Config config) {
-    super(config);
+  public BookerClient(AppConfig appConfig) {
+    super(appConfig);
   }
 
   public Response healthCheck() {

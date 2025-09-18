@@ -1,17 +1,17 @@
-package org.example;
+package org.example.context;
 
 import org.example.client.BookerClient;
-import org.example.config.Config;
+import org.example.config.AppConfig;
 import org.example.factory.UserRequestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = Config.class)
-public class SpringContext {
+@SpringBootTest(classes = AppConfig.class)
+public class SpringTestContext {
 
   @SuppressWarnings("unused")
   @Autowired
-  protected Config config;
+  protected AppConfig appConfig;
 
   @Autowired
   protected BookerClient bookerClient;
