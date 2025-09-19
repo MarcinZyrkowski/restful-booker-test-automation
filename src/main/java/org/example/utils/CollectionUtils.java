@@ -12,7 +12,6 @@ import lombok.NonNull;
 public class CollectionUtils {
 
   public static <T> Optional<T> getRandomElement(@NonNull Collection<T> collection) {
-
     return collection.stream()
         .skip(BookerRandomUtils.RANDOM.randomInt(0, collection.size()))
         .findAny();

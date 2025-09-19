@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @ComponentScan(basePackages = {"org.example"})
-public class Config {
+public class AppConfig {
 
   @Value("${base_url}")
   private String baseUrl;
