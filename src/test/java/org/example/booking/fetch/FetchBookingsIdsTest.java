@@ -1,7 +1,7 @@
 package org.example.booking.fetch;
 
 import io.restassured.response.Response;
-import org.example.assertion.response.BookingIdAssertion;
+import org.example.assertion.response.booking.BookingIdAssertion;
 import org.example.context.SpringTestContext;
 import org.junit.jupiter.api.Test;
 

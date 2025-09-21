@@ -1,10 +1,10 @@
-package org.example.assertion.response;
+package org.example.assertion.response.auth;
 
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.HttpAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.response.TokenResponse;
+import org.example.model.dto.response.auth.TokenResponse;
 
 public class TokenResponseAssertion extends HttpAssertion<TokenResponseAssertion> {
 

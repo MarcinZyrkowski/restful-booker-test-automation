@@ -1,11 +1,12 @@
-package org.example.factory;
+package org.example.factory.auth;
 
-import org.example.model.request.UserRequest;
+import org.example.model.dto.request.auth.UserRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRequestFactory {
 
+  // TODO extract to app properties
   public UserRequest defaultUser() {
     return UserRequest.builder()
         .username("admin")
