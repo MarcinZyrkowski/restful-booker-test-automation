@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EnumUtils {
 
-  public <T extends Enum<T>> T getRandomValue(Class<T> enumClass) {
+  public static <T extends Enum<T>> T getRandomValue(Class<T> enumClass) {
     T[] values = enumClass.getEnumConstants();
 
     if (values == null || values.length == 0) {

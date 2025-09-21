@@ -1,4 +1,4 @@
-package org.example.model.request;
+package org.example.model.dto.request.auth;
 
 import lombok.Builder;
 

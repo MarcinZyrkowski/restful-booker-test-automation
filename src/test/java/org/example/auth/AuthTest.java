@@ -2,8 +2,8 @@ package org.example.auth;
 
 import io.restassured.response.Response;
 import org.example.context.SpringTestContext;
-import org.example.assertion.response.TokenResponseAssertion;
-import org.example.model.request.UserRequest;
+import org.example.assertion.response.auth.TokenResponseAssertion;
+import org.example.model.dto.request.auth.UserRequest;
 import org.junit.jupiter.api.Test;
 
 class AuthTest extends SpringTestContext {

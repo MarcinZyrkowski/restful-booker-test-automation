@@ -1,17 +1,17 @@
-package org.example.assertion.response;
+package org.example.assertion.response.booking;
 
 import io.restassured.response.Response;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.HttpAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.response.BookingIdResponse;
+import org.example.model.dto.response.booking.BookingIdResponse;
 
 public class BookingIdAssertion extends HttpAssertion<BookingIdAssertion> {
 
   private List<BookingIdResponse> bookingIdResponseList;
 
-  public BookingIdAssertion(Response response) {
+  private BookingIdAssertion(Response response) {
     super(response);
   }
 
