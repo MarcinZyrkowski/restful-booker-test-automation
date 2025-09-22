@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.example.model.dto.request.booking.BookingRequestResponse;
 import org.example.model.dto.response.booking.BookingIdResponse;
 import org.example.model.dto.response.auth.TokenResponse;
 import org.example.model.dto.response.booking.CreateBookingResponse;
@@ -36,6 +37,10 @@ public class ResponseMapper {
 
   public CreateBookingResponse toCreateBookingResponse() {
     return to(CreateBookingResponse.class);
+  }
+
+  public BookingRequestResponse toBookingRequestResponse() {
+    return to(BookingRequestResponse.class);
   }
 
 }

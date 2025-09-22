@@ -13,4 +13,10 @@ public class AppConfig {
   @Value("${base_url}")
   private String baseUrl;
 
+  @Value("${username}")
+  private String username;
+
+  @Value("${password}")
+  private String password;
+
 }

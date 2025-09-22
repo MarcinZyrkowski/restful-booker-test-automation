@@ -3,6 +3,7 @@ package org.example.health;
 import io.restassured.response.Response;
 import org.example.context.SpringTestContext;
 import org.example.assertion.response.StringResponseAssertion;
+import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.Test;
 
 class HealthCheckTest extends SpringTestContext {
@@ -14,7 +15,7 @@ class HealthCheckTest extends SpringTestContext {
     StringResponseAssertion.assertThat(response)
         .statusIsCreated()
         .body()
-        .isEqualTo("Created");
+        .isEqualTo(StringResponseBody.CREATED.getBody());
   }
 
 }

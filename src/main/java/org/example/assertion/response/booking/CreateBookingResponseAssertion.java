@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.HttpAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.request.booking.CreateBookingRequest;
+import org.example.model.dto.request.booking.BookingRequestResponse;
 import org.example.model.dto.response.booking.CreateBookingResponse;
 
 public class CreateBookingResponseAssertion extends HttpAssertion<CreateBookingResponseAssertion> {
@@ -24,13 +24,13 @@ public class CreateBookingResponseAssertion extends HttpAssertion<CreateBookingR
     return this;
   }
 
-  public CreateBookingResponseAssertion isCreatedFrom(CreateBookingRequest createBookingRequest) {
+  public CreateBookingResponseAssertion isCreatedFrom(BookingRequestResponse bookingRequestResponse) {
     Assertions.assertThat(createBookingResponse).isNotNull();
     Assertions.assertThat(createBookingResponse.booking()).isNotNull();
     Assertions.assertThat(createBookingResponse.bookingId()).isNotNull();
 
     Assertions.assertThat(createBookingResponse.booking())
-        .isEqualTo(createBookingRequest);
+        .isEqualTo(bookingRequestResponse);
     return this;
   }
 }

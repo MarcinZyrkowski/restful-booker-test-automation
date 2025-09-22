@@ -30,4 +30,10 @@ public abstract class HttpAssertion<T extends HttpAssertion<T>> {
     return (T) this;
   }
 
+  @SuppressWarnings("unchecked")
+  public T statusIsNotFound() {
+    assertStatusCode(HttpStatus.SC_NOT_FOUND);
+    return (T) this;
+  }
+
 }

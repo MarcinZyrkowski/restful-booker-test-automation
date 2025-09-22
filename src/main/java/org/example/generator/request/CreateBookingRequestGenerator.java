@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.example.generator.DateTimesGenerator;
-import org.example.model.dto.request.booking.CreateBookingRequest;
-import org.example.model.dto.request.booking.CreateBookingRequest.BookingDates;
+import org.example.model.dto.request.booking.BookingRequestResponse;
+import org.example.model.dto.request.booking.BookingRequestResponse.BookingDates;
 import org.example.model.enums.utils.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
@@ -13,21 +13,21 @@ import org.example.utils.FakerUtils;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateBookingRequestGenerator {
 
-  private CreateBookingRequest createBookingRequest;
+  private BookingRequestResponse bookingRequestResponse;
 
   public static CreateBookingRequestGenerator builder() {
     return new CreateBookingRequestGenerator(null);
   }
 
-  public CreateBookingRequest build() {
-    return createBookingRequest;
+  public BookingRequestResponse build() {
+    return bookingRequestResponse;
   }
 
   public CreateBookingRequestGenerator withAllValidFields() {
     int totalPrice = BookerRandomUtils.RANDOM.randomInt(50, 500);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
-    this.createBookingRequest = CreateBookingRequest.builder()
+    this.bookingRequestResponse = BookingRequestResponse.builder()
         .firstName(FakerUtils.getFAKER().name().firstName())
         .lastName(FakerUtils.getFAKER().name().lastName())
         .totalPrice(totalPrice)

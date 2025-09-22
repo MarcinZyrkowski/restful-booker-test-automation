@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class RestClient {
 
-  private final AppConfig appConfig;
+  protected final AppConfig appConfig;
 
   public RequestSpecification basicRequest() {
     return RestAssured.given()

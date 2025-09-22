@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import org.example.config.AppConfig;
 import org.example.model.dto.request.auth.UserRequest;
-import org.example.model.dto.request.booking.CreateBookingRequest;
+import org.example.model.dto.request.booking.BookingRequestResponse;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookerClient extends RestClient {
+
+  private static final String HEALTH_CHECK_ENDPOINT = "/ping";
+  private static final String AUTH_ENDPOINT = "/auth";
+  private static final String BOOKING_ENDPOINT = "/booking";
+  private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
 
   public BookerClient(AppConfig appConfig) {
     super(appConfig);
@@ -18,13 +23,13 @@ public class BookerClient extends RestClient {
 
   public Response healthCheck() {
     return basicRequest()
-        .get("/ping");
+        .get(HEALTH_CHECK_ENDPOINT);
   }
 
   public Response createToken(UserRequest userRequest) {
     return basicRequest()
         .body(userRequest)
-        .post("/auth");
+        .post(AUTH_ENDPOINT);
   }
 
   public Response getBookingIds(
@@ -43,13 +48,32 @@ public class BookerClient extends RestClient {
 
     return basicRequest()
         .queryParams(filtered)
-        .get("/booking");
+        .get(BOOKING_ENDPOINT);
   }
 
-  public Response createBooking(CreateBookingRequest createBookingRequest) {
+  public Response createBooking(BookingRequestResponse bookingRequestResponse) {
     return basicRequest()
-        .body(createBookingRequest)
-        .post("/booking");
+        .body(bookingRequestResponse)
+        .post(BOOKING_ENDPOINT);
+  }
+
+  public Response getBookingById(int bookingId) {
+    return basicRequest()
+        .get(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
+  public Response deleteBooking(int bookingId) {
+    return basicRequest()
+        .auth()
+        .preemptive()
+        .basic(appConfig.getUsername(), appConfig.getPassword())
+        .delete(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
+  public Response deleteBooking(int bookingId, String token) {
+    return basicRequest()
+        .header("Cookie", "token=" + token)
+        .delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 }
 
