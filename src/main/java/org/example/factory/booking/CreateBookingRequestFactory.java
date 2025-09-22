@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateBookingRequestFactory {
 
-  public BookingRequestResponse getWithOnlyRequiredFields() {
+  public BookingRequestResponse getWithAllValidFields() {
     return CreateBookingRequestGenerator.builder()
         .withAllValidFields()
         .build();

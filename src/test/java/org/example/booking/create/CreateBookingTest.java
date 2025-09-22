@@ -10,7 +10,7 @@ class CreateBookingTest extends SpringTestContext {
 
   @Test
   void createBookingTest() {
-    BookingRequestResponse request = createBookingRequestFactory.getWithOnlyRequiredFields();
+    BookingRequestResponse request = createBookingRequestFactory.getWithAllValidFields();
 
     Response response = bookerClient.createBooking(request);
 
