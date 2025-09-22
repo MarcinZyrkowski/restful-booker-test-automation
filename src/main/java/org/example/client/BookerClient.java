@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.example.config.AppConfig;
 import org.example.model.dto.request.auth.UserRequest;
-import org.example.model.dto.request.booking.CreateBookingRequest;
+import org.example.model.dto.request.booking.BookingRequestResponse;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -46,10 +46,15 @@ public class BookerClient extends RestClient {
         .get("/booking");
   }
 
-  public Response createBooking(CreateBookingRequest createBookingRequest) {
+  public Response createBooking(BookingRequestResponse bookingRequestResponse) {
     return basicRequest()
-        .body(createBookingRequest)
+        .body(bookingRequestResponse)
         .post("/booking");
+  }
+
+  public Response getBookingById(int bookingId) {
+    return basicRequest()
+        .get("/booking/" + bookingId);
   }
 }
 

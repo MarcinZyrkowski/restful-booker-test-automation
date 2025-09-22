@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 @Builder
-public record CreateBookingRequest(
+public record BookingRequestResponse(
     @JsonProperty(value = "firstname") String firstName,
     @JsonProperty(value = "lastname") String lastName,
     @JsonProperty(value = "totalprice") Integer totalPrice,
