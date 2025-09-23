@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.example.config.AppConfig;
 import org.example.model.dto.request.auth.UserRequest;
-import org.example.model.dto.request.booking.BookingRequestResponse;
+import org.example.model.dto.common.BookingRequestResponse;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 

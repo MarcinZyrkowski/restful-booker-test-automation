@@ -1,7 +1,7 @@
 package org.example.factory.booking;
 
 import org.example.generator.request.CreateBookingRequestGenerator;
-import org.example.model.dto.request.booking.BookingRequestResponse;
+import org.example.model.dto.common.BookingRequestResponse;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package org.example.model.dto.request.booking;
+package org.example.model.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

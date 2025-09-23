@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.HttpAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.request.booking.BookingRequestResponse;
+import org.example.model.dto.common.BookingRequestResponse;
 
 public class BookingRequestResponseAssertion extends
     HttpAssertion<BookingRequestResponseAssertion> {

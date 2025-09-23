@@ -4,6 +4,7 @@ import org.example.client.BookerClient;
 import org.example.config.AppConfig;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.factory.booking.CreateBookingRequestFactory;
+import org.example.steps.BookerClientSteps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +13,9 @@ public class SpringTestContext {
 
   @Autowired
   protected BookerClient bookerClient;
+
+  @Autowired
+  protected BookerClientSteps bookerClientSteps;
 
   @Autowired
   protected UserRequestFactory userRequestFactory;
