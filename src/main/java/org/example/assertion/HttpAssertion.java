@@ -36,4 +36,10 @@ public abstract class HttpAssertion<T extends HttpAssertion<T>> {
     return (T) this;
   }
 
+  @SuppressWarnings("unchecked")
+  public T internalServerError() {
+    assertStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    return (T) this;
+  }
+
 }

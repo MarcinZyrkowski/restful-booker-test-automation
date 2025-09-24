@@ -2,21 +2,24 @@ package org.example.booking.delete;
 
 import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.booking.CreateBookingResponseAssertion;
 import org.example.context.SpringTestContext;
-import org.example.mapper.ResponseMapper;
+import org.example.factory.auth.UserRequestFactory;
+import org.example.factory.booking.CreateBookingRequestFactory;
 import org.example.model.dto.common.BookingRequestResponse;
 import org.example.model.dto.request.auth.UserRequest;
 import org.example.model.enums.service.StringResponseBody;
-import org.example.steps.BookerClientSteps;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Delete Booking")
 class DeleteBookingTest extends SpringTestContext {
 
   @Test
+  @DisplayName("Delete booking with basic auth")
   void deleteBookingWithBasicAuthTest() {
-    BookingRequestResponse createRequest = createBookingRequestFactory.getWithAllValidFields();
-    int bookingId = bookerClientSteps.createBooking(createRequest).bookingId();
+    BookingRequestResponse createRequest = CreateBookingRequestFactory.getWithAllValidFields();
+    int bookingId = bookerClientSteps.createBooking(createRequest)
+        .bookingId();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
     StringResponseAssertion.assertThat(deleteResponse)
@@ -24,16 +27,19 @@ class DeleteBookingTest extends SpringTestContext {
         .body()
         .isEqualTo(StringResponseBody.CREATED.getBody());
 
-    bookerClientSteps.verifyBookingNotFound(bookingId);
+    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 
   @Test
+  @DisplayName("Delete booking with token")
   void deleteBookingWithTokenTest() {
-    BookingRequestResponse createRequest = createBookingRequestFactory.getWithAllValidFields();
-    int bookingId = bookerClientSteps.createBooking(createRequest).bookingId();
+    BookingRequestResponse createRequest = CreateBookingRequestFactory.getWithAllValidFields();
+    int bookingId = bookerClientSteps.createBooking(createRequest)
+        .bookingId();
 
-    UserRequest userRequest = userRequestFactory.defaultUser();
-    String token = bookerClientSteps.createToken(userRequest).token();
+    UserRequest userRequest = UserRequestFactory.defaultUser();
+    String token = bookerClientSteps.createToken(userRequest)
+        .token();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
     StringResponseAssertion.assertThat(deleteResponse)
@@ -41,7 +47,7 @@ class DeleteBookingTest extends SpringTestContext {
         .body()
         .isEqualTo(StringResponseBody.CREATED.getBody());
 
-    bookerClientSteps.verifyBookingNotFound(bookingId);
+    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 
 }

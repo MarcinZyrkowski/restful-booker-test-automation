@@ -2,6 +2,7 @@ package org.example.steps;
 
 import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
+import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.assertion.response.booking.CreateBookingResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.mapper.ResponseMapper;
@@ -28,7 +29,7 @@ public class BookerClientSteps {
     return ResponseMapper.map(createResponse).toCreateBookingResponse();
   }
 
-  public void verifyBookingNotFound(int bookingId) {
+  public void fetchBookingAssertNotFound(int bookingId) {
     Response getResponse = bookerClient.getBookingById(bookingId);
 
     StringResponseAssertion.assertThat(getResponse)
@@ -39,6 +40,9 @@ public class BookerClientSteps {
 
   public TokenResponse createToken(UserRequest userRequest) {
     Response tokenResponse = bookerClient.createToken(userRequest);
+    TokenResponseAssertion.assertThat(tokenResponse)
+        .statusIsOk();
+
     return ResponseMapper.map(tokenResponse).toTokenResponse();
   }
 

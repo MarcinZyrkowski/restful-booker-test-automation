@@ -1,20 +1,17 @@
 package org.example.factory.auth;
 
-import lombok.RequiredArgsConstructor;
-import org.example.config.AppConfig;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.example.config.AppConfiguration;
 import org.example.model.dto.request.auth.UserRequest;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserRequestFactory {
 
-  private final AppConfig appConfig;
-
-  public UserRequest defaultUser() {
+  public static UserRequest defaultUser() {
     return UserRequest.builder()
-        .username(appConfig.getUsername())
-        .password(appConfig.getPassword())
+        .username(AppConfiguration.CONFIG.username())
+        .password(AppConfiguration.CONFIG.password())
         .build();
   }
 

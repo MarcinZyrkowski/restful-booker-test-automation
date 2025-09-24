@@ -3,9 +3,9 @@ package org.example.client;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
-import org.example.config.AppConfig;
-import org.example.model.dto.request.auth.UserRequest;
+import org.example.config.AppConfiguration;
 import org.example.model.dto.common.BookingRequestResponse;
+import org.example.model.dto.request.auth.UserRequest;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +16,6 @@ public class BookerClient extends RestClient {
   private static final String AUTH_ENDPOINT = "/auth";
   private static final String BOOKING_ENDPOINT = "/booking";
   private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
-
-  public BookerClient(AppConfig appConfig) {
-    super(appConfig);
-  }
 
   public Response healthCheck() {
     return basicRequest()
@@ -66,7 +62,7 @@ public class BookerClient extends RestClient {
     return basicRequest()
         .auth()
         .preemptive()
-        .basic(appConfig.getUsername(), appConfig.getPassword())
+        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
         .delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 

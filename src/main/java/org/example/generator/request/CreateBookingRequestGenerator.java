@@ -50,4 +50,14 @@ public class CreateBookingRequestGenerator {
         .build();
   }
 
+  public CreateBookingRequestGenerator withMissingFirstName() {
+    this.bookingRequestResponse = bookingRequestResponse.withFirstName(null);
+    return this;
+  }
+
+  public CreateBookingRequestGenerator withMissingLastName() {
+    this.bookingRequestResponse = bookingRequestResponse.withLastName(null);
+    return this;
+  }
+
 }

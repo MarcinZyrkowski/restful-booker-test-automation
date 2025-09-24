@@ -24,7 +24,8 @@ public class CreateBookingResponseAssertion extends HttpAssertion<CreateBookingR
     return this;
   }
 
-  public CreateBookingResponseAssertion isCreatedFrom(BookingRequestResponse bookingRequestResponse) {
+  public CreateBookingResponseAssertion isCreatedFrom(
+      BookingRequestResponse bookingRequestResponse) {
     Assertions.assertThat(createBookingResponse).isNotNull();
     Assertions.assertThat(createBookingResponse.booking()).isNotNull();
     Assertions.assertThat(createBookingResponse.bookingId()).isNotNull();
