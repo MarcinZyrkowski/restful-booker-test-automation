@@ -2,4 +2,3 @@
 - readme.md
 - allure
 - checkstyle
-- cache

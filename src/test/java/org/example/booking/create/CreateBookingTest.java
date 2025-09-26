@@ -35,7 +35,7 @@ class CreateBookingTest extends SpringTestContext {
     Response response = bookerClient.createBooking(request);
 
     StringResponseAssertion.assertThat(response)
-        .internalServerError()
+        .statusIsInternalServerError()
         .body()
         .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
   }
