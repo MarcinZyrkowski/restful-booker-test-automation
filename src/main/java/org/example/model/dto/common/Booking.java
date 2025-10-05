@@ -6,7 +6,7 @@ import lombok.With;
 
 @With
 @Builder
-public record BookingRequestResponse(
+public record Booking(
     @JsonProperty(value = "firstname") String firstName,
     @JsonProperty(value = "lastname") String lastName,
     @JsonProperty(value = "totalprice") Integer totalPrice,

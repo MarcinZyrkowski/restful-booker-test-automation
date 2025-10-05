@@ -1,11 +1,11 @@
 package org.example.model.dto.response.booking;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.model.dto.common.BookingRequestResponse;
+import org.example.model.dto.common.Booking;
 
-public record CreateBookingResponse(
+public record CreatedBooking(
     @JsonProperty(value = "bookingid") Integer bookingId,
-    BookingRequestResponse booking
+    Booking booking
 ) {
 
 }

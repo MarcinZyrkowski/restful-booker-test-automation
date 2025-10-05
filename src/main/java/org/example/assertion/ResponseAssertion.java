@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 
 @RequiredArgsConstructor
-public abstract class HttpAssertion<T extends HttpAssertion<T>> {
+public abstract class ResponseAssertion<T extends ResponseAssertion<T>> {
 
   protected final Response response;
 

@@ -2,10 +2,10 @@ package org.example.assertion.response;
 
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.example.assertion.HttpAssertion;
+import org.example.assertion.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 
-public class StringResponseAssertion extends HttpAssertion<StringResponseAssertion> {
+public class StringResponseAssertion extends ResponseAssertion<StringResponseAssertion> {
 
   private String responseBody;
 
