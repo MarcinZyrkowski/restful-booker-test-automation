@@ -3,7 +3,7 @@ package org.example.model.dto.request.auth;
 import lombok.Builder;
 
 @Builder
-public record UserRequest(
+public record User(
     String username,
     String password
 ) {

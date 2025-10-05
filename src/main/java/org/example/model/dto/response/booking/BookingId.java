@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 @Builder
-public record BookingIdResponse(
+public record BookingId(
     @JsonProperty(value = "bookingid") Integer bookingId
 ) {
 

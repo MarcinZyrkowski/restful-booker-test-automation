@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.example.generator.DateTimesGenerator;
-import org.example.model.dto.request.booking.BookingRequestResponse;
-import org.example.model.dto.request.booking.BookingRequestResponse.BookingDates;
+import org.example.model.dto.common.Booking;
+import org.example.model.dto.common.Booking.BookingDates;
 import org.example.model.enums.utils.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
@@ -13,21 +13,21 @@ import org.example.utils.FakerUtils;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateBookingRequestGenerator {
 
-  private BookingRequestResponse bookingRequestResponse;
+  private Booking booking;
 
   public static CreateBookingRequestGenerator builder() {
     return new CreateBookingRequestGenerator(null);
   }
 
-  public BookingRequestResponse build() {
-    return bookingRequestResponse;
+  public Booking build() {
+    return booking;
   }
 
   public CreateBookingRequestGenerator withAllValidFields() {
     int totalPrice = BookerRandomUtils.RANDOM.randomInt(50, 500);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
-    this.bookingRequestResponse = BookingRequestResponse.builder()
+    this.booking = Booking.builder()
         .firstName(FakerUtils.getFAKER().name().firstName())
         .lastName(FakerUtils.getFAKER().name().lastName())
         .totalPrice(totalPrice)
@@ -48,6 +48,16 @@ public class CreateBookingRequestGenerator {
         .checkIn(checkIn.toString())
         .checkOut(checkOut.toString())
         .build();
+  }
+
+  public CreateBookingRequestGenerator withMissingFirstName() {
+    this.booking = booking.withFirstName(null);
+    return this;
+  }
+
+  public CreateBookingRequestGenerator withMissingLastName() {
+    this.booking = booking.withLastName(null);
+    return this;
   }
 
 }

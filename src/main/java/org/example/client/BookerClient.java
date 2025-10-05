@@ -3,9 +3,9 @@ package org.example.client;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
-import org.example.config.AppConfig;
-import org.example.model.dto.request.auth.UserRequest;
-import org.example.model.dto.request.booking.BookingRequestResponse;
+import org.example.config.AppConfiguration;
+import org.example.model.dto.common.Booking;
+import org.example.model.dto.request.auth.User;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -17,18 +17,14 @@ public class BookerClient extends RestClient {
   private static final String BOOKING_ENDPOINT = "/booking";
   private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
 
-  public BookerClient(AppConfig appConfig) {
-    super(appConfig);
-  }
-
   public Response healthCheck() {
     return basicRequest()
         .get(HEALTH_CHECK_ENDPOINT);
   }
 
-  public Response createToken(UserRequest userRequest) {
+  public Response createToken(User user) {
     return basicRequest()
-        .body(userRequest)
+        .body(user)
         .post(AUTH_ENDPOINT);
   }
 
@@ -51,9 +47,9 @@ public class BookerClient extends RestClient {
         .get(BOOKING_ENDPOINT);
   }
 
-  public Response createBooking(BookingRequestResponse bookingRequestResponse) {
+  public Response createBooking(Booking booking) {
     return basicRequest()
-        .body(bookingRequestResponse)
+        .body(booking)
         .post(BOOKING_ENDPOINT);
   }
 
@@ -66,7 +62,7 @@ public class BookerClient extends RestClient {
     return basicRequest()
         .auth()
         .preemptive()
-        .basic(appConfig.getUsername(), appConfig.getPassword())
+        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
         .delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 

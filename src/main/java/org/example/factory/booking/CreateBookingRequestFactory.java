@@ -1,15 +1,30 @@
 package org.example.factory.booking;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.example.generator.request.CreateBookingRequestGenerator;
-import org.example.model.dto.request.booking.BookingRequestResponse;
-import org.springframework.stereotype.Component;
+import org.example.model.dto.common.Booking;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateBookingRequestFactory {
 
-  public BookingRequestResponse getWithAllValidFields() {
+  public static Booking getWithAllValidFields() {
     return CreateBookingRequestGenerator.builder()
         .withAllValidFields()
+        .build();
+  }
+
+  public static Booking getWithMissingFirstName() {
+    return CreateBookingRequestGenerator.builder()
+        .withAllValidFields()
+        .withMissingFirstName()
+        .build();
+  }
+
+  public static Booking getWithMissingLastName() {
+    return CreateBookingRequestGenerator.builder()
+        .withAllValidFields()
+        .withMissingLastName()
         .build();
   }
 

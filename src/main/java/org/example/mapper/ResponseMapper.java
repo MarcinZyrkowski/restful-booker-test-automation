@@ -4,10 +4,10 @@ import io.restassured.response.Response;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.example.model.dto.request.booking.BookingRequestResponse;
-import org.example.model.dto.response.booking.BookingIdResponse;
-import org.example.model.dto.response.auth.TokenResponse;
-import org.example.model.dto.response.booking.CreateBookingResponse;
+import org.example.model.dto.common.Booking;
+import org.example.model.dto.response.auth.Token;
+import org.example.model.dto.response.booking.BookingId;
+import org.example.model.dto.response.booking.CreatedBooking;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseMapper {
@@ -18,7 +18,7 @@ public class ResponseMapper {
     return new ResponseMapper(response);
   }
 
-  private  <T> T to(Class<T> clazz) {
+  private <T> T to(Class<T> clazz) {
     return response.getBody().as(clazz);
   }
 
@@ -26,21 +26,21 @@ public class ResponseMapper {
     return response.getBody().asString();
   }
 
-  public TokenResponse toTokenResponse() {
-    return to(TokenResponse.class);
+  public Token toTokenResponse() {
+    return to(Token.class);
   }
 
-  public List<BookingIdResponse> toBookingIdResponseList() {
+  public List<BookingId> toBookingIdResponseList() {
     return response.jsonPath()
-        .getList("", BookingIdResponse.class);
+        .getList("", BookingId.class);
   }
 
-  public CreateBookingResponse toCreateBookingResponse() {
-    return to(CreateBookingResponse.class);
+  public CreatedBooking toCreateBookingResponse() {
+    return to(CreatedBooking.class);
   }
 
-  public BookingRequestResponse toBookingRequestResponse() {
-    return to(BookingRequestResponse.class);
+  public Booking toBookingRequestResponse() {
+    return to(Booking.class);
   }
 
 }

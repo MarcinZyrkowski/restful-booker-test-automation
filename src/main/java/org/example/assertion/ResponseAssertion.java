@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 
 @RequiredArgsConstructor
-public abstract class HttpAssertion<T extends HttpAssertion<T>> {
+public abstract class ResponseAssertion<T extends ResponseAssertion<T>> {
 
   protected final Response response;
 
@@ -33,6 +33,12 @@ public abstract class HttpAssertion<T extends HttpAssertion<T>> {
   @SuppressWarnings("unchecked")
   public T statusIsNotFound() {
     assertStatusCode(HttpStatus.SC_NOT_FOUND);
+    return (T) this;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T statusIsInternalServerError() {
+    assertStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     return (T) this;
   }
 
