@@ -21,8 +21,7 @@ class FetchBookingTest extends SpringTestContext {
         createdBooking::bookingId);
 
     Response fetchResponse = Allure.step("Fetch booking by id", () ->
-        bookerClient.getBookingById(bookingId)
-    );
+        bookerClient.getBookingById(bookingId));
 
     Allure.step("Assert fetch response", () -> {
       BookingAssertion.assertThat(fetchResponse)

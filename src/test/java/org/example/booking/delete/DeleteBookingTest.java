@@ -5,9 +5,8 @@ import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.context.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
-import org.example.factory.booking.CreateBookingRequestFactory;
-import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
+import org.example.model.dto.response.booking.CreatedBooking;
 import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,11 +17,11 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking with basic auth")
   void deleteBookingWithBasicAuthTest() {
-    Booking createRequest = Allure.step("Prepare booking request with valid data",
-        CreateBookingRequestFactory::getWithAllValidFields);
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
+        createdBookingPool.popOrGet());
 
-    int bookingId = Allure.step("Create booking to be deleted",
-        () -> bookerClientSteps.createBooking(createRequest).bookingId());
+    int bookingId = Allure.step("Retrieve bookingId",
+        createdBooking::bookingId);
 
     Response deleteResponse = Allure.step("Delete booking with basic auth",
         () -> bookerClient.deleteBooking(bookingId));
@@ -41,11 +40,11 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking with token")
   void deleteBookingWithTokenTest() {
-    Booking createRequest = Allure.step("Prepare booking request with valid data",
-        CreateBookingRequestFactory::getWithAllValidFields);
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
+        createdBookingPool.popOrGet());
 
-    int bookingId = Allure.step("Create booking to be deleted",
-        () -> bookerClientSteps.createBooking(createRequest).bookingId());
+    int bookingId = Allure.step("Retrieve bookingId",
+        createdBooking::bookingId);
 
     User user = Allure.step("Prepare user for token authentication",
         UserRequestFactory::defaultUser);
