@@ -8,6 +8,7 @@ import org.example.factory.auth.UserRequestFactory;
 import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.booking.CreatedBooking;
 import org.example.model.enums.service.StringResponseBody;
+import org.example.mapper.ObjMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,7 @@ class DeleteBookingTest extends SpringTestContext {
   void deleteBookingWithBasicAuthTest() {
     CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
         createdBookingPool.popOrGet());
+    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
 
     int bookingId = Allure.step("Retrieve bookingId",
         createdBooking::bookingId);
@@ -42,6 +44,7 @@ class DeleteBookingTest extends SpringTestContext {
   void deleteBookingWithTokenTest() {
     CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
         createdBookingPool.popOrGet());
+    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
 
     int bookingId = Allure.step("Retrieve bookingId",
         createdBooking::bookingId);

@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.context.SpringTestContext;
+import org.example.mapper.ObjMapper;
 import org.example.model.dto.response.booking.CreatedBooking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ class FetchBookingTest extends SpringTestContext {
   void fetchBookingTest() {
     CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
         createdBookingPool.popOrGet());
+    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
 
     int bookingId = Allure.step("Retrieve bookingId",
         createdBooking::bookingId);
