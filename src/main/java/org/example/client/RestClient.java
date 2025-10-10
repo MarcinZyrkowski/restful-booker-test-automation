@@ -1,5 +1,6 @@
 package org.example.client;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -17,6 +18,7 @@ public class RestClient {
     return RestAssured.given()
         .contentType(ContentType.JSON)
         .baseUri(AppConfiguration.CONFIG.baseUrl())
+        .filter(new AllureRestAssured())
         .filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
   }
 
