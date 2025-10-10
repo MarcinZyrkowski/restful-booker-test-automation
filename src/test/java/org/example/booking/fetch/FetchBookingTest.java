@@ -1,5 +1,6 @@
 package org.example.booking.fetch;
 
+import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.context.SpringTestContext;
@@ -14,15 +15,23 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
-    Booking createRequest = CreateBookingRequestFactory.getWithAllValidFields();
-    int bookingId = bookerClientSteps.createBooking(createRequest).bookingId();
+    Booking createRequest = Allure.step("Prepare booking request",
+        CreateBookingRequestFactory::getWithAllValidFields);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    int bookingId = Allure.step("Create booking and retrieve bookingId", () ->
+        bookerClientSteps.createBooking(createRequest).bookingId()
+    );
 
-    BookingAssertion.assertThat(fetchResponse)
-        .statusIsOk()
-        .body()
-        .isEqualTo(createRequest);
+    Response fetchResponse = Allure.step("Fetch booking by id", () ->
+        bookerClient.getBookingById(bookingId)
+    );
+
+    Allure.step("Assert fetch response", () -> {
+      BookingAssertion.assertThat(fetchResponse)
+          .statusIsOk()
+          .body()
+          .isEqualTo(createRequest);
+    });
   }
 
 }
