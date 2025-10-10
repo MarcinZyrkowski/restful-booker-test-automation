@@ -4,8 +4,7 @@ import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.context.SpringTestContext;
-import org.example.factory.booking.CreateBookingRequestFactory;
-import org.example.model.dto.common.Booking;
+import org.example.model.dto.response.booking.CreatedBooking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +14,11 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
-    Booking createRequest = Allure.step("Prepare booking request",
-        CreateBookingRequestFactory::getWithAllValidFields);
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
+        createdBookingPool.popOrGet());
 
-    int bookingId = Allure.step("Create booking and retrieve bookingId", () ->
-        bookerClientSteps.createBooking(createRequest).bookingId()
-    );
+    int bookingId = Allure.step("Retrieve bookingId",
+        createdBooking::bookingId);
 
     Response fetchResponse = Allure.step("Fetch booking by id", () ->
         bookerClient.getBookingById(bookingId)
@@ -30,8 +28,10 @@ class FetchBookingTest extends SpringTestContext {
       BookingAssertion.assertThat(fetchResponse)
           .statusIsOk()
           .body()
-          .isEqualTo(createRequest);
+          .isEqualTo(createdBooking.booking());
     });
+
+    createdBookingPool.push(createdBooking);
   }
 
 }

@@ -33,6 +33,8 @@ class CreateBookingTest extends SpringTestContext {
           .body()
           .isCreatedFrom(request);
     });
+
+    createdBookingPool.push(response);
   }
 
   @DisplayName("Should not create booking with missing required field")
