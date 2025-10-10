@@ -1,8 +1,9 @@
 package org.example.auth;
 
+import io.qameta.allure.Allure;
 import io.restassured.response.Response;
-import org.example.context.SpringTestContext;
 import org.example.assertion.response.auth.TokenResponseAssertion;
+import org.example.context.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.model.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
@@ -14,14 +15,17 @@ class AuthTest extends SpringTestContext {
   @Test
   @DisplayName("Create token with valid user")
   void createTokenTest() {
-    User user = UserRequestFactory.defaultUser();
+    User user = Allure.step("Prepare user with valid credentials",
+        UserRequestFactory::defaultUser);
 
-    Response response = bookerClient.createToken(user);
+    Response response = Allure.step("Send create token request",
+        () -> bookerClient.createToken(user));
 
-    TokenResponseAssertion.assertThat(response)
-        .statusIsOk()
-        .body()
-        .tokenHas15Length();
+    Allure.step("Verify token is created successfully", () ->
+        TokenResponseAssertion.assertThat(response)
+            .statusIsOk()
+            .body()
+            .tokenHas15Length());
   }
 
 }

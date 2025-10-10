@@ -1,5 +1,6 @@
 package org.example.booking.create;
 
+import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.booking.CreatedBookingAssertion;
@@ -18,26 +19,37 @@ class CreateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
-    Booking request = CreateBookingRequestFactory.getWithAllValidFields();
+    Booking request = Allure.step("Prepare booking request with all valid fields",
+        CreateBookingRequestFactory::getWithAllValidFields
+    );
 
-    Response response = bookerClient.createBooking(request);
+    Response response = Allure.step("Send create booking request",
+        () -> bookerClient.createBooking(request)
+    );
 
-    CreatedBookingAssertion.assertThat(response)
-        .statusIsOk()
-        .body()
-        .isCreatedFrom(request);
+    Allure.step("Verify booking is created successfully", () -> {
+      CreatedBookingAssertion.assertThat(response)
+          .statusIsOk()
+          .body()
+          .isCreatedFrom(request);
+    });
+
+    createdBookingPool.push(response);
   }
 
   @DisplayName("Should not create booking with missing required field")
   @ParameterizedTest(name = "{1}")
   @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookingRequest")
   void shouldNotCreateBookingTest(Booking request, String string) {
-    Response response = bookerClient.createBooking(request);
+    Response response = Allure.step("Prepare booking request with missing field",
+        () -> bookerClient.createBooking(request));
 
-    StringResponseAssertion.assertThat(response)
-        .statusIsInternalServerError()
-        .body()
-        .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+    Allure.step("Verify response is internal server error", () -> {
+      StringResponseAssertion.assertThat(response)
+          .statusIsInternalServerError()
+          .body()
+          .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+    });
   }
 
 }

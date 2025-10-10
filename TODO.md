@@ -1,4 +1,4 @@
 ## Add
 - readme.md
-- allure
 - checkstyle
+- cicd

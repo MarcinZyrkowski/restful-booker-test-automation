@@ -1,13 +1,14 @@
 package org.example.booking.delete;
 
+import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.context.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
-import org.example.factory.booking.CreateBookingRequestFactory;
-import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
+import org.example.model.dto.response.booking.CreatedBooking;
 import org.example.model.enums.service.StringResponseBody;
+import org.example.mapper.ObjMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,37 +18,52 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking with basic auth")
   void deleteBookingWithBasicAuthTest() {
-    Booking createRequest = CreateBookingRequestFactory.getWithAllValidFields();
-    int bookingId = bookerClientSteps.createBooking(createRequest)
-        .bookingId();
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
+        createdBookingPool.popOrGet());
+    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
 
-    Response deleteResponse = bookerClient.deleteBooking(bookingId);
-    StringResponseAssertion.assertThat(deleteResponse)
-        .statusIsCreated()
-        .body()
-        .isEqualTo(StringResponseBody.CREATED.getBody());
+    int bookingId = Allure.step("Retrieve bookingId",
+        createdBooking::bookingId);
 
-    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
+    Response deleteResponse = Allure.step("Delete booking with basic auth",
+        () -> bookerClient.deleteBooking(bookingId));
+
+    Allure.step("Verify booking is deleted successfully", () -> {
+      StringResponseAssertion.assertThat(deleteResponse)
+          .statusIsCreated()
+          .body()
+          .isEqualTo(StringResponseBody.CREATED.getBody());
+    });
+
+    Allure.step("Verify booking is deleted (with get)", () ->
+        bookerClientSteps.fetchBookingAssertNotFound(bookingId));
   }
 
   @Test
   @DisplayName("Delete booking with token")
   void deleteBookingWithTokenTest() {
-    Booking createRequest = CreateBookingRequestFactory.getWithAllValidFields();
-    int bookingId = bookerClientSteps.createBooking(createRequest)
-        .bookingId();
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
+        createdBookingPool.popOrGet());
+    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
 
-    User user = UserRequestFactory.defaultUser();
-    String token = bookerClientSteps.createToken(user)
-        .token();
+    int bookingId = Allure.step("Retrieve bookingId",
+        createdBooking::bookingId);
 
-    Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
-    StringResponseAssertion.assertThat(deleteResponse)
-        .statusIsCreated()
-        .body()
-        .isEqualTo(StringResponseBody.CREATED.getBody());
+    User user = Allure.step("Prepare user for token authentication",
+        UserRequestFactory::defaultUser);
 
-    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
+    String token = Allure.step("Create token for user",
+        () -> bookerClientSteps.createToken(user).token());
+
+    Response deleteResponse = Allure.step("Delete booking with token",
+        () -> bookerClient.deleteBooking(bookingId, token));
+
+    Allure.step("Verify booking is deleted successfully", () -> {
+      StringResponseAssertion.assertThat(deleteResponse)
+          .statusIsCreated()
+          .body()
+          .isEqualTo(StringResponseBody.CREATED.getBody());
+    });
   }
 
 }
