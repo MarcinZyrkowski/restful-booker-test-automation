@@ -3,7 +3,7 @@ package org.example.dataprovider;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.factory.booking.CreateBookingRequestFactory;
+import org.example.factory.booking.BookingFactory;
 import org.junit.jupiter.params.provider.Arguments;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -11,8 +11,8 @@ public class BookingDataProvider {
 
   public static Stream<Arguments> missingFieldBookingRequest() {
     return Stream.of(
-        Arguments.of(CreateBookingRequestFactory.getWithMissingFirstName(), "missing: first name"),
-        Arguments.of(CreateBookingRequestFactory.getWithMissingLastName(), "missing: last name")
+        Arguments.of(BookingFactory.getWithMissingFirstName(), "missing: first name"),
+        Arguments.of(BookingFactory.getWithMissingLastName(), "missing: last name")
     );
   }
 

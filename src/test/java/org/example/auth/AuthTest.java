@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.context.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
+import org.example.mapper.ObjMapper;
 import org.example.model.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,14 @@ class AuthTest extends SpringTestContext {
   @Test
   @DisplayName("Create token with valid user")
   void createTokenTest() {
-    User user = Allure.step("Prepare user with valid credentials",
-        UserRequestFactory::defaultUser);
+    User user = Allure.step("Prepare user with valid credentials", () -> {
+          User defaultUser = UserRequestFactory.defaultUser();
+          Allure.step("defaultUser: " + ObjMapper.asJson(defaultUser));
+          return defaultUser;
+        }
+    );
 
-    Response response = Allure.step("Send create token request",
+    Response response = Allure.step("Create token",
         () -> bookerClient.createToken(user));
 
     Allure.step("Verify token is created successfully", () ->

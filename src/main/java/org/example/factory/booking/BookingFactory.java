@@ -6,7 +6,7 @@ import org.example.generator.request.CreateBookingRequestGenerator;
 import org.example.model.dto.common.Booking;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateBookingRequestFactory {
+public class BookingFactory {
 
   public static Booking getWithAllValidFields() {
     return CreateBookingRequestGenerator.builder()

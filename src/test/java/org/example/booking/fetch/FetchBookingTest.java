@@ -15,12 +15,12 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
-        createdBookingPool.popOrGet());
-    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
-
-    int bookingId = Allure.step("Retrieve bookingId",
-        createdBooking::bookingId);
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
+      CreatedBooking booking = createdBookingPool.popOrGet();
+      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+      return booking;
+    });
+    int bookingId = createdBooking.bookingId();
 
     Response fetchResponse = Allure.step("Fetch booking by id", () ->
         bookerClient.getBookingById(bookingId));

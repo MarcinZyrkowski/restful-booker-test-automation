@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.example.factory.booking.CreateBookingRequestFactory;
+import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.CreatedBooking;
@@ -52,7 +52,7 @@ public class CreatedBookingPool {
   public CreatedBooking popOrGet() {
     CreatedBooking createdBooking = pop();
     if (createdBooking == null) {
-      Booking request = CreateBookingRequestFactory.getWithAllValidFields();
+      Booking request = BookingFactory.getWithAllValidFields();
       return bookerClientSteps.createBooking(request);
     }
 
