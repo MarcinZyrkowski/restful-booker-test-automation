@@ -1,5 +1,6 @@
 package org.example.client;
 
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,10 @@ public class BookerClient extends RestClient {
   private static final String AUTH_ENDPOINT = "/auth";
   private static final String BOOKING_ENDPOINT = "/booking";
   private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
+
+  private Header tokenCookieHeader(String token) {
+    return new Header("Cookie", "token=" + token);
+  }
 
   public Response healthCheck() {
     return basicRequest()
@@ -53,6 +58,22 @@ public class BookerClient extends RestClient {
         .post(BOOKING_ENDPOINT);
   }
 
+  public Response updateBooking(int bookingId, Booking booking) {
+    return basicRequest()
+        .auth()
+        .preemptive()
+        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
+        .body(booking)
+        .put(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
+  public Response updateBooking(int bookingId, Booking booking, String token) {
+    return basicRequest()
+        .header(tokenCookieHeader(token))
+        .body(booking)
+        .put(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
   public Response getBookingById(int bookingId) {
     return basicRequest()
         .get(BOOKING_ID_ENDPOINT, bookingId);
@@ -68,7 +89,7 @@ public class BookerClient extends RestClient {
 
   public Response deleteBooking(int bookingId, String token) {
     return basicRequest()
-        .header("Cookie", "token=" + token)
+        .header(tokenCookieHeader(token))
         .delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 }

@@ -5,10 +5,10 @@ import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.context.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
+import org.example.mapper.ObjMapper;
 import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.booking.CreatedBooking;
 import org.example.model.enums.service.StringResponseBody;
-import org.example.mapper.ObjMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,12 +18,12 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking with basic auth")
   void deleteBookingWithBasicAuthTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
-        createdBookingPool.popOrGet());
-    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
-
-    int bookingId = Allure.step("Retrieve bookingId",
-        createdBooking::bookingId);
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
+      CreatedBooking booking = createdBookingPool.popOrGet();
+      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+      return booking;
+    });
+    int bookingId = createdBooking.bookingId();
 
     Response deleteResponse = Allure.step("Delete booking with basic auth",
         () -> bookerClient.deleteBooking(bookingId));
@@ -42,20 +42,26 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking with token")
   void deleteBookingWithTokenTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () ->
-        createdBookingPool.popOrGet());
-    Allure.parameter("createdBooking", ObjMapper.asJson(createdBooking));
+    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
+      CreatedBooking booking = createdBookingPool.popOrGet();
+      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+      return booking;
+    });
+    int bookingId = createdBooking.bookingId();
 
-    int bookingId = Allure.step("Retrieve bookingId",
-        createdBooking::bookingId);
+    User user = Allure.step("Prepare user for token authentication", () -> {
+      User defaultUser = UserRequestFactory.defaultUser();
+      Allure.step("user: " + ObjMapper.asJson(defaultUser));
+      return defaultUser;
+    });
 
-    User user = Allure.step("Prepare user for token authentication",
-        UserRequestFactory::defaultUser);
+    String token = Allure.step("Create token for a user", () -> {
+      String retrievedToken = bookerClientSteps.createToken(user).token();
+      Allure.step("token: " + retrievedToken);
+      return retrievedToken;
+    });
 
-    String token = Allure.step("Create token for user",
-        () -> bookerClientSteps.createToken(user).token());
-
-    Response deleteResponse = Allure.step("Delete booking with token",
+    Response deleteResponse = Allure.step("Delete booking using token",
         () -> bookerClient.deleteBooking(bookingId, token));
 
     Allure.step("Verify booking is deleted successfully", () -> {
@@ -64,6 +70,9 @@ class DeleteBookingTest extends SpringTestContext {
           .body()
           .isEqualTo(StringResponseBody.CREATED.getBody());
     });
+
+    Allure.step("Verify booking is deleted (with get)", () ->
+        bookerClientSteps.fetchBookingAssertNotFound(bookingId));
   }
 
 }

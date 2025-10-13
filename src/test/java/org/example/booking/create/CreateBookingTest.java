@@ -5,7 +5,8 @@ import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.booking.CreatedBookingAssertion;
 import org.example.context.SpringTestContext;
-import org.example.factory.booking.CreateBookingRequestFactory;
+import org.example.factory.booking.BookingFactory;
+import org.example.mapper.ObjMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +20,11 @@ class CreateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
-    Booking request = Allure.step("Prepare booking request with all valid fields",
-        CreateBookingRequestFactory::getWithAllValidFields
+    Booking request = Allure.step("Prepare booking request with all valid fields", () -> {
+          Booking body = BookingFactory.getWithAllValidFields();
+          Allure.step("request: " + ObjMapper.asJson(body));
+          return body;
+        }
     );
 
     Response response = Allure.step("Send create booking request",
@@ -41,7 +45,7 @@ class CreateBookingTest extends SpringTestContext {
   @ParameterizedTest(name = "{1}")
   @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookingRequest")
   void shouldNotCreateBookingTest(Booking request, String string) {
-    Response response = Allure.step("Prepare booking request with missing field",
+    Response response = Allure.step("Send create booking request with missing field",
         () -> bookerClient.createBooking(request));
 
     Allure.step("Verify response is internal server error", () -> {
