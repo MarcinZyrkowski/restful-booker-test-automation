@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 class DeleteBookingTest extends SpringTestContext {
 
   @Test
-  @DisplayName("Delete booking with basic auth")
-  void deleteBookingWithBasicAuthTest() {
+  @DisplayName("Delete booking using basic auth")
+  void deleteBookingUsingBasicAuthTest() {
     CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
       CreatedBooking booking = createdBookingPool.popOrGet();
       Allure.step("createdBooking: " + ObjMapper.asJson(booking));
@@ -40,8 +40,8 @@ class DeleteBookingTest extends SpringTestContext {
   }
 
   @Test
-  @DisplayName("Delete booking with token")
-  void deleteBookingWithTokenTest() {
+  @DisplayName("Delete booking using token")
+  void deleteBookingUsingTokenTest() {
     CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
       CreatedBooking booking = createdBookingPool.popOrGet();
       Allure.step("createdBooking: " + ObjMapper.asJson(booking));
