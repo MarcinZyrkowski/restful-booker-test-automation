@@ -9,7 +9,7 @@ import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ObjMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
-import org.example.model.dto.response.booking.CreatedBooking;
+import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,17 +19,17 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - basic auth")
   void updateBookingUsingBasicAuthTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
-      CreatedBooking booking = createdBookingPool.popOrGet();
-      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+    BookingDetails bookingDetails = Allure.step("Get or create booking for fetching", () -> {
+      BookingDetails booking = bookingDetailsPool.popOrGet();
+      Allure.attachment("booking details", ObjMapper.asJson(booking));
       return booking;
     });
-    int bookingId = createdBooking.bookingId();
+    int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = Allure.step("Prepare booking update request with all valid fields",
         () -> {
           Booking update = BookingFactory.getWithAllValidFields();
-          Allure.step("bookingUpdate: " + ObjMapper.asJson(update));
+          Allure.attachment("booking", ObjMapper.asJson(update));
           return update;
         }
     );
@@ -55,7 +55,7 @@ class UpdateBookingTest extends SpringTestContext {
           .isEqualTo(bookingUpdate);
     });
 
-    createdBookingPool.push(CreatedBooking.builder()
+    bookingDetailsPool.push(BookingDetails.builder()
         .bookingId(bookingId)
         .booking(bookingUpdate)
         .build());
@@ -64,30 +64,30 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - token auth")
   void updateBookingUsingTokenTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
-      CreatedBooking booking = createdBookingPool.popOrGet();
-      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+    BookingDetails bookingDetails = Allure.step("Get or create booking for fetching", () -> {
+      BookingDetails booking = bookingDetailsPool.popOrGet();
+      Allure.attachment("booking details", ObjMapper.asJson(booking));
       return booking;
     });
-    int bookingId = createdBooking.bookingId();
+    int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = Allure.step("Prepare booking update request with all valid fields",
         () -> {
           Booking update = BookingFactory.getWithAllValidFields();
-          Allure.step("bookingUpdate: " + ObjMapper.asJson(update));
+          Allure.attachment("booking", ObjMapper.asJson(update));
           return update;
         }
     );
 
     User user = Allure.step("Prepare user for token authentication", () -> {
       User defaultUser = UserRequestFactory.defaultUser();
-      Allure.step("user: " + ObjMapper.asJson(defaultUser));
+      Allure.attachment("user", ObjMapper.asJson(defaultUser));
       return defaultUser;
     });
 
     String token = Allure.step("Create token for a user", () -> {
       String retrievedToken = bookerClientSteps.createToken(user).token();
-      Allure.step("token: " + retrievedToken);
+      Allure.attachment("token", retrievedToken);
       return retrievedToken;
     });
 
@@ -112,7 +112,7 @@ class UpdateBookingTest extends SpringTestContext {
           .isEqualTo(bookingUpdate);
     });
 
-    createdBookingPool.push(CreatedBooking.builder()
+    bookingDetailsPool.push(BookingDetails.builder()
         .bookingId(bookingId)
         .booking(bookingUpdate)
         .build());

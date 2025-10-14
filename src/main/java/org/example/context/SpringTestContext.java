@@ -2,7 +2,7 @@ package org.example.context;
 
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
-import org.example.pool.CreatedBookingPool;
+import org.example.pool.BookingDetailsPool;
 import org.example.steps.BookerClientSteps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +17,6 @@ public class SpringTestContext {
   protected BookerClientSteps bookerClientSteps;
 
   @Autowired
-  protected CreatedBookingPool createdBookingPool;
+  protected BookingDetailsPool bookingDetailsPool;
 
 }

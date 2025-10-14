@@ -3,7 +3,7 @@ package org.example.booking.create;
 import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.booking.CreatedBookingAssertion;
+import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.context.SpringTestContext;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ObjMapper;
@@ -22,7 +22,7 @@ class CreateBookingTest extends SpringTestContext {
   void createBookingTest() {
     Booking request = Allure.step("Prepare booking request with all valid fields", () -> {
           Booking body = BookingFactory.getWithAllValidFields();
-          Allure.step("request: " + ObjMapper.asJson(body));
+          Allure.attachment("booking", ObjMapper.asJson(body));
           return body;
         }
     );
@@ -32,13 +32,13 @@ class CreateBookingTest extends SpringTestContext {
     );
 
     Allure.step("Verify booking is created successfully", () -> {
-      CreatedBookingAssertion.assertThat(response)
+      BookingDetailsAssertion.assertThat(response)
           .statusIsOk()
           .body()
           .isCreatedFrom(request);
     });
 
-    createdBookingPool.push(response);
+    bookingDetailsPool.push(response);
   }
 
   @DisplayName("Should not create booking with missing required field")

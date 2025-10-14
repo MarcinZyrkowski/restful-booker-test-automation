@@ -11,19 +11,19 @@ import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateBookingRequestGenerator {
+public class BookingGenerator {
 
   private Booking booking;
 
-  public static CreateBookingRequestGenerator builder() {
-    return new CreateBookingRequestGenerator(null);
+  public static BookingGenerator builder() {
+    return new BookingGenerator(null);
   }
 
   public Booking build() {
     return booking;
   }
 
-  public CreateBookingRequestGenerator withAllValidFields() {
+  public BookingGenerator withAllValidFields() {
     int totalPrice = BookerRandomUtils.RANDOM.randomInt(50, 500);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
@@ -50,12 +50,12 @@ public class CreateBookingRequestGenerator {
         .build();
   }
 
-  public CreateBookingRequestGenerator withMissingFirstName() {
+  public BookingGenerator withMissingFirstName() {
     this.booking = booking.withFirstName(null);
     return this;
   }
 
-  public CreateBookingRequestGenerator withMissingLastName() {
+  public BookingGenerator withMissingLastName() {
     this.booking = booking.withLastName(null);
     return this;
   }
