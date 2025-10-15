@@ -60,4 +60,25 @@ public class BookingGenerator {
     return this;
   }
 
+  public BookingGenerator withValidFieldsOrRandomlyNull() {
+    this.booking = Booking.builder()
+        .firstName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.firstName())
+        .lastName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.lastName())
+        .totalPrice(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.totalPrice())
+        .depositPaid(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.depositPaid())
+        .bookingDates(randomBookingDatesOrNull())
+        .additionalNeeds(
+            BookerRandomUtils.RANDOM.randomBoolean() ? null : AdditionalNeed.getRandom().getValue())
+        .build();
+    return this;
+  }
+
+  private BookingDates randomBookingDatesOrNull() {
+    if (BookerRandomUtils.RANDOM.randomBoolean()) {
+      return null;
+    }
+
+    return validBookingDates();
+  }
+
 }

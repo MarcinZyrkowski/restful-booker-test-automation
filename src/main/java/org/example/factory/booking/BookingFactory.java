@@ -28,4 +28,11 @@ public class BookingFactory {
         .build();
   }
 
+  public static Booking getWithValidFieldsOrRandomlyNullFields() {
+    return BookingGenerator.builder()
+        .withAllValidFields()
+        .withValidFieldsOrRandomlyNull()
+        .build();
+  }
+
 }
