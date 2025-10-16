@@ -18,7 +18,7 @@ class AuthTest extends SpringTestContext {
   void createTokenTest() {
     User user = Allure.step("Prepare user with valid credentials", () -> {
           User defaultUser = UserRequestFactory.defaultUser();
-          Allure.step("defaultUser: " + ObjMapper.asJson(defaultUser));
+          Allure.attachment("user", ObjMapper.asJson(defaultUser));
           return defaultUser;
         }
     );

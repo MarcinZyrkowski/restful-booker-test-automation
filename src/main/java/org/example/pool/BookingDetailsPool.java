@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
-import org.example.model.dto.response.booking.CreatedBooking;
+import org.example.model.dto.response.booking.BookingDetails;
 import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +17,31 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CreatedBookingPool {
+public class BookingDetailsPool {
 
   @Autowired
   private final BookerClientSteps bookerClientSteps;
-  private final Set<CreatedBooking> createdBookingList =
+  private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
   public void push(Response response) {
-    CreatedBooking createdBooking = ResponseMapper.map(response).toCreateBookingResponse();
-    push(createdBooking);
+    BookingDetails bookingDetails = ResponseMapper.map(response).toCreateBookingResponse();
+    push(bookingDetails);
   }
 
-  public void push(CreatedBooking createdBooking) {
-    synchronized (createdBookingList) {
-      createdBookingList.add(createdBooking);
+  public void push(BookingDetails bookingDetails) {
+    synchronized (bookingDetailsList) {
+      bookingDetailsList.add(bookingDetails);
     }
   }
 
-  private CreatedBooking pop() {
-    synchronized (createdBookingList) {
-      Optional<CreatedBooking> createdBookingOptional = CollectionUtils.getRandomElement(
-          createdBookingList);
+  private BookingDetails pop() {
+    synchronized (bookingDetailsList) {
+      Optional<BookingDetails> createdBookingOptional = CollectionUtils.getRandomElement(
+          bookingDetailsList);
 
       if (createdBookingOptional.isPresent()) {
-        createdBookingList.remove(createdBookingOptional.get());
+        bookingDetailsList.remove(createdBookingOptional.get());
         return createdBookingOptional.get();
       }
 
@@ -49,14 +49,14 @@ public class CreatedBookingPool {
     }
   }
 
-  public CreatedBooking popOrGet() {
-    CreatedBooking createdBooking = pop();
-    if (createdBooking == null) {
+  public BookingDetails popOrGet() {
+    BookingDetails bookingDetails = pop();
+    if (bookingDetails == null) {
       Booking request = BookingFactory.getWithAllValidFields();
       return bookerClientSteps.createBooking(request);
     }
 
-    return createdBooking;
+    return bookingDetails;
   }
 
 }

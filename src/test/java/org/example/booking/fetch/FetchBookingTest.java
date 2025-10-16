@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.context.SpringTestContext;
 import org.example.mapper.ObjMapper;
-import org.example.model.dto.response.booking.CreatedBooking;
+import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +15,12 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
-    CreatedBooking createdBooking = Allure.step("Get or create booking for fetching", () -> {
-      CreatedBooking booking = createdBookingPool.popOrGet();
-      Allure.step("createdBooking: " + ObjMapper.asJson(booking));
+    BookingDetails bookingDetails = Allure.step("Get or create booking for fetching", () -> {
+      BookingDetails booking = bookingDetailsPool.popOrGet();
+      Allure.attachment("booking details", ObjMapper.asJson(booking));
       return booking;
     });
-    int bookingId = createdBooking.bookingId();
+    int bookingId = bookingDetails.bookingId();
 
     Response fetchResponse = Allure.step("Fetch booking by id", () ->
         bookerClient.getBookingById(bookingId));
@@ -29,10 +29,10 @@ class FetchBookingTest extends SpringTestContext {
       BookingAssertion.assertThat(fetchResponse)
           .statusIsOk()
           .body()
-          .isEqualTo(createdBooking.booking());
+          .isEqualTo(bookingDetails.booking());
     });
 
-    createdBookingPool.push(createdBooking);
+    bookingDetailsPool.push(bookingDetails);
   }
 
 }

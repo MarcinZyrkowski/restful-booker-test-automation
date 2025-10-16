@@ -74,6 +74,22 @@ public class BookerClient extends RestClient {
         .put(BOOKING_ID_ENDPOINT, bookingId);
   }
 
+  public Response partialUpdateBooking(int bookingId, Booking booking) {
+    return basicRequest()
+        .auth()
+        .preemptive()
+        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
+        .body(booking)
+        .patch(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
+  public Response partialUpdateBooking(int bookingId, Booking booking, String token) {
+    return basicRequest()
+        .header(tokenCookieHeader(token))
+        .body(booking)
+        .patch(BOOKING_ID_ENDPOINT, bookingId);
+  }
+
   public Response getBookingById(int bookingId) {
     return basicRequest()
         .get(BOOKING_ID_ENDPOINT, bookingId);

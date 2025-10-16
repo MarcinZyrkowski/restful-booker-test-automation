@@ -5,7 +5,7 @@ import lombok.Builder;
 import org.example.model.dto.common.Booking;
 
 @Builder
-public record CreatedBooking(
+public record BookingDetails(
     @JsonProperty(value = "bookingid") Integer bookingId,
     Booking booking
 ) {
