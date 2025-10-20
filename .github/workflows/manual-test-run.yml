@@ -1,0 +1,52 @@
+name: GitHub Action Manual Test Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - dev
+          - qa
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # setup
+      - name: Setup gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+
+      # clean test
+      - name: Clean tests result
+        run: ./gradlew clean
+
+      # run tests
+      - name: Run tests
+        continue-on-error: false
+        run: env=${{ inputs.environment }} ./gradlew junit5 -Ptag=regression
+
+      # allure generate allure report
+      - name: Generate allure report
+        if: always()
+        run: ./gradlew allureReport
+
+      # upload artifact
+      - name: Archive artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: build/reports
