@@ -29,7 +29,9 @@ Will execute full regression
 It is possible to run any test or tests which are annotated by JUnit5 tags.
 <br/>
 To run tests which include specific task e.g. `"debug"`,
-annotate test/s by `@Debug`, then run the following command:
+annotate test/s by `@Tag("debug)` 
+(or `@Debug` - especially prepared alias for investigation), then 
+run the following command:
 `./gradlew test -PincludeTags=debug`
 <br/>
 
