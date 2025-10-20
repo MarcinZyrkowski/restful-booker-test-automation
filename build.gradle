@@ -68,6 +68,19 @@ dependencies {
     agent "org.aspectj:aspectjweaver:${aspectJVersion}"
 }
 
+tasks.register('junit5', Test) {
+    group = 'JUnit5'
+    description = 'allows running junit tests by tag'
+
+    useJUnitPlatform {
+        def tag = project.findProperty('tag') ?: 'full'
+        includeTags tag
+    }
+    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+}
+
 test {
     useJUnitPlatform()
+    // Configure javaagent for test execution
+    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
 }
