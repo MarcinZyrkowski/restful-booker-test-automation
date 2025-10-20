@@ -68,22 +68,15 @@ dependencies {
     agent "org.aspectj:aspectjweaver:${aspectJVersion}"
 }
 
-tasks.register('junit5', Test) {
-    group = 'JUnit5'
-    description = 'allows running junit tests by tag'
-
+tasks.withType(Test).configureEach {
     useJUnitPlatform {
-        def tag = project.findProperty('tag') ?: 'regression'
-        includeTags tag
-    }
-
-    // avoid resolving the `agent` configuration during configuration phase
-    jvmArgumentProviders.add(new CommandLineArgumentProvider() {
-        @Override
-        Iterable<String> asArguments() {
-            return ["-javaagent:${configurations.agent.singleFile}"]
+        if (project.hasProperty('includeTags')) {
+            includeTags project.getProperty('includeTags').split(',')
         }
-    })
+        if (project.hasProperty('excludeTags')) {
+            excludeTags project.getProperty('excludeTags').split(',')
+        }
+    }
 }
 
 test {

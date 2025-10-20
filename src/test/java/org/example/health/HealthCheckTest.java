@@ -5,12 +5,14 @@ import io.restassured.response.Response;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.context.SpringTestContext;
 import org.example.model.enums.service.StringResponseBody;
+import org.example.tags.Debug;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Health Check")
 class HealthCheckTest extends SpringTestContext {
 
+  @Debug
   @Test
   @DisplayName("Health Check")
   void verifyHealthCheck() {
