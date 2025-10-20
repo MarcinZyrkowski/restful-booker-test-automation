@@ -73,10 +73,17 @@ tasks.register('junit5', Test) {
     description = 'allows running junit tests by tag'
 
     useJUnitPlatform {
-        def tag = project.findProperty('tag') ?: 'full'
+        def tag = project.findProperty('tag') ?: 'regression'
         includeTags tag
     }
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+
+    // avoid resolving the `agent` configuration during configuration phase
+    jvmArgumentProviders.add(new CommandLineArgumentProvider() {
+        @Override
+        Iterable<String> asArguments() {
+            return ["-javaagent:${configurations.agent.singleFile}"]
+        }
+    })
 }
 
 test {
