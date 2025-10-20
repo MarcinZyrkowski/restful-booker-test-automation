@@ -38,10 +38,10 @@ jobs:
         continue-on-error: false
         run: env=${{ inputs.environment }} ./gradlew test -PincludeTags=regression
 
-      #      # allure generate allure report
-      #      - name: Generate allure report
-      #        if: always()
-      #        run: ./gradlew allureReport
+      # allure generate allure report
+      - name: Generate allure report
+        if: always()
+        run: ./gradlew allureReport
 
       # upload artifact
       - name: Archive artifacts
