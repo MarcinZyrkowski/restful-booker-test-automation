@@ -14,8 +14,7 @@ public abstract class ResponseAssertion<T extends ResponseAssertion<T>> {
   public void assertStatusCode(int httpStatusCode) {
     Objects.requireNonNull(response);
 
-    Assertions.assertThat(response.getStatusCode())
-        .isEqualTo(httpStatusCode);
+    Assertions.assertThat(response.getStatusCode()).isEqualTo(httpStatusCode);
   }
 
   @SuppressWarnings("unchecked")
@@ -41,5 +40,4 @@ public abstract class ResponseAssertion<T extends ResponseAssertion<T>> {
     assertStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     return (T) this;
   }
-
 }

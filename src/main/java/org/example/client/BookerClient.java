@@ -23,22 +23,15 @@ public class BookerClient extends RestClient {
   }
 
   public Response healthCheck() {
-    return basicRequest()
-        .get(HEALTH_CHECK_ENDPOINT);
+    return basicRequest().get(HEALTH_CHECK_ENDPOINT);
   }
 
   public Response createToken(User user) {
-    return basicRequest()
-        .body(user)
-        .post(AUTH_ENDPOINT);
+    return basicRequest().body(user).post(AUTH_ENDPOINT);
   }
 
   public Response getBookingIds(
-      String firstName,
-      String lastName,
-      String checkIn,
-      String checkOut
-  ) {
+      String firstName, String lastName, String checkIn, String checkOut) {
     Map<String, Object> queryParams = new HashMap<>();
     queryParams.put("firstname", firstName);
     queryParams.put("lastname", lastName);
@@ -47,15 +40,11 @@ public class BookerClient extends RestClient {
 
     Map<String, Object> filtered = CollectionUtils.filterNonNullValues(queryParams);
 
-    return basicRequest()
-        .queryParams(filtered)
-        .get(BOOKING_ENDPOINT);
+    return basicRequest().queryParams(filtered).get(BOOKING_ENDPOINT);
   }
 
   public Response createBooking(Booking booking) {
-    return basicRequest()
-        .body(booking)
-        .post(BOOKING_ENDPOINT);
+    return basicRequest().body(booking).post(BOOKING_ENDPOINT);
   }
 
   public Response updateBooking(int bookingId, Booking booking) {
@@ -91,8 +80,7 @@ public class BookerClient extends RestClient {
   }
 
   public Response getBookingById(int bookingId) {
-    return basicRequest()
-        .get(BOOKING_ID_ENDPOINT, bookingId);
+    return basicRequest().get(BOOKING_ID_ENDPOINT, bookingId);
   }
 
   public Response deleteBooking(int bookingId) {
@@ -104,10 +92,6 @@ public class BookerClient extends RestClient {
   }
 
   public Response deleteBooking(int bookingId, String token) {
-    return basicRequest()
-        .header(tokenCookieHeader(token))
-        .delete(BOOKING_ID_ENDPOINT, bookingId);
+    return basicRequest().header(tokenCookieHeader(token)).delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 }
-
-

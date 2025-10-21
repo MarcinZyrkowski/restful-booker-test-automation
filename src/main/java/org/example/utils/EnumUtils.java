@@ -16,5 +16,4 @@ public class EnumUtils {
     int randomIndex = BookerRandomUtils.RANDOM.randomInt(0, values.length);
     return values[randomIndex];
   }
-
 }

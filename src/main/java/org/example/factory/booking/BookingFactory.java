@@ -9,30 +9,18 @@ import org.example.model.dto.common.Booking;
 public class BookingFactory {
 
   public static Booking getWithAllValidFields() {
-    return BookingGenerator.builder()
-        .withAllValidFields()
-        .build();
+    return BookingGenerator.builder().withAllValidFields().build();
   }
 
   public static Booking getWithMissingFirstName() {
-    return BookingGenerator.builder()
-        .withAllValidFields()
-        .withMissingFirstName()
-        .build();
+    return BookingGenerator.builder().withAllValidFields().withMissingFirstName().build();
   }
 
   public static Booking getWithMissingLastName() {
-    return BookingGenerator.builder()
-        .withAllValidFields()
-        .withMissingLastName()
-        .build();
+    return BookingGenerator.builder().withAllValidFields().withMissingLastName().build();
   }
 
   public static Booking getWithValidFieldsOrRandomlyNullFields() {
-    return BookingGenerator.builder()
-        .withAllValidFields()
-        .withValidFieldsOrRandomlyNull()
-        .build();
+    return BookingGenerator.builder().withAllValidFields().withValidFieldsOrRandomlyNull().build();
   }
-
 }

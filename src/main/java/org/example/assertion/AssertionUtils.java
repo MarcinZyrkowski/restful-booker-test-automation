@@ -7,10 +7,7 @@ import org.assertj.core.api.Assertions;
 public class AssertionUtils {
 
   public static <T> void equalsIgnoringOrderAndFields(
-      T actual,
-      T expected,
-      String... ignorableFields
-  ) {
+      T actual, T expected, String... ignorableFields) {
     Assertions.assertThat(actual)
         .usingRecursiveComparison()
         .ignoringCollectionOrder()
@@ -24,10 +21,7 @@ public class AssertionUtils {
   }
 
   public static <T> void elementIsInCollectionIgnoringOrderAndFields(
-      T element,
-      Iterable<T> collection,
-      String... ignorableFields
-  ) {
+      T element, Iterable<T> collection, String... ignorableFields) {
     Assertions.assertThat(element)
         .usingRecursiveComparison()
         .ignoringCollectionOrder()
@@ -35,14 +29,9 @@ public class AssertionUtils {
         .isIn(collection);
   }
 
-
   public static <T> void elementsAreInCollectionIgnoringOrderAndFields(
-      Iterable<T> elements,
-      Iterable<T> collection,
-      String... ignorableFields
-  ) {
-    elements
-        .forEach(e -> elementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
+      Iterable<T> elements, Iterable<T> collection, String... ignorableFields) {
+    elements.forEach(
+        e -> elementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
   }
-
 }

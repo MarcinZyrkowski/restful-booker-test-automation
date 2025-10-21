@@ -7,8 +7,7 @@ import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 
-public class BookingDetailsAssertion extends
-    ResponseAssertion<BookingDetailsAssertion> {
+public class BookingDetailsAssertion extends ResponseAssertion<BookingDetailsAssertion> {
 
   private BookingDetails bookingDetails;
 
@@ -25,14 +24,12 @@ public class BookingDetailsAssertion extends
     return this;
   }
 
-  public BookingDetailsAssertion isCreatedFrom(
-      Booking booking) {
+  public BookingDetailsAssertion isCreatedFrom(Booking booking) {
     Assertions.assertThat(bookingDetails).isNotNull();
     Assertions.assertThat(bookingDetails.booking()).isNotNull();
     Assertions.assertThat(bookingDetails.bookingId()).isNotNull();
 
-    Assertions.assertThat(bookingDetails.booking())
-        .isEqualTo(booking);
+    Assertions.assertThat(bookingDetails.booking()).isEqualTo(booking);
     return this;
   }
 }

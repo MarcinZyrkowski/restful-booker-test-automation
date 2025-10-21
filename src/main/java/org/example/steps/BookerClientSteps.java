@@ -17,14 +17,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookerClientSteps {
 
-  @Autowired
-  private BookerClient bookerClient;
+  @Autowired private BookerClient bookerClient;
 
   public BookingDetails createBooking(Booking request) {
     Response createResponse = bookerClient.createBooking(request);
 
-    BookingDetailsAssertion.assertThat(createResponse)
-        .statusIsOk();
+    BookingDetailsAssertion.assertThat(createResponse).statusIsOk();
 
     return ResponseMapper.map(createResponse).toCreateBookingResponse();
   }
@@ -40,10 +38,8 @@ public class BookerClientSteps {
 
   public Token createToken(User user) {
     Response tokenResponse = bookerClient.createToken(user);
-    TokenResponseAssertion.assertThat(tokenResponse)
-        .statusIsOk();
+    TokenResponseAssertion.assertThat(tokenResponse).statusIsOk();
 
     return ResponseMapper.map(tokenResponse).toTokenResponse();
   }
-
 }

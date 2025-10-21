@@ -15,8 +15,7 @@ public record Booking(
     @JsonProperty(value = "totalprice") Integer totalPrice,
     @JsonProperty(value = "depositpaid") Boolean depositPaid,
     @JsonProperty(value = "bookingdates") BookingDates bookingDates,
-    @JsonProperty(value = "additionalneeds") String additionalNeeds
-) {
+    @JsonProperty(value = "additionalneeds") String additionalNeeds) {
 
   public Booking mergeNonNullable(Booking other) {
     if (other == null) {
@@ -39,8 +38,7 @@ public record Booking(
   @JsonInclude(Include.NON_NULL)
   public record BookingDates(
       @JsonProperty(value = "checkin") String checkIn,
-      @JsonProperty(value = "checkout") String checkOut
-  ) {
+      @JsonProperty(value = "checkout") String checkOut) {
 
     public BookingDates mergeNonNullable(BookingDates other) {
       if (other == null) {
@@ -53,5 +51,4 @@ public record Booking(
           .build();
     }
   }
-
 }

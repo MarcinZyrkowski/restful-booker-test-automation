@@ -6,8 +6,4 @@ import org.example.model.dto.common.Booking;
 
 @Builder
 public record BookingDetails(
-    @JsonProperty(value = "bookingid") Integer bookingId,
-    Booking booking
-) {
-
-}
+    @JsonProperty(value = "bookingid") Integer bookingId, Booking booking) {}

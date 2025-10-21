@@ -6,8 +6,7 @@ import org.example.assertion.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
 
-public class BookingAssertion extends
-    ResponseAssertion<BookingAssertion> {
+public class BookingAssertion extends ResponseAssertion<BookingAssertion> {
 
   private Booking booking;
 
@@ -25,8 +24,7 @@ public class BookingAssertion extends
   }
 
   public BookingAssertion isEqualTo(Booking expected) {
-    Assertions.assertThat(booking)
-        .isEqualTo(expected);
+    Assertions.assertThat(booking).isEqualTo(expected);
     return this;
   }
 }

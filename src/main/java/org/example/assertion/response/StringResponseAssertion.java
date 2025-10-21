@@ -23,8 +23,7 @@ public class StringResponseAssertion extends ResponseAssertion<StringResponseAss
   }
 
   public StringResponseAssertion isEqualTo(String expected) {
-    Assertions.assertThat(responseBody)
-        .isEqualTo(expected);
+    Assertions.assertThat(responseBody).isEqualTo(expected);
     return this;
   }
 }

@@ -18,10 +18,8 @@ public class CollectionUtils {
   }
 
   public static <K, V> Map<K, V> filterNonNullValues(@NonNull Map<K, V> map) {
-    return map.entrySet()
-        .stream()
+    return map.entrySet().stream()
         .filter(entry -> entry.getValue() != null)
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
-
 }

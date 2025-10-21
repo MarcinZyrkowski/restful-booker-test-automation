@@ -9,10 +9,7 @@ import net.datafaker.service.FakeValuesService;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FakerUtils {
 
-  @Getter
-  private static final Faker FAKER = new Faker();
+  @Getter private static final Faker FAKER = new Faker();
 
-  @Getter
-  private static final FakeValuesService FAKE_VALUES_SERVICE = new FakeValuesService();
-
+  @Getter private static final FakeValuesService FAKE_VALUES_SERVICE = new FakeValuesService();
 }

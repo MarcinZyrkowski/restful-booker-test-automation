@@ -13,14 +13,14 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch all booking ids")
   void fetchAllBookingIdsTest() {
-    Response response = Allure.step("Fetch all booking ids", () ->
-        bookerClient.getBookingIds(null, null, null, null));
+    Response response =
+        Allure.step(
+            "Fetch all booking ids", () -> bookerClient.getBookingIds(null, null, null, null));
 
-    Allure.step("Verify response contains booking ids", () -> {
-      BookingIdAssertion.assertThat(response)
-          .statusIsOk()
-          .body()
-          .hasBookingIds();
-    });
+    Allure.step(
+        "Verify response contains booking ids",
+        () -> {
+          BookingIdAssertion.assertThat(response).statusIsOk().body().hasBookingIds();
+        });
   }
 }

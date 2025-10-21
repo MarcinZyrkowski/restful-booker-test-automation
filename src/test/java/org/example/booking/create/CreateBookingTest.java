@@ -20,23 +20,23 @@ class CreateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
-    Booking request = Allure.step("Prepare booking request with all valid fields", () -> {
-          Booking body = BookingFactory.getWithAllValidFields();
-          Allure.attachment("booking", ObjMapper.asJson(body));
-          return body;
-        }
-    );
+    Booking request =
+        Allure.step(
+            "Prepare booking request with all valid fields",
+            () -> {
+              Booking body = BookingFactory.getWithAllValidFields();
+              Allure.attachment("booking", ObjMapper.asJson(body));
+              return body;
+            });
 
-    Response response = Allure.step("Send create booking request",
-        () -> bookerClient.createBooking(request)
-    );
+    Response response =
+        Allure.step("Send create booking request", () -> bookerClient.createBooking(request));
 
-    Allure.step("Verify booking is created successfully", () -> {
-      BookingDetailsAssertion.assertThat(response)
-          .statusIsOk()
-          .body()
-          .isCreatedFrom(request);
-    });
+    Allure.step(
+        "Verify booking is created successfully",
+        () -> {
+          BookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
+        });
 
     bookingDetailsPool.push(response);
   }
@@ -45,15 +45,18 @@ class CreateBookingTest extends SpringTestContext {
   @ParameterizedTest(name = "{1}")
   @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookingRequest")
   void shouldNotCreateBookingTest(Booking request, String string) {
-    Response response = Allure.step("Send create booking request with missing field",
-        () -> bookerClient.createBooking(request));
+    Response response =
+        Allure.step(
+            "Send create booking request with missing field",
+            () -> bookerClient.createBooking(request));
 
-    Allure.step("Verify response is internal server error", () -> {
-      StringResponseAssertion.assertThat(response)
-          .statusIsInternalServerError()
-          .body()
-          .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
-    });
+    Allure.step(
+        "Verify response is internal server error",
+        () -> {
+          StringResponseAssertion.assertThat(response)
+              .statusIsInternalServerError()
+              .body()
+              .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+        });
   }
-
 }

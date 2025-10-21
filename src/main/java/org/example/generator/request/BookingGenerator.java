@@ -27,14 +27,15 @@ public class BookingGenerator {
     int totalPrice = BookerRandomUtils.RANDOM.randomInt(50, 500);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
-    this.booking = Booking.builder()
-        .firstName(FakerUtils.getFAKER().name().firstName())
-        .lastName(FakerUtils.getFAKER().name().lastName())
-        .totalPrice(totalPrice)
-        .depositPaid(BookerRandomUtils.RANDOM.randomBoolean())
-        .bookingDates(validBookingDates())
-        .additionalNeeds(additionalNeed)
-        .build();
+    this.booking =
+        Booking.builder()
+            .firstName(FakerUtils.getFAKER().name().firstName())
+            .lastName(FakerUtils.getFAKER().name().lastName())
+            .totalPrice(totalPrice)
+            .depositPaid(BookerRandomUtils.RANDOM.randomBoolean())
+            .bookingDates(validBookingDates())
+            .additionalNeeds(additionalNeed)
+            .build();
     return this;
   }
 
@@ -44,10 +45,7 @@ public class BookingGenerator {
     LocalDate checkIn = DateTimesGenerator.getRandomFutureDate();
     LocalDate checkOut = DateTimesGenerator.getRandomDateAfter(checkIn, maxStayDurationInDays);
 
-    return BookingDates.builder()
-        .checkIn(checkIn.toString())
-        .checkOut(checkOut.toString())
-        .build();
+    return BookingDates.builder().checkIn(checkIn.toString()).checkOut(checkOut.toString()).build();
   }
 
   public BookingGenerator withMissingFirstName() {
@@ -61,15 +59,18 @@ public class BookingGenerator {
   }
 
   public BookingGenerator withValidFieldsOrRandomlyNull() {
-    this.booking = Booking.builder()
-        .firstName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.firstName())
-        .lastName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.lastName())
-        .totalPrice(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.totalPrice())
-        .depositPaid(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.depositPaid())
-        .bookingDates(randomBookingDatesOrNull())
-        .additionalNeeds(
-            BookerRandomUtils.RANDOM.randomBoolean() ? null : AdditionalNeed.getRandom().getValue())
-        .build();
+    this.booking =
+        Booking.builder()
+            .firstName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.firstName())
+            .lastName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.lastName())
+            .totalPrice(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.totalPrice())
+            .depositPaid(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.depositPaid())
+            .bookingDates(randomBookingDatesOrNull())
+            .additionalNeeds(
+                BookerRandomUtils.RANDOM.randomBoolean()
+                    ? null
+                    : AdditionalNeed.getRandom().getValue())
+            .build();
     return this;
   }
 
@@ -80,5 +81,4 @@ public class BookingGenerator {
 
     return validBookingDates();
   }
-
 }

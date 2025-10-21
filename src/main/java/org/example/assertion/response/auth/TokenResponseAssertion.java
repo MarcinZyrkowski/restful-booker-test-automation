@@ -31,5 +31,4 @@ public class TokenResponseAssertion extends ResponseAssertion<TokenResponseAsser
 
     Assertions.assertThat(token.token().length()).isEqualTo(expectedLength);
   }
-
 }

@@ -4,6 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'io.freefair.lombok' version '9.0.0'
     id 'io.qameta.allure' version '3.0.0'
+    id 'com.diffplug.spotless' version '6.22.0'
 }
 
 group = 'org.example'
@@ -28,6 +29,7 @@ ext {
     aeonbitsOwnerVersion = '1.0.12'
     aspectJVersion = '1.9.22.1'
     allureVersion = '2.26.0'
+    googleJavaFormatVersion = '1.30.0'
 }
 
 // Define configuration for AspectJ agent
@@ -66,6 +68,9 @@ dependencies {
     implementation "io.qameta.allure:allure-junit5:${allureVersion}"
     implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
     agent "org.aspectj:aspectjweaver:${aspectJVersion}"
+
+    // code style
+    implementation "com.google.googlejavaformat:google-java-format:${googleJavaFormatVersion}"
 }
 
 tasks.withType(Test).configureEach {
@@ -79,8 +84,32 @@ tasks.withType(Test).configureEach {
     }
 }
 
+// Spotless code formatting configuration
+spotless {
+    java {
+        target 'src/**/*.java'
+        googleJavaFormat("${googleJavaFormatVersion}") // uses your ext variable
+    }
+}
+
+// optional: make CI/build fail on unformatted code
+check.dependsOn tasks.named('spotlessCheck')
+
+// optional: auto-apply formatting before compilation (use with caution)
+tasks.named('compileJava') {
+    dependsOn tasks.named('spotlessApply')
+}
+
 test {
     useJUnitPlatform()
     // Configure javaagent for test execution
     jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+}
+
+// disabled boot jar, the project is automation project instead of spring boot application
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
 }

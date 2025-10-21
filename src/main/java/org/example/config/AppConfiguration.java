@@ -8,5 +8,4 @@ import org.aeonbits.owner.ConfigFactory;
 public class AppConfiguration {
 
   public static final ServerConfig CONFIG = ConfigFactory.create(ServerConfig.class);
-
 }
