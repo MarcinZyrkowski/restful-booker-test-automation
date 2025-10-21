@@ -20,16 +20,12 @@ public class BookingIdAssertion extends ResponseAssertion<BookingIdAssertion> {
   }
 
   public BookingIdAssertion body() {
-    bookingIdList = ResponseMapper
-        .map(response)
-        .toBookingIdResponseList();
+    bookingIdList = ResponseMapper.map(response).toBookingIdResponseList();
     return this;
   }
 
   public BookingIdAssertion hasBookingIds() {
-    Assertions.assertThat(bookingIdList)
-        .isNotNull()
-        .isNotEmpty();
+    Assertions.assertThat(bookingIdList).isNotNull().isNotEmpty();
     return this;
   }
 }

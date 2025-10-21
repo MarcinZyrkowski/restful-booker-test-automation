@@ -7,6 +7,4 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @ComponentScan(basePackages = {"org.example"})
-public class SpringConfig {
-
-}
+public class SpringConfig {}

@@ -1,7 +1,3 @@
 package org.example.model.dto.response.auth;
 
-public record Token(
-    String token
-) {
-
-}
+public record Token(String token) {}

@@ -11,11 +11,9 @@ public class ObjMapper {
 
   public static String asJson(Object object) {
     try {
-      return MAPPER.writerWithDefaultPrettyPrinter()
-          .writeValueAsString(object);
+      return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
     } catch (Exception e) {
       return "serialization error: " + e.getMessage();
     }
   }
-
 }

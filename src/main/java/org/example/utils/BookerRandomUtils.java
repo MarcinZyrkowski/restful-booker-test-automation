@@ -7,5 +7,4 @@ import org.apache.commons.lang3.RandomUtils;
 public class BookerRandomUtils {
 
   public static final RandomUtils RANDOM = RandomUtils.secureStrong();
-
 }

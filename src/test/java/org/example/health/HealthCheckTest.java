@@ -16,12 +16,13 @@ class HealthCheckTest extends SpringTestContext {
   void verifyHealthCheck() {
     Response response = Allure.step("Perform health check", () -> bookerClient.healthCheck());
 
-    Allure.step("Verify service is healthy", () -> {
-      StringResponseAssertion.assertThat(response)
-          .statusIsCreated()
-          .body()
-          .isEqualTo(StringResponseBody.CREATED.getBody());
-    });
+    Allure.step(
+        "Verify service is healthy",
+        () -> {
+          StringResponseAssertion.assertThat(response)
+              .statusIsCreated()
+              .body()
+              .isEqualTo(StringResponseBody.CREATED.getBody());
+        });
   }
-
 }

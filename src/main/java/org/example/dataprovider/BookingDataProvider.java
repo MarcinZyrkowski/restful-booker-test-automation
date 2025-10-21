@@ -12,8 +12,6 @@ public class BookingDataProvider {
   public static Stream<Arguments> missingFieldBookingRequest() {
     return Stream.of(
         Arguments.of(BookingFactory.getWithMissingFirstName(), "missing: first name"),
-        Arguments.of(BookingFactory.getWithMissingLastName(), "missing: last name")
-    );
+        Arguments.of(BookingFactory.getWithMissingLastName(), "missing: last name"));
   }
-
 }

@@ -21,5 +21,4 @@ public class RestClient {
         .filter(new AllureRestAssured())
         .filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
   }
-
 }

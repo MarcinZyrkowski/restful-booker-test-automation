@@ -14,5 +14,4 @@ public class UserRequestFactory {
         .password(AppConfiguration.CONFIG.password())
         .build();
   }
-
 }

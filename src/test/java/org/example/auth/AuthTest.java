@@ -16,21 +16,19 @@ class AuthTest extends SpringTestContext {
   @Test
   @DisplayName("Create token with valid user")
   void createTokenTest() {
-    User user = Allure.step("Prepare user with valid credentials", () -> {
-          User defaultUser = UserRequestFactory.defaultUser();
-          Allure.attachment("user", ObjMapper.asJson(defaultUser));
-          return defaultUser;
-        }
-    );
+    User user =
+        Allure.step(
+            "Prepare user with valid credentials",
+            () -> {
+              User defaultUser = UserRequestFactory.defaultUser();
+              Allure.attachment("user", ObjMapper.asJson(defaultUser));
+              return defaultUser;
+            });
 
-    Response response = Allure.step("Create token",
-        () -> bookerClient.createToken(user));
+    Response response = Allure.step("Create token", () -> bookerClient.createToken(user));
 
-    Allure.step("Verify token is created successfully", () ->
-        TokenResponseAssertion.assertThat(response)
-            .statusIsOk()
-            .body()
-            .tokenHas15Length());
+    Allure.step(
+        "Verify token is created successfully",
+        () -> TokenResponseAssertion.assertThat(response).statusIsOk().body().tokenHas15Length());
   }
-
 }

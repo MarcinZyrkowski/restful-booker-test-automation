@@ -12,13 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = SpringConfig.class)
 public class SpringTestContext {
 
-  @Autowired
-  protected BookerClient bookerClient;
+  @Autowired protected BookerClient bookerClient;
 
-  @Autowired
-  protected BookerClientSteps bookerClientSteps;
+  @Autowired protected BookerClientSteps bookerClientSteps;
 
-  @Autowired
-  protected BookingDetailsPool bookingDetailsPool;
-
+  @Autowired protected BookingDetailsPool bookingDetailsPool;
 }

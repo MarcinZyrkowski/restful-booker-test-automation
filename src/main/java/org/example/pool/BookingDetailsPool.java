@@ -19,8 +19,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BookingDetailsPool {
 
-  @Autowired
-  private final BookerClientSteps bookerClientSteps;
+  @Autowired private final BookerClientSteps bookerClientSteps;
   private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
@@ -37,8 +36,8 @@ public class BookingDetailsPool {
 
   private BookingDetails pop() {
     synchronized (bookingDetailsList) {
-      Optional<BookingDetails> createdBookingOptional = CollectionUtils.getRandomElement(
-          bookingDetailsList);
+      Optional<BookingDetails> createdBookingOptional =
+          CollectionUtils.getRandomElement(bookingDetailsList);
 
       if (createdBookingOptional.isPresent()) {
         bookingDetailsList.remove(createdBookingOptional.get());
@@ -58,5 +57,4 @@ public class BookingDetailsPool {
 
     return bookingDetails;
   }
-
 }

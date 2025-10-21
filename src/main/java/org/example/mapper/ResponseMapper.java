@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.auth.Token;
-import org.example.model.dto.response.booking.BookingId;
 import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.dto.response.booking.BookingId;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseMapper {
@@ -31,8 +31,7 @@ public class ResponseMapper {
   }
 
   public List<BookingId> toBookingIdResponseList() {
-    return response.jsonPath()
-        .getList("", BookingId.class);
+    return response.jsonPath().getList("", BookingId.class);
   }
 
   public BookingDetails toCreateBookingResponse() {
@@ -42,5 +41,4 @@ public class ResponseMapper {
   public Booking toBookingRequestResponse() {
     return to(Booking.class);
   }
-
 }

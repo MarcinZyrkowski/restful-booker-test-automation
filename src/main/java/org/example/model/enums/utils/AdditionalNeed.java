@@ -7,7 +7,6 @@ import org.example.utils.EnumUtils;
 @Getter
 @RequiredArgsConstructor
 public enum AdditionalNeed {
-
   BREAKFAST("Breakfast"),
   LUNCH("Lunch"),
   DINNER("Dinner"),
@@ -38,5 +37,4 @@ public enum AdditionalNeed {
   public static AdditionalNeed getRandom() {
     return EnumUtils.getRandomValue(AdditionalNeed.class);
   }
-
 }
