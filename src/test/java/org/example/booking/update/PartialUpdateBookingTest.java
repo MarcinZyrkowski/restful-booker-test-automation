@@ -1,12 +1,9 @@
 package org.example.booking.update;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
-import org.example.assertion.response.booking.BookingAssertion;
-import org.example.context.SpringTestContext;
+import org.example.SpringTestContext;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.factory.booking.BookingFactory;
-import org.example.mapper.ObjMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.booking.BookingDetails;
@@ -19,53 +16,18 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Partial update booking with all valid fields - basic auth")
   void partialUpdateBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails =
-        Allure.step(
-            "Get or create booking for fetching",
-            () -> {
-              BookingDetails booking = bookingDetailsPool.popOrGet();
-              Allure.attachment("booking details", ObjMapper.asJson(booking));
-              return booking;
-            });
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate =
-        Allure.step(
-            "Prepare booking update request with all valid fields",
-            () -> {
-              Booking update = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
-              Allure.attachment("booking", ObjMapper.asJson(update));
-              return update;
-            });
+    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
 
-    Response response =
-        Allure.step(
-            "Send partial update booking request",
-            () -> bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate));
+    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
 
-    Booking expectedBooking =
-        Allure.step(
-            "Prepare expected booking details after update",
-            () -> {
-              Booking booking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-              Allure.attachment("expected booking", ObjMapper.asJson(booking));
-              return booking;
-            });
+    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
+    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
 
-    Allure.step(
-        "Verify booking is partially updated successfully",
-        () -> {
-          BookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
-        });
-
-    Response fetchResponse =
-        Allure.step("Fetch booking by id", () -> bookerClient.getBookingById(bookingId));
-
-    Allure.step(
-        "Assert fetch response",
-        () -> {
-          BookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
-        });
+    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
@@ -74,71 +36,21 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Partial update booking with all valid fields - token auth")
   void partialUpdateBookingUsingTokenTest() {
-    BookingDetails bookingDetails =
-        Allure.step(
-            "Get or create booking for fetching",
-            () -> {
-              BookingDetails booking = bookingDetailsPool.popOrGet();
-              Allure.attachment("booking details", ObjMapper.asJson(booking));
-              return booking;
-            });
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate =
-        Allure.step(
-            "Prepare booking update request with all valid fields",
-            () -> {
-              Booking update = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
-              Allure.attachment("booking", ObjMapper.asJson(update));
-              return update;
-            });
+    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
 
-    User user =
-        Allure.step(
-            "Prepare user for token authentication",
-            () -> {
-              User defaultUser = UserRequestFactory.defaultUser();
-              Allure.attachment("user", ObjMapper.asJson(defaultUser));
-              return defaultUser;
-            });
+    User user = UserRequestFactory.defaultUser();
+    String token = bookerClientSteps.createToken(user).token();
 
-    String token =
-        Allure.step(
-            "Create token for a user",
-            () -> {
-              String retrievedToken = bookerClientSteps.createToken(user).token();
-              Allure.attachment("token", retrievedToken);
-              return retrievedToken;
-            });
+    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
 
-    Response response =
-        Allure.step(
-            "Send partial update booking request",
-            () -> bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token));
+    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
+    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
 
-    Booking expectedBooking =
-        Allure.step(
-            "Prepare expected booking details after update",
-            () -> {
-              Booking booking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-              Allure.attachment("expected booking", ObjMapper.asJson(booking));
-              return booking;
-            });
-
-    Allure.step(
-        "Verify booking is partially updated successfully",
-        () -> {
-          BookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
-        });
-
-    Response fetchResponse =
-        Allure.step("Fetch booking by id", () -> bookerClient.getBookingById(bookingId));
-
-    Allure.step(
-        "Assert fetch response",
-        () -> {
-          BookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
-        });
+    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());

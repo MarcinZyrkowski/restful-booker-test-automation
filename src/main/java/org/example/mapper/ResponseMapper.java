@@ -2,20 +2,25 @@ package org.example.mapper;
 
 import io.restassured.response.Response;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.auth.Token;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.model.dto.response.booking.BookingId;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@NoArgsConstructor
 public class ResponseMapper {
 
-  private final Response response;
+  private Response response;
 
-  public static ResponseMapper map(Response response) {
-    return new ResponseMapper(response);
+  public ResponseMapper map(Response response) {
+    this.response = response;
+    return this;
   }
 
   private <T> T to(Class<T> clazz) {

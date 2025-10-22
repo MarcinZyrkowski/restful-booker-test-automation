@@ -1,6 +1,8 @@
 package org.example.steps;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import lombok.RequiredArgsConstructor;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
@@ -11,35 +13,42 @@ import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.auth.Token;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.model.enums.service.StringResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class BookerClientSteps {
 
-  @Autowired private BookerClient bookerClient;
+  private final ResponseMapper responseMapper;
+  private final BookerClient bookerClient;
+  private final BookingDetailsAssertion bookingDetailsAssertion;
+  private final TokenResponseAssertion tokenResponseAssertion;
+  private final StringResponseAssertion stringResponseAssertion;
 
   public BookingDetails createBooking(Booking request) {
     Response createResponse = bookerClient.createBooking(request);
 
-    BookingDetailsAssertion.assertThat(createResponse).statusIsOk();
+    bookingDetailsAssertion.assertThat(createResponse).statusIsOk();
 
-    return ResponseMapper.map(createResponse).toCreateBookingResponse();
+    return responseMapper.map(createResponse).toCreateBookingResponse();
   }
 
+  @Step("Fetch booking by ID {bookingId} and assert not found")
   public void fetchBookingAssertNotFound(int bookingId) {
     Response getResponse = bookerClient.getBookingById(bookingId);
 
-    StringResponseAssertion.assertThat(getResponse)
+    stringResponseAssertion
+        .assertThat(getResponse)
         .statusIsNotFound()
         .body()
         .isEqualTo(StringResponseBody.NOT_FOUND.getBody());
   }
 
+  @Step("Create token")
   public Token createToken(User user) {
     Response tokenResponse = bookerClient.createToken(user);
-    TokenResponseAssertion.assertThat(tokenResponse).statusIsOk();
+    tokenResponseAssertion.assertThat(tokenResponse).statusIsOk();
 
-    return ResponseMapper.map(tokenResponse).toTokenResponse();
+    return responseMapper.map(tokenResponse).toTokenResponse();
   }
 }

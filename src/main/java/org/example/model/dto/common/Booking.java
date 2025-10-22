@@ -3,6 +3,7 @@ package org.example.model.dto.common;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.qameta.allure.Step;
 import lombok.Builder;
 import lombok.With;
 
@@ -17,6 +18,7 @@ public record Booking(
     @JsonProperty(value = "bookingdates") BookingDates bookingDates,
     @JsonProperty(value = "additionalneeds") String additionalNeeds) {
 
+  @Step("Merge non-nullable fields from another Booking object")
   public Booking mergeNonNullable(Booking other) {
     if (other == null) {
       return this;
