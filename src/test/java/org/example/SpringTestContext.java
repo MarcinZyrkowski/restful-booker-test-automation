@@ -1,4 +1,4 @@
-package org.example.context;
+package org.example;
 
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;

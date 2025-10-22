@@ -1,5 +1,6 @@
 package org.example.pool;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import java.util.Collections;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ public class BookingDetailsPool {
     }
   }
 
+  @Step("Get existing booking details from pool or create a new one")
   public BookingDetails popOrGet() {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
