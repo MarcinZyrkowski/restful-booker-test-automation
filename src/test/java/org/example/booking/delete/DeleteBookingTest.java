@@ -19,7 +19,6 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
-
     stringResponseAssertion
         .assertThat(deleteResponse)
         .statusIsCreated()
@@ -36,11 +35,9 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     User user = UserRequestFactory.defaultUser();
-
     String token = bookerClientSteps.createToken(user).token();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
-
     stringResponseAssertion
         .assertThat(deleteResponse)
         .statusIsCreated()

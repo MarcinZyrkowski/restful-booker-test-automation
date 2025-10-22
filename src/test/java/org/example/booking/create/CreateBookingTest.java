@@ -27,7 +27,7 @@ class CreateBookingTest extends SpringTestContext {
 
   @DisplayName("Should not create booking with missing required field")
   @ParameterizedTest(name = "{1}")
-  @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookingRequest")
+  @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookings")
   void shouldNotCreateBookingTest(Booking request, String string) {
     Response response = bookerClient.createBooking(request);
 
