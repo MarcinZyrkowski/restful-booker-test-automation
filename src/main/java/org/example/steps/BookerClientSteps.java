@@ -25,6 +25,7 @@ public class BookerClientSteps {
   private final TokenResponseAssertion tokenResponseAssertion;
   private final StringResponseAssertion stringResponseAssertion;
 
+  @Step("Create booking")
   public BookingDetails createBooking(Booking request) {
     Response createResponse = bookerClient.createBooking(request);
 
