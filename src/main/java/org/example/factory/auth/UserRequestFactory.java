@@ -9,7 +9,7 @@ import org.example.model.dto.request.auth.User;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserRequestFactory {
 
-  @Step("Prepare default")
+  @Step("Prepare default user")
   public static User defaultUser() {
     return User.builder()
         .username(AppConfiguration.CONFIG.username())

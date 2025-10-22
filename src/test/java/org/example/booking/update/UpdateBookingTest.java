@@ -1,9 +1,7 @@
 package org.example.booking.update;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.assertion.response.booking.BookingAssertion;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.common.Booking;
@@ -25,19 +23,11 @@ class UpdateBookingTest extends SpringTestContext {
 
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
 
-    Allure.step(
-        "Verify booking is updated successfully",
-        () -> {
-          BookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
-        });
+    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
-    Allure.step(
-        "Assert fetch response",
-        () -> {
-          BookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
-        });
+    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
@@ -57,19 +47,11 @@ class UpdateBookingTest extends SpringTestContext {
 
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate, token);
 
-    Allure.step(
-        "Verify booking is updated successfully",
-        () -> {
-          BookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
-        });
+    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
-    Allure.step(
-        "Assert fetch response",
-        () -> {
-          BookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
-        });
+    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());

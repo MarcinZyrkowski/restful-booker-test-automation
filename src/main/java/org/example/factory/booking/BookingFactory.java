@@ -14,10 +14,12 @@ public class BookingFactory {
     return BookingGenerator.builder().withAllValidFields().build();
   }
 
+  @Step("Prepare booking with missing first name")
   public static Booking getWithMissingFirstName() {
     return BookingGenerator.builder().withAllValidFields().withMissingFirstName().build();
   }
 
+  @Step("Prepare booking with missing last name")
   public static Booking getWithMissingLastName() {
     return BookingGenerator.builder().withAllValidFields().withMissingLastName().build();
   }

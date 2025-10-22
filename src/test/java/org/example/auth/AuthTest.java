@@ -1,9 +1,7 @@
 package org.example.auth;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.model.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +17,6 @@ class AuthTest extends SpringTestContext {
 
     Response response = bookerClient.createToken(user);
 
-    Allure.step(
-        "Verify token is created successfully",
-        () -> TokenResponseAssertion.assertThat(response).statusIsOk().body().tokenHas15Length());
+    tokenResponseAssertion.assertThat(response).statusIsOk().body().tokenHas15Length();
   }
 }

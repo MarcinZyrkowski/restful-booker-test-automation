@@ -1,10 +1,7 @@
 package org.example.booking.create;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.common.Booking;
 import org.example.model.enums.service.StringResponseBody;
@@ -23,11 +20,7 @@ class CreateBookingTest extends SpringTestContext {
 
     Response response = bookerClient.createBooking(request);
 
-    Allure.step(
-        "Verify booking is created successfully",
-        () -> {
-          BookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
-        });
+    bookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
 
     bookingDetailsPool.push(response);
   }
@@ -38,13 +31,10 @@ class CreateBookingTest extends SpringTestContext {
   void shouldNotCreateBookingTest(Booking request, String string) {
     Response response = bookerClient.createBooking(request);
 
-    Allure.step(
-        "Verify response is internal server error",
-        () -> {
-          StringResponseAssertion.assertThat(response)
-              .statusIsInternalServerError()
-              .body()
-              .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
-        });
+    stringResponseAssertion
+        .assertThat(response)
+        .statusIsInternalServerError()
+        .body()
+        .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
   }
 }

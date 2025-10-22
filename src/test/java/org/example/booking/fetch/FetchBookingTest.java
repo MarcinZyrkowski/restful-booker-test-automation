@@ -1,9 +1,7 @@
 package org.example.booking.fetch;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.assertion.response.booking.BookingAssertion;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,14 +17,11 @@ class FetchBookingTest extends SpringTestContext {
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
-    Allure.step(
-        "Assert fetch response",
-        () -> {
-          BookingAssertion.assertThat(fetchResponse)
-              .statusIsOk()
-              .body()
-              .isEqualTo(bookingDetails.booking());
-        });
+    bookingAssertion
+        .assertThat(fetchResponse)
+        .statusIsOk()
+        .body()
+        .isEqualTo(bookingDetails.booking());
 
     bookingDetailsPool.push(bookingDetails);
   }

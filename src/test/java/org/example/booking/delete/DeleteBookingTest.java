@@ -1,9 +1,7 @@
 package org.example.booking.delete;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.assertion.response.StringResponseAssertion;
 import org.example.factory.auth.UserRequestFactory;
 import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.booking.BookingDetails;
@@ -22,14 +20,11 @@ class DeleteBookingTest extends SpringTestContext {
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
 
-    Allure.step(
-        "Verify booking is deleted successfully",
-        () -> {
-          StringResponseAssertion.assertThat(deleteResponse)
-              .statusIsCreated()
-              .body()
-              .isEqualTo(StringResponseBody.CREATED.getBody());
-        });
+    stringResponseAssertion
+        .assertThat(deleteResponse)
+        .statusIsCreated()
+        .body()
+        .isEqualTo(StringResponseBody.CREATED.getBody());
 
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
@@ -46,14 +41,11 @@ class DeleteBookingTest extends SpringTestContext {
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
 
-    Allure.step(
-        "Verify booking is deleted successfully",
-        () -> {
-          StringResponseAssertion.assertThat(deleteResponse)
-              .statusIsCreated()
-              .body()
-              .isEqualTo(StringResponseBody.CREATED.getBody());
-        });
+    stringResponseAssertion
+        .assertThat(deleteResponse)
+        .statusIsCreated()
+        .body()
+        .isEqualTo(StringResponseBody.CREATED.getBody());
 
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }

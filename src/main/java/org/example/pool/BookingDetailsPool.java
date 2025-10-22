@@ -13,19 +13,19 @@ import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class BookingDetailsPool {
 
-  @Autowired private final BookerClientSteps bookerClientSteps;
+  private final ResponseMapper responseMapper;
+  private final BookerClientSteps bookerClientSteps;
   private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
   public void push(Response response) {
-    BookingDetails bookingDetails = ResponseMapper.map(response).toCreateBookingResponse();
+    BookingDetails bookingDetails = responseMapper.map(response).toCreateBookingResponse();
     push(bookingDetails);
   }
 
