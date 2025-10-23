@@ -3,6 +3,7 @@ package org.example.assertion.response.booking;
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
+import org.example.assertion.AssertionUtils;
 import org.example.assertion.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class BookingDetailsAssertion extends ResponseAssertion<BookingDetailsAssertion> {
 
   private final ResponseMapper responseMapper;
+  private final AssertionUtils assertionUtils;
   private BookingDetails bookingDetails;
 
   @Step("Extract booking details from response body")
@@ -31,7 +33,7 @@ public class BookingDetailsAssertion extends ResponseAssertion<BookingDetailsAss
     Assertions.assertThat(bookingDetails.booking()).isNotNull();
     Assertions.assertThat(bookingDetails.bookingId()).isNotNull();
 
-    Assertions.assertThat(bookingDetails.booking()).isEqualTo(booking);
+    assertionUtils.assertEquals(bookingDetails.booking(), booking);
     return this;
   }
 }

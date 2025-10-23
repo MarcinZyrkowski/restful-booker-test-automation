@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AssertionUtils {
 
-  public <T> void equalsIgnoringOrderAndFields(T actual, T expected, String... ignorableFields) {
+  public <T> void assertEqualsIgnoringOrderAndFields(
+      T actual, T expected, String... ignorableFields) {
     Assertions.assertThat(actual)
         .usingRecursiveComparison()
         .ignoringCollectionOrder()
@@ -14,12 +15,12 @@ public class AssertionUtils {
         .isEqualTo(expected);
   }
 
-  public <T> void equalsIgnoringOrder(T actual, T expected) {
+  public <T> void assertEqualsIgnoringOrder(T actual, T expected) {
     // no fields to ignore
-    equalsIgnoringOrderAndFields(actual, expected);
+    assertEqualsIgnoringOrderAndFields(actual, expected);
   }
 
-  public <T> void elementIsInCollectionIgnoringOrderAndFields(
+  public <T> void assertElementIsInCollectionIgnoringOrderAndFields(
       T element, Iterable<T> collection, String... ignorableFields) {
     Assertions.assertThat(element)
         .usingRecursiveComparison()
@@ -28,9 +29,13 @@ public class AssertionUtils {
         .isIn(collection);
   }
 
-  public <T> void elementsAreInCollectionIgnoringOrderAndFields(
+  public <T> void assertElementsAreInCollectionIgnoringOrderAndFields(
       Iterable<T> elements, Iterable<T> collection, String... ignorableFields) {
     elements.forEach(
-        e -> elementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
+        e -> assertElementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
+  }
+
+  public <T> void assertEquals(T actual, T expected) {
+    Assertions.assertThat(actual).isEqualTo(expected);
   }
 }

@@ -2,7 +2,7 @@ package org.example.assertion.response;
 
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.api.Assertions;
+import org.example.assertion.AssertionUtils;
 import org.example.assertion.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class StringResponseAssertion extends ResponseAssertion<StringResponseAssertion> {
 
   private final ResponseMapper responseMapper;
+  private final AssertionUtils assertionUtils;
   private String responseBody;
 
   @Step("Extract string from response body")
@@ -25,7 +26,7 @@ public class StringResponseAssertion extends ResponseAssertion<StringResponseAss
 
   @Step("Assert that response body is equal to expected")
   public StringResponseAssertion isEqualTo(String expected) {
-    Assertions.assertThat(responseBody).isEqualTo(expected);
+    assertionUtils.assertEquals(responseBody, expected);
     return this;
   }
 }
