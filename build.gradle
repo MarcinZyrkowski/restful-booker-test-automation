@@ -26,7 +26,6 @@ ext {
     assertJVersion = '4.0.0-M1'
     datafakerVersion = '2.4.4'
     jacksonVersion = '2.20.0'
-    aeonbitsOwnerVersion = '1.0.12'
     aspectJVersion = '1.9.22.1'
     allureVersion = '2.26.0'
     googleJavaFormatVersion = '1.30.0'
@@ -61,9 +60,6 @@ dependencies {
     implementation "io.rest-assured:rest-assured:${restAssuredVersion}"
     implementation "org.assertj:assertj-core:${assertJVersion}"
 
-    // Configuration management
-    implementation "org.aeonbits.owner:owner-java8:${aeonbitsOwnerVersion}"
-
     // Allure dependencies
     implementation "io.qameta.allure:allure-junit5:${allureVersion}"
     implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
@@ -88,14 +84,14 @@ tasks.withType(Test).configureEach {
 spotless {
     java {
         target 'src/**/*.java'
-        googleJavaFormat("${googleJavaFormatVersion}") // uses your ext variable
+        googleJavaFormat("${googleJavaFormatVersion}")
     }
 }
 
 // optional: make CI/build fail on unformatted code
 check.dependsOn tasks.named('spotlessCheck')
 
-// optional: auto-apply formatting before compilation (use with caution)
+// optional: auto-apply formatting before compilation
 tasks.named('compileJava') {
     dependsOn tasks.named('spotlessApply')
 }

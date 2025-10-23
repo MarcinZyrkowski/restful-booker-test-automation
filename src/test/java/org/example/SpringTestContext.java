@@ -7,6 +7,7 @@ import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.assertion.response.booking.BookingIdAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
+import org.example.model.dto.request.auth.User;
 import org.example.pool.BookingDetailsPool;
 import org.example.steps.BookerClientSteps;
 import org.example.tags.Regression;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 public class SpringTestContext {
+
+  @Autowired protected User adminUser;
 
   @Autowired protected BookerClient bookerClient;
 
