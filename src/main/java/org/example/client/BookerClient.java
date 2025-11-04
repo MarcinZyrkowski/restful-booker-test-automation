@@ -5,7 +5,7 @@ import io.restassured.http.Header;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
-import org.example.config.AppConfiguration;
+import org.example.config.SpringConfig;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
 import org.example.utils.CollectionUtils;
@@ -18,6 +18,10 @@ public class BookerClient extends RestClient {
   private static final String AUTH_ENDPOINT = "/auth";
   private static final String BOOKING_ENDPOINT = "/booking";
   private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
+
+  public BookerClient(SpringConfig springConfig) {
+    super(springConfig);
+  }
 
   private Header tokenCookieHeader(String token) {
     return new Header("Cookie", "token=" + token);
@@ -57,7 +61,7 @@ public class BookerClient extends RestClient {
     return basicRequest()
         .auth()
         .preemptive()
-        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
+        .basic(springConfig.getUsername(), springConfig.getPassword())
         .body(booking)
         .put(BOOKING_ID_ENDPOINT, bookingId);
   }
@@ -75,7 +79,7 @@ public class BookerClient extends RestClient {
     return basicRequest()
         .auth()
         .preemptive()
-        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
+        .basic(springConfig.getUsername(), springConfig.getPassword())
         .body(booking)
         .patch(BOOKING_ID_ENDPOINT, bookingId);
   }
@@ -98,7 +102,7 @@ public class BookerClient extends RestClient {
     return basicRequest()
         .auth()
         .preemptive()
-        .basic(AppConfiguration.CONFIG.username(), AppConfiguration.CONFIG.password())
+        .basic(springConfig.getUsername(), springConfig.getPassword())
         .delete(BOOKING_ID_ENDPOINT, bookingId);
   }
 

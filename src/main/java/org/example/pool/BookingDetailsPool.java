@@ -21,6 +21,7 @@ public class BookingDetailsPool {
 
   private final ResponseMapper responseMapper;
   private final BookerClientSteps bookerClientSteps;
+  private final BookingFactory bookingFactory;
   private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
@@ -44,7 +45,6 @@ public class BookingDetailsPool {
         bookingDetailsList.remove(createdBookingOptional.get());
         return createdBookingOptional.get();
       }
-
       return null;
     }
   }
@@ -53,8 +53,10 @@ public class BookingDetailsPool {
   public BookingDetails popOrGet() {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
-      Booking request = BookingFactory.getWithAllValidFields();
-      return bookerClientSteps.createBooking(request);
+      synchronized (bookingDetailsList) {
+        Booking request = bookingFactory.getWithAllValidFields();
+        return bookerClientSteps.createBooking(request);
+      }
     }
 
     return bookingDetails;

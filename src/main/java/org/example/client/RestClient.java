@@ -6,18 +6,20 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.AllArgsConstructor;
-import org.example.config.AppConfiguration;
+import lombok.RequiredArgsConstructor;
+import org.example.config.SpringConfig;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RestClient {
+
+  protected final SpringConfig springConfig;
 
   public RequestSpecification basicRequest() {
     return RestAssured.given()
         .contentType(ContentType.JSON)
-        .baseUri(AppConfiguration.CONFIG.baseUrl())
+        .baseUri(springConfig.getBaseUrl())
         .filter(new AllureRestAssured())
         .filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
   }

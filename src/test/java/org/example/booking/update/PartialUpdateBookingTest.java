@@ -2,10 +2,7 @@ package org.example.booking.update;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.factory.auth.UserRequestFactory;
-import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.common.Booking;
-import org.example.model.dto.request.auth.User;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +16,9 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
-
     Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
     bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
 
@@ -39,13 +35,10 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
-
-    User user = UserRequestFactory.defaultUser();
-    String token = bookerClientSteps.createToken(user).token();
+    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    String token = bookerClientSteps.createToken(adminUser).token();
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
-
     Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
     bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
 
