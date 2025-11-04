@@ -7,6 +7,8 @@ import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.assertion.response.booking.BookingIdAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
+import org.example.dataprovider.BookingDataProvider;
+import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.request.auth.User;
 import org.example.pool.BookingDetailsPool;
 import org.example.steps.BookerClientSteps;
@@ -25,6 +27,10 @@ public class SpringTestContext {
   @Autowired protected BookerClientSteps bookerClientSteps;
 
   @Autowired protected BookingDetailsPool bookingDetailsPool;
+
+  @Autowired protected BookingFactory bookingFactory;
+
+  @Autowired protected BookingDataProvider bookingDataProvider;
 
   // assertions
   @Autowired protected TokenResponseAssertion tokenResponseAssertion;

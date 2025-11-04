@@ -2,7 +2,6 @@ package org.example.booking.update;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +16,7 @@ class UpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking bookingUpdate = BookingFactory.getWithAllValidFields();
+    Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
     bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
@@ -35,7 +34,7 @@ class UpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking bookingUpdate = BookingFactory.getWithAllValidFields();
+    Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
     String token = bookerClientSteps.createToken(adminUser).token();
 

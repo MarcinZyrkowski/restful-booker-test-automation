@@ -2,7 +2,6 @@ package org.example.booking.update;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.factory.booking.BookingFactory;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +16,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
     Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
@@ -36,7 +35,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = BookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
     String token = bookerClientSteps.createToken(adminUser).token();
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
