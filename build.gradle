@@ -43,7 +43,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.junit.jupiter:junit-jupiter-params'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
 
     // Spring Boot Starter Test
     implementation 'org.springframework.boot:spring-boot-starter-test'
@@ -62,9 +62,6 @@ dependencies {
     implementation "io.qameta.allure:allure-junit5:${allureVersion}"
     implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
     agent "org.aspectj:aspectjweaver:${aspectJVersion}"
-
-    // code style
-    implementation "com.google.googlejavaformat:google-java-format:${googleJavaFormatVersion}"
 }
 
 tasks.withType(Test).configureEach {
