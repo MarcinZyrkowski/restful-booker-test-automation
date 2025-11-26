@@ -1,17 +1,20 @@
 package org.example.dataprovider;
 
 import java.util.stream.Stream;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.factory.booking.BookingFactory;
 import org.junit.jupiter.params.provider.Arguments;
+import org.springframework.stereotype.Component;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
+@RequiredArgsConstructor
 public class BookingDataProvider {
 
-  public static Stream<Arguments> missingFieldBookingRequest() {
+  private final BookingFactory bookingFactory;
+
+  public Stream<Arguments> missingFieldBookings() {
     return Stream.of(
-        Arguments.of(BookingFactory.getWithMissingFirstName(), "missing: first name"),
-        Arguments.of(BookingFactory.getWithMissingLastName(), "missing: last name"));
+        Arguments.of(bookingFactory.getWithMissingFirstName(), "missing: first name"),
+        Arguments.of(bookingFactory.getWithMissingLastName(), "missing: last name"));
   }
 }

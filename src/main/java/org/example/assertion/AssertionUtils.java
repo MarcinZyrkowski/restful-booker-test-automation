@@ -1,12 +1,12 @@
 package org.example.assertion;
 
-import lombok.NoArgsConstructor;
 import org.assertj.core.api.Assertions;
+import org.springframework.stereotype.Component;
 
-@NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@Component
 public class AssertionUtils {
 
-  public static <T> void equalsIgnoringOrderAndFields(
+  public <T> void assertEqualsIgnoringOrderAndFields(
       T actual, T expected, String... ignorableFields) {
     Assertions.assertThat(actual)
         .usingRecursiveComparison()
@@ -15,12 +15,12 @@ public class AssertionUtils {
         .isEqualTo(expected);
   }
 
-  public static <T> void equalsIgnoringOrder(T actual, T expected) {
+  public <T> void assertEqualsIgnoringOrder(T actual, T expected) {
     // no fields to ignore
-    equalsIgnoringOrderAndFields(actual, expected);
+    assertEqualsIgnoringOrderAndFields(actual, expected);
   }
 
-  public static <T> void elementIsInCollectionIgnoringOrderAndFields(
+  public <T> void assertElementIsInCollectionIgnoringOrderAndFields(
       T element, Iterable<T> collection, String... ignorableFields) {
     Assertions.assertThat(element)
         .usingRecursiveComparison()
@@ -29,9 +29,13 @@ public class AssertionUtils {
         .isIn(collection);
   }
 
-  public static <T> void elementsAreInCollectionIgnoringOrderAndFields(
+  public <T> void assertElementsAreInCollectionIgnoringOrderAndFields(
       Iterable<T> elements, Iterable<T> collection, String... ignorableFields) {
     elements.forEach(
-        e -> elementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
+        e -> assertElementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
+  }
+
+  public <T> void assertEquals(T actual, T expected) {
+    Assertions.assertThat(actual).isEqualTo(expected);
   }
 }

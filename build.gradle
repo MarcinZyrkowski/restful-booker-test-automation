@@ -23,10 +23,8 @@ repositories {
 ext {
     lombokVersion = '1.18.40'
     restAssuredVersion = '5.5.6'
-    assertJVersion = '4.0.0-M1'
     datafakerVersion = '2.4.4'
     jacksonVersion = '2.20.0'
-    aeonbitsOwnerVersion = '1.0.12'
     aspectJVersion = '1.9.22.1'
     allureVersion = '2.26.0'
     googleJavaFormatVersion = '1.30.0'
@@ -45,7 +43,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.junit.jupiter:junit-jupiter-params'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
 
     // Spring Boot Starter Test
     implementation 'org.springframework.boot:spring-boot-starter-test'
@@ -59,18 +57,11 @@ dependencies {
 
     // REST-assured and AssertJ
     implementation "io.rest-assured:rest-assured:${restAssuredVersion}"
-    implementation "org.assertj:assertj-core:${assertJVersion}"
-
-    // Configuration management
-    implementation "org.aeonbits.owner:owner-java8:${aeonbitsOwnerVersion}"
 
     // Allure dependencies
     implementation "io.qameta.allure:allure-junit5:${allureVersion}"
     implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
     agent "org.aspectj:aspectjweaver:${aspectJVersion}"
-
-    // code style
-    implementation "com.google.googlejavaformat:google-java-format:${googleJavaFormatVersion}"
 }
 
 tasks.withType(Test).configureEach {
@@ -88,14 +79,14 @@ tasks.withType(Test).configureEach {
 spotless {
     java {
         target 'src/**/*.java'
-        googleJavaFormat("${googleJavaFormatVersion}") // uses your ext variable
+        googleJavaFormat("${googleJavaFormatVersion}")
     }
 }
 
 // optional: make CI/build fail on unformatted code
 check.dependsOn tasks.named('spotlessCheck')
 
-// optional: auto-apply formatting before compilation (use with caution)
+// optional: auto-apply formatting before compilation
 tasks.named('compileJava') {
     dependsOn tasks.named('spotlessApply')
 }

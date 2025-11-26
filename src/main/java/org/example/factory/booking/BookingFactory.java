@@ -1,26 +1,30 @@
 package org.example.factory.booking;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import io.qameta.allure.Step;
 import org.example.generator.request.BookingGenerator;
 import org.example.model.dto.common.Booking;
+import org.springframework.stereotype.Component;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class BookingFactory {
 
-  public static Booking getWithAllValidFields() {
+  @Step("Prepare booking with all valid fields")
+  public Booking getWithAllValidFields() {
     return BookingGenerator.builder().withAllValidFields().build();
   }
 
-  public static Booking getWithMissingFirstName() {
+  @Step("Prepare booking with missing first name")
+  public Booking getWithMissingFirstName() {
     return BookingGenerator.builder().withAllValidFields().withMissingFirstName().build();
   }
 
-  public static Booking getWithMissingLastName() {
+  @Step("Prepare booking with missing last name")
+  public Booking getWithMissingLastName() {
     return BookingGenerator.builder().withAllValidFields().withMissingLastName().build();
   }
 
-  public static Booking getWithValidFieldsOrRandomlyNullFields() {
+  @Step("Prepare booking with valid fields or randomly null fields")
+  public Booking getWithValidFieldsOrRandomlyNullFields() {
     return BookingGenerator.builder().withAllValidFields().withValidFieldsOrRandomlyNull().build();
   }
 }

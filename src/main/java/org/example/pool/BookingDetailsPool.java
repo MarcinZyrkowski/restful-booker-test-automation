@@ -1,5 +1,6 @@
 package org.example.pool;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,19 +13,20 @@ import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class BookingDetailsPool {
 
-  @Autowired private final BookerClientSteps bookerClientSteps;
+  private final ResponseMapper responseMapper;
+  private final BookerClientSteps bookerClientSteps;
+  private final BookingFactory bookingFactory;
   private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
   public void push(Response response) {
-    BookingDetails bookingDetails = ResponseMapper.map(response).toCreateBookingResponse();
+    BookingDetails bookingDetails = responseMapper.map(response).toCreateBookingResponse();
     push(bookingDetails);
   }
 
@@ -43,16 +45,18 @@ public class BookingDetailsPool {
         bookingDetailsList.remove(createdBookingOptional.get());
         return createdBookingOptional.get();
       }
-
       return null;
     }
   }
 
+  @Step("Get existing booking details from pool or create a new one")
   public BookingDetails popOrGet() {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
-      Booking request = BookingFactory.getWithAllValidFields();
-      return bookerClientSteps.createBooking(request);
+      synchronized (bookingDetailsList) {
+        Booking request = bookingFactory.getWithAllValidFields();
+        return bookerClientSteps.createBooking(request);
+      }
     }
 
     return bookingDetails;

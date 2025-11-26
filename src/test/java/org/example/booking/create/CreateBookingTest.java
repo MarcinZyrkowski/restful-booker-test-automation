@@ -1,62 +1,47 @@
 package org.example.booking.create;
 
-import io.qameta.allure.Allure;
 import io.restassured.response.Response;
-import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.booking.BookingDetailsAssertion;
-import org.example.context.SpringTestContext;
-import org.example.factory.booking.BookingFactory;
-import org.example.mapper.ObjMapper;
+import java.util.stream.Stream;
+import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
 import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Create Booking")
 class CreateBookingTest extends SpringTestContext {
 
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
-    Booking request =
-        Allure.step(
-            "Prepare booking request with all valid fields",
-            () -> {
-              Booking body = BookingFactory.getWithAllValidFields();
-              Allure.attachment("booking", ObjMapper.asJson(body));
-              return body;
-            });
+    Booking request = bookingFactory.getWithAllValidFields();
 
-    Response response =
-        Allure.step("Send create booking request", () -> bookerClient.createBooking(request));
+    Response response = bookerClient.createBooking(request);
 
-    Allure.step(
-        "Verify booking is created successfully",
-        () -> {
-          BookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
-        });
+    bookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
 
     bookingDetailsPool.push(response);
   }
 
   @DisplayName("Should not create booking with missing required field")
   @ParameterizedTest(name = "{1}")
-  @MethodSource("org.example.dataprovider.BookingDataProvider#missingFieldBookingRequest")
+  @MethodSource("providerMissingFieldBookings")
   void shouldNotCreateBookingTest(Booking request, String string) {
-    Response response =
-        Allure.step(
-            "Send create booking request with missing field",
-            () -> bookerClient.createBooking(request));
+    Response response = bookerClient.createBooking(request);
 
-    Allure.step(
-        "Verify response is internal server error",
-        () -> {
-          StringResponseAssertion.assertThat(response)
-              .statusIsInternalServerError()
-              .body()
-              .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
-        });
+    stringResponseAssertion
+        .assertThat(response)
+        .statusIsInternalServerError()
+        .body()
+        .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+  }
+
+  Stream<Arguments> providerMissingFieldBookings() {
+    return bookingDataProvider.missingFieldBookings();
   }
 }
