@@ -30,8 +30,8 @@ public class BookingGenerator {
 
     this.booking =
         Booking.builder()
-            .firstName(FakerUtils.getFAKER().name().firstName())
-            .lastName(FakerUtils.getFAKER().name().lastName())
+            .firstName(FakerUtils.FAKER.name().firstName())
+            .lastName(FakerUtils.FAKER.name().lastName())
             .totalPrice(totalPrice)
             .depositPaid(BookerRandomUtils.RANDOM.randomBoolean())
             .bookingDates(validBookingDates())
