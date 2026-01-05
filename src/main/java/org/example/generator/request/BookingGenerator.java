@@ -1,8 +1,7 @@
 package org.example.generator.request;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.example.generator.DateTimesGenerator;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.common.Booking.BookingDates;
@@ -10,13 +9,15 @@ import org.example.model.enums.utils.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+import java.time.LocalDate;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingGenerator {
 
   private Booking booking;
 
   public static BookingGenerator builder() {
-    return new BookingGenerator(null);
+    return new BookingGenerator();
   }
 
   public Booking build() {
@@ -29,8 +30,8 @@ public class BookingGenerator {
 
     this.booking =
         Booking.builder()
-            .firstName(FakerUtils.getFAKER().name().firstName())
-            .lastName(FakerUtils.getFAKER().name().lastName())
+            .firstName(FakerUtils.FAKER.name().firstName())
+            .lastName(FakerUtils.FAKER.name().lastName())
             .totalPrice(totalPrice)
             .depositPaid(BookerRandomUtils.RANDOM.randomBoolean())
             .bookingDates(validBookingDates())
@@ -61,24 +62,14 @@ public class BookingGenerator {
   public BookingGenerator withValidFieldsOrRandomlyNull() {
     this.booking =
         Booking.builder()
-            .firstName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.firstName())
-            .lastName(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.lastName())
-            .totalPrice(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.totalPrice())
-            .depositPaid(BookerRandomUtils.RANDOM.randomBoolean() ? null : booking.depositPaid())
-            .bookingDates(randomBookingDatesOrNull())
+            .firstName(BookerRandomUtils.randomNullOrValue(booking.firstName()))
+            .lastName(BookerRandomUtils.randomNullOrValue(booking.lastName()))
+            .totalPrice(BookerRandomUtils.randomNullOrValue(booking.totalPrice()))
+            .depositPaid(BookerRandomUtils.randomNullOrValue(booking.depositPaid()))
+            .bookingDates(BookerRandomUtils.randomNullOrValue(validBookingDates()))
             .additionalNeeds(
-                BookerRandomUtils.RANDOM.randomBoolean()
-                    ? null
-                    : AdditionalNeed.getRandom().getValue())
+                BookerRandomUtils.randomNullOrValue(AdditionalNeed.getRandom().getValue()))
             .build();
     return this;
-  }
-
-  private BookingDates randomBookingDatesOrNull() {
-    if (BookerRandomUtils.RANDOM.randomBoolean()) {
-      return null;
-    }
-
-    return validBookingDates();
   }
 }
