@@ -2,12 +2,13 @@ package org.example.assertion;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import java.util.Objects;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -42,10 +43,24 @@ public class ResponseAssertion<T extends ResponseAssertion<T>> {
     return (T) this;
   }
 
+  @Step("Status code is Forbidden (403)")
+  @SuppressWarnings("unchecked")
+  public T statusIsForbidden() {
+    assertStatusCode(HttpStatus.SC_FORBIDDEN);
+    return (T) this;
+  }
+
   @Step("Status code is Not Found (404)")
   @SuppressWarnings("unchecked")
   public T statusIsNotFound() {
     assertStatusCode(HttpStatus.SC_NOT_FOUND);
+    return (T) this;
+  }
+
+  @Step("Status code is Method Not Allowed (405)")
+  @SuppressWarnings("unchecked")
+  public T statusIsMethodNotAllowed() {
+    assertStatusCode(HttpStatus.SC_METHOD_NOT_ALLOWED);
     return (T) this;
   }
 

@@ -16,5 +16,4 @@ public class BookerRandomUtils {
   public static <T> T randomOf(T... values) {
     return values[RANDOM.randomInt(0, values.length)];
   }
-
 }

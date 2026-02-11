@@ -4,6 +4,8 @@ import io.restassured.response.Response;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.enums.service.StringResponseBody;
+import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -46,5 +48,42 @@ class UpdateBookingTest extends SpringTestContext {
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
+  }
+
+  @Test
+  @DisplayName("Should not update booking with invalid token")
+  void shouldNotUpdateBookingWithInvalidTokenTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    int bookingId = bookingDetails.bookingId();
+
+    Booking bookingUpdate = bookingFactory.getWithAllValidFields();
+
+    String invalidToken = "invalid_token";
+
+    Response response = bookerClient.updateBooking(bookingId, bookingUpdate, invalidToken);
+
+    stringResponseAssertion
+        .assertThat(response)
+        .statusIsForbidden()
+        .body()
+        .isEqualTo(StringResponseBody.FORBIDDEN.getBody());
+
+    bookingDetailsPool.push(bookingDetails);
+  }
+
+  @Test
+  @DisplayName("Should return: method not allowed when booking ID does not exist")
+  void shouldNotUpdateBookingWhenBookingIdDoesNotExistTest() {
+    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+
+    Booking bookingUpdate = bookingFactory.getWithAllValidFields();
+
+    Response response = bookerClient.updateBooking(nonExistentBookingId, bookingUpdate);
+
+    stringResponseAssertion
+        .assertThat(response)
+        .statusIsMethodNotAllowed()
+        .body()
+        .isEqualTo(StringResponseBody.METHOD_NOT_ALLOWED.getBody());
   }
 }
