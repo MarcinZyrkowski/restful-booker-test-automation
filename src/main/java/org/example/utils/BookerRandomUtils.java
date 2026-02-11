@@ -11,4 +11,10 @@ public class BookerRandomUtils {
   public static <T> T randomNullOrValue(T value) {
     return RANDOM.randomBoolean() ? null : value;
   }
+
+  @SafeVarargs
+  public static <T> T randomOf(T... values) {
+    return values[RANDOM.randomInt(0, values.length)];
+  }
+
 }

@@ -1,11 +1,10 @@
 package org.example.dataprovider;
 
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.example.factory.booking.BookingFactory;
 import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
