@@ -51,7 +51,7 @@ class UpdateBookingTest extends SpringTestContext {
   }
 
   @Test
-  @DisplayName("Should not update booking with invalid token")
+  @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotUpdateBookingWithInvalidTokenTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
