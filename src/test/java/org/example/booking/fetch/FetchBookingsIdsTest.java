@@ -3,12 +3,15 @@ package org.example.booking.fetch;
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
+import org.example.generator.DateTimesGenerator;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.tracking.Bugs;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 @DisplayName("Fetch Booking Ids")
 class FetchBookingsIdsTest extends SpringTestContext {
@@ -55,10 +58,8 @@ class FetchBookingsIdsTest extends SpringTestContext {
     bookingDetailsPool.push(bookingDetails);
   }
 
-  // TODO add dates mapper, verify that strick equals work!
-  // TODO add case when check in filter (random) < booking check in
   @Issue(value = Bugs.CHECK_IN_BUG)
-  @Disabled
+  @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_IN_BUG)
   @Test
   @DisplayName("Fetch booking ids with filter by check in date")
   void fetchBookingIdsWithFilterByCheckInDateTest() {
@@ -77,8 +78,28 @@ class FetchBookingsIdsTest extends SpringTestContext {
     bookingDetailsPool.push(bookingDetails);
   }
 
-  // TODO add case when check out filter (random) < booking check out
+  @Test
+  @DisplayName(
+      "Fetch booking ids with filter by check in date (earlier than booking check in date)")
+  void fetchBookingIdsWithFilterByCheckInDateEarlierThanTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    Booking booking = bookingDetails.booking();
 
+    LocalDate bookingCheckIn = dateMapper.mapStringToLocalDate(booking.bookingDates().checkIn());
+    LocalDate filterCheckIn = DateTimesGenerator.getRandomDateBefore(bookingCheckIn, 50);
+
+    Response response = bookerClient.getBookingIds(null, null, filterCheckIn.toString(), null);
+
+    bookingIdAssertion
+        .assertThat(response)
+        .statusIsOk()
+        .body()
+        .hasBookingId(bookingDetails.bookingId());
+
+    bookingDetailsPool.push(bookingDetails);
+  }
+
+  // TODO verify if check out filter < checkou out booking works as well
 
   @Test
   @DisplayName("Fetch booking ids with filter by checkout date")

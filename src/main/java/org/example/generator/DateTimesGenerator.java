@@ -1,10 +1,9 @@
 package org.example.generator;
 
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.utils.BookerRandomUtils;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimesGenerator {
