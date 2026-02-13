@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.qameta.allure.Step;
 import lombok.Builder;
 import lombok.With;
+import org.example.utils.BookerUtils;
 
 @With
 @Builder
@@ -25,13 +26,13 @@ public record Booking(
     }
 
     return Booking.builder()
-        .firstName(other.firstName != null ? other.firstName : this.firstName)
-        .lastName(other.lastName != null ? other.lastName : this.lastName)
-        .totalPrice(other.totalPrice != null ? other.totalPrice : this.totalPrice)
-        .depositPaid(other.depositPaid != null ? other.depositPaid : this.depositPaid)
+        .firstName(BookerUtils.nonNullValueOrDefault(other.firstName, this.firstName))
+        .lastName(BookerUtils.nonNullValueOrDefault(other.lastName, this.lastName))
+        .totalPrice(BookerUtils.nonNullValueOrDefault(other.totalPrice, this.totalPrice))
+        .depositPaid(BookerUtils.nonNullValueOrDefault(other.depositPaid, this.depositPaid))
         .bookingDates(this.bookingDates.mergeNonNullable(other.bookingDates))
         .additionalNeeds(
-            other.additionalNeeds != null ? other.additionalNeeds : this.additionalNeeds)
+            BookerUtils.nonNullValueOrDefault(other.additionalNeeds, this.additionalNeeds))
         .build();
   }
 
@@ -48,8 +49,8 @@ public record Booking(
       }
 
       return BookingDates.builder()
-          .checkIn(other.checkIn != null ? other.checkIn : this.checkIn)
-          .checkOut(other.checkOut != null ? other.checkOut : this.checkOut)
+          .checkIn(BookerUtils.nonNullValueOrDefault(other.checkIn, this.checkIn))
+          .checkOut(BookerUtils.nonNullValueOrDefault(other.checkOut, this.checkOut))
           .build();
     }
   }

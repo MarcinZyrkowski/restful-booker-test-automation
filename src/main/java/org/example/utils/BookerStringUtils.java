@@ -8,4 +8,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class BookerStringUtils {
 
   public static final RandomStringUtils RANDOM = RandomStringUtils.secureStrong();
+
+  public static String randomFullName() {
+    return FakerUtils.FAKER.name().fullName();
+  }
+
+  public static String randomSentence() {
+    return FakerUtils.FAKER.lorem().sentence();
+  }
+
 }

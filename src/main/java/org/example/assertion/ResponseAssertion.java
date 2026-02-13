@@ -42,10 +42,24 @@ public class ResponseAssertion<T extends ResponseAssertion<T>> {
     return (T) this;
   }
 
+  @Step("Status code is Forbidden (403)")
+  @SuppressWarnings("unchecked")
+  public T statusIsForbidden() {
+    assertStatusCode(HttpStatus.SC_FORBIDDEN);
+    return (T) this;
+  }
+
   @Step("Status code is Not Found (404)")
   @SuppressWarnings("unchecked")
   public T statusIsNotFound() {
     assertStatusCode(HttpStatus.SC_NOT_FOUND);
+    return (T) this;
+  }
+
+  @Step("Status code is Method Not Allowed (405)")
+  @SuppressWarnings("unchecked")
+  public T statusIsMethodNotAllowed() {
+    assertStatusCode(HttpStatus.SC_METHOD_NOT_ALLOWED);
     return (T) this;
   }
 

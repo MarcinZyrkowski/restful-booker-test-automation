@@ -27,4 +27,31 @@ public class BookingFactory {
   public Booking getWithValidFieldsOrRandomlyNullFields() {
     return BookingGenerator.builder().withAllValidFields().withValidFieldsOrRandomlyNull().build();
   }
+
+  @Step("Prepare booking with missing total price")
+  public Booking getWithMissingTotalPrice() {
+    return getWithAllValidFields().withTotalPrice(null);
+  }
+
+  @Step("Prepare booking with missing deposit paid")
+  public Booking getWithMissingDepositPaid() {
+    return getWithAllValidFields().withDepositPaid(null);
+  }
+
+  @Step("Prepare booking with missing booking dates")
+  public Booking getWithMissingBookingDates() {
+    return getWithAllValidFields().withBookingDates(null);
+  }
+
+  @Step("Prepare booking with missing checkin date")
+  public Booking getWithMissingCheckin() {
+    Booking booking = getWithAllValidFields();
+    return booking.withBookingDates(booking.bookingDates().withCheckIn(null));
+  }
+
+  @Step("Prepare booking with missing checkout date")
+  public Booking getWithMissingCheckout() {
+    Booking booking = getWithAllValidFields();
+    return booking.withBookingDates(booking.bookingDates().withCheckOut(null));
+  }
 }
