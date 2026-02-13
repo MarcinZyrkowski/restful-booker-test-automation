@@ -1,9 +1,10 @@
 package org.example.generator;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.utils.BookerRandomUtils;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimesGenerator {
@@ -30,6 +31,18 @@ public class DateTimesGenerator {
 
     long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay + 1);
 
+    return LocalDate.ofEpochDay(randomDay);
+  }
+
+  public static LocalDate getRandomDateBefore(LocalDate startDate, int maxDaysBefore) {
+    if (maxDaysBefore <= 0) {
+      throw new IllegalArgumentException("maxDaysBefore must be greater than 0");
+    }
+
+    long maxDay = startDate.toEpochDay() - 1;
+    long minDay = maxDay - maxDaysBefore;
+
+    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay);
     return LocalDate.ofEpochDay(randomDay);
   }
 }

@@ -55,7 +55,8 @@ class FetchBookingsIdsTest extends SpringTestContext {
     bookingDetailsPool.push(bookingDetails);
   }
 
-
+  // TODO add dates mapper, verify that strick equals work!
+  // TODO add case when check in filter (random) < booking check in
   @Issue(value = Bugs.CHECK_IN_BUG)
   @Disabled
   @Test
@@ -75,6 +76,9 @@ class FetchBookingsIdsTest extends SpringTestContext {
 
     bookingDetailsPool.push(bookingDetails);
   }
+
+  // TODO add case when check out filter (random) < booking check out
+
 
   @Test
   @DisplayName("Fetch booking ids with filter by checkout date")
