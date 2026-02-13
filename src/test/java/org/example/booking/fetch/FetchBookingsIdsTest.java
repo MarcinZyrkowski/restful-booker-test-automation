@@ -7,6 +7,7 @@ import org.example.generator.DateTimesGenerator;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.tracking.Bugs;
+import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -130,6 +131,29 @@ class FetchBookingsIdsTest extends SpringTestContext {
     LocalDate filterCheckOut = DateTimesGenerator.getRandomDateBefore(bookingCheckOut, 50);
 
     Response response = bookerClient.getBookingIds(null, null, null, filterCheckOut.toString());
+
+    bookingIdAssertion
+        .assertThat(response)
+        .statusIsOk()
+        .body()
+        .hasBookingId(bookingDetails.bookingId());
+
+    bookingDetailsPool.push(bookingDetails);
+  }
+
+  @Issue(value = Bugs.CHECK_IN_BUG)
+  @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_IN_BUG)
+  @Test
+  @DisplayName("Fetch booking ids with combination of all filters")
+  void fetchBookingIdsWithMixedFiltersTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    Booking booking = bookingDetails.booking();
+
+    String firstName = BookerRandomUtils.randomOf(null, booking.firstName());
+    String lastName = BookerRandomUtils.randomOf(null, booking.lastName());
+    String checkIn = BookerRandomUtils.randomOf(null, booking.bookingDates().checkIn());
+    String checkOut = BookerRandomUtils.randomOf(null, booking.bookingDates().checkOut());
+    Response response = bookerClient.getBookingIds(firstName, lastName, checkIn, checkOut);
 
     bookingIdAssertion
         .assertThat(response)
