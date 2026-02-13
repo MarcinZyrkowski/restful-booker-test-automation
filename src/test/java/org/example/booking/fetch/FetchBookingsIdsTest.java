@@ -61,7 +61,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Issue(value = Bugs.CHECK_IN_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_IN_BUG)
   @Test
-  @DisplayName("Fetch booking ids with filter by check in date")
+  @DisplayName("Fetch booking ids with filter by check in date (equal to booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     Booking booking = bookingDetails.booking();
@@ -99,16 +99,37 @@ class FetchBookingsIdsTest extends SpringTestContext {
     bookingDetailsPool.push(bookingDetails);
   }
 
-  // TODO verify if check out filter < checkou out booking works as well
-
   @Test
-  @DisplayName("Fetch booking ids with filter by checkout date")
+  @DisplayName("Fetch booking ids with filter by checkout date (equal to booking checkout date)")
   void fetchBookingIdsWithFilterByCheckOutDateTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     Booking booking = bookingDetails.booking();
 
     Response response =
         bookerClient.getBookingIds(null, null, null, booking.bookingDates().checkOut());
+
+    bookingIdAssertion
+        .assertThat(response)
+        .statusIsOk()
+        .body()
+        .hasBookingId(bookingDetails.bookingId());
+
+    bookingDetailsPool.push(bookingDetails);
+  }
+
+  @Issue(value = Bugs.CHECK_OUT_BUG)
+  @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_OUT_BUG)
+  @Test
+  @DisplayName(
+      "Fetch booking ids with filter by checkout date (earlier than booking checkout date)")
+  void fetchBookingIdsWithFilterByCheckOutDateLessThanTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    Booking booking = bookingDetails.booking();
+
+    LocalDate bookingCheckOut = LocalDate.parse(booking.bookingDates().checkOut());
+    LocalDate filterCheckOut = DateTimesGenerator.getRandomDateBefore(bookingCheckOut, 50);
+
+    Response response = bookerClient.getBookingIds(null, null, null, filterCheckOut.toString());
 
     bookingIdAssertion
         .assertThat(response)
