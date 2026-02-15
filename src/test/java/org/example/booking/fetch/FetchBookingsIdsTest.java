@@ -2,6 +2,7 @@ package org.example.booking.fetch;
 
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
+import java.time.LocalDate;
 import org.example.SpringTestContext;
 import org.example.generator.DateTimesGenerator;
 import org.example.model.dto.common.Booking;
@@ -11,8 +12,6 @@ import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 @DisplayName("Fetch Booking Ids")
 class FetchBookingsIdsTest extends SpringTestContext {
