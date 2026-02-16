@@ -32,4 +32,16 @@ public class DateTimesGenerator {
 
     return LocalDate.ofEpochDay(randomDay);
   }
+
+  public static LocalDate getRandomDateBefore(LocalDate startDate, int maxDaysBefore) {
+    if (maxDaysBefore <= 0) {
+      throw new IllegalArgumentException("maxDaysBefore must be greater than 0");
+    }
+
+    long maxDay = startDate.toEpochDay() - 1;
+    long minDay = maxDay - maxDaysBefore;
+
+    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay);
+    return LocalDate.ofEpochDay(randomDay);
+  }
 }

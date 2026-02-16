@@ -16,5 +16,4 @@ public class BookerStringUtils {
   public static String randomSentence() {
     return FakerUtils.FAKER.lorem().sentence();
   }
-
 }
