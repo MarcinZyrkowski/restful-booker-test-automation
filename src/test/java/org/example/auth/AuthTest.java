@@ -6,8 +6,6 @@ import org.example.model.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.example.utils.FakerUtils.FAKER;
-
 @DisplayName("Auth")
 class AuthTest extends SpringTestContext {
 
@@ -22,12 +20,7 @@ class AuthTest extends SpringTestContext {
   @Test
   @DisplayName("Token should not be create for invalid user")
   void createTokenWithInvalidUserTest() {
-    // TODO to user generato
-    User invalidUser =
-        User.builder()
-            .username(FAKER.name().username())
-            .password(FAKER.internet().password())
-            .build();
+    User invalidUser = userFactory.getWithInvalidCredentials();
 
     Response response = bookerClient.createToken(invalidUser);
 

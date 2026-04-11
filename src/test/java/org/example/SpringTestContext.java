@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.ErrorResponseAssertion;
+import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
@@ -9,6 +9,7 @@ import org.example.assertion.response.booking.BookingIdAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
 import org.example.dataprovider.BookingDataProvider;
+import org.example.factory.auth.UserFactory;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.DateMapper;
 import org.example.model.dto.request.auth.User;
@@ -29,6 +30,8 @@ public class SpringTestContext {
   @Autowired protected BookerClientSteps bookerClientSteps;
 
   @Autowired protected BookingDetailsPool bookingDetailsPool;
+
+  @Autowired protected UserFactory userFactory;
 
   @Autowired protected BookingFactory bookingFactory;
 
