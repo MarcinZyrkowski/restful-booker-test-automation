@@ -24,7 +24,6 @@ class AuthTest extends SpringTestContext {
 
     Response response = bookerClient.createToken(invalidUser);
 
-    // TODO extract Bad Credentials to enum
-    errorResponseAssertion.assertThat(response).statusIsOk().body().reasonIs("Bad credentials");
+    errorResponseAssertion.assertThat(response).statusIsOk().body().reasonIsBadCredentials();
   }
 }

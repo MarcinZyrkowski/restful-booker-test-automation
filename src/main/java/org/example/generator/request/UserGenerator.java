@@ -21,7 +21,7 @@ public class UserGenerator {
   public UserGenerator withInvalidCredentials() {
     this.user =
         User.builder()
-            .username(FakerUtils.FAKER.name().username())
+            .username(FakerUtils.FAKER.internet().username())
             .password(FakerUtils.FAKER.internet().password())
             .build();
     return this;

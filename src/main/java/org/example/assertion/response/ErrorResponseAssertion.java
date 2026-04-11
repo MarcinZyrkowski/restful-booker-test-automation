@@ -25,8 +25,10 @@ public class ErrorResponseAssertion extends ResponseAssertion<ErrorResponseAsser
     return this;
   }
 
-  @Step("Assert that error reason is {reason}")
-  public void reasonIs(String reason) {
-    assertionUtils.assertEquals(errorResponse.reason(), reason);
+  @Step("Assert that error reason is Bad credentials")
+  public void reasonIsBadCredentials() {
+    ErrorResponse expected = ErrorResponse.builder().reason("Bad credentials").build();
+
+    assertionUtils.assertEquals(errorResponse, expected);
   }
 }
