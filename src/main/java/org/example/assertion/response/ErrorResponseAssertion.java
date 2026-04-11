@@ -1,4 +1,4 @@
-package org.example.assertion.response.auth;
+package org.example.assertion.response;
 
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;

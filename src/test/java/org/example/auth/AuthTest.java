@@ -22,6 +22,7 @@ class AuthTest extends SpringTestContext {
   @Test
   @DisplayName("Token should not be create for invalid user")
   void createTokenWithInvalidUserTest() {
+    // TODO to user generato
     User invalidUser =
         User.builder()
             .username(FAKER.name().username())
@@ -30,6 +31,7 @@ class AuthTest extends SpringTestContext {
 
     Response response = bookerClient.createToken(invalidUser);
 
+    // TODO extract Bad Credentials to enum
     errorResponseAssertion.assertThat(response).statusIsOk().body().reasonIs("Bad credentials");
   }
 }
