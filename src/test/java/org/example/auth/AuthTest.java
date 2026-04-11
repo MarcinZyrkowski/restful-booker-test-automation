@@ -2,6 +2,7 @@ package org.example.auth;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
+import org.example.model.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,5 +15,15 @@ class AuthTest extends SpringTestContext {
     Response response = bookerClient.createToken(adminUser);
 
     tokenResponseAssertion.assertThat(response).statusIsOk().body().tokenHas15Length();
+  }
+
+  @Test
+  @DisplayName("Token should not be create for invalid user")
+  void createTokenWithInvalidUserTest() {
+    User invalidUser = userFactory.getWithInvalidCredentials();
+
+    Response response = bookerClient.createToken(invalidUser);
+
+    errorResponseAssertion.assertThat(response).statusIsOk().body().reasonIsBadCredentials();
   }
 }

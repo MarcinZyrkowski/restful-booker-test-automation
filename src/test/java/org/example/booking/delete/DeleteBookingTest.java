@@ -43,4 +43,20 @@ class DeleteBookingTest extends SpringTestContext {
 
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
+
+  @Test
+  @DisplayName("Delete booking using invalid token")
+  void deleteBookingUsingInvalidTokenTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    int bookingId = bookingDetails.bookingId();
+
+    String invalidToken = "invalid-token";
+
+    Response deleteResponse = bookerClient.deleteBooking(bookingId, invalidToken);
+    stringResponseAssertion
+        .assertThat(deleteResponse)
+        .statusIsForbidden()
+        .body()
+        .isEqualTo(StringResponseBody.FORBIDDEN.getBody());
+  }
 }

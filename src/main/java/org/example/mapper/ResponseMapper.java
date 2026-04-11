@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import java.util.List;
 import lombok.NoArgsConstructor;
 import org.example.model.dto.common.Booking;
+import org.example.model.dto.response.auth.ErrorResponse;
 import org.example.model.dto.response.auth.Token;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.model.dto.response.booking.BookingId;
@@ -33,6 +34,10 @@ public class ResponseMapper {
 
   public Token toTokenResponse() {
     return to(Token.class);
+  }
+
+  public ErrorResponse toErrorResponse() {
+    return to(ErrorResponse.class);
   }
 
   public List<BookingId> toBookingIdResponseList() {
