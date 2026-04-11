@@ -15,10 +15,10 @@ public class SpringConfig {
   @Value("${base_url}")
   private String baseUrl;
 
-  @Value("${username}")
+  @Value("${app.username}")
   private String username;
 
-  @Value("${password}")
+  @Value("${app.password}")
   private String password;
 
   @Bean
