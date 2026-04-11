@@ -14,7 +14,7 @@ class AuthTest extends SpringTestContext {
   void createTokenTest() {
     Response response = bookerClient.createToken(adminUser);
 
-    tokenResponseAssertion.assertThat(response).statusIsOk().body().tokenHas15Length();
+    tokenResponseAssertionNG.assertTokenHas15Length(response);
   }
 
   @Test
