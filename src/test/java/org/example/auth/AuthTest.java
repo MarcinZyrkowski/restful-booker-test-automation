@@ -24,6 +24,6 @@ class AuthTest extends SpringTestContext {
 
     Response response = bookerClient.createToken(invalidUser);
 
-    errorResponseAssertion.assertThat(response).statusIsOk().body().reasonIsBadCredentials();
+    errorResponseAssertion.assertReasonIsBadCredentials(response);
   }
 }

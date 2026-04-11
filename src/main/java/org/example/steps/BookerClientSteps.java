@@ -4,8 +4,8 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.auth.TokenResponseAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
+import org.example.assertionNG.auth.TokenResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
@@ -48,7 +48,7 @@ public class BookerClientSteps {
   @Step("Create token")
   public Token createToken(User user) {
     Response tokenResponse = bookerClient.createToken(user);
-    tokenResponseAssertion.assertThat(tokenResponse).statusIsOk();
+    tokenResponseAssertion.assertStatusCodeIsOk(tokenResponse);
 
     return responseMapper.map(tokenResponse).toTokenResponse();
   }

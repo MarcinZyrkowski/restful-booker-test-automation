@@ -1,10 +1,10 @@
 package org.example;
 
-import org.example.assertion.response.ErrorResponseAssertion;
 import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.assertion.response.booking.BookingIdAssertion;
+import org.example.assertionNG.ErrorResponseAssertion;
 import org.example.assertionNG.auth.TokenResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
