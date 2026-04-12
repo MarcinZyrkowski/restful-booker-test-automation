@@ -21,10 +21,10 @@ class PartialUpdateBookingTest extends SpringTestContext {
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
     Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
+    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
@@ -41,10 +41,10 @@ class PartialUpdateBookingTest extends SpringTestContext {
 
     Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
     Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(expectedBooking);
+    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(expectedBooking);
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());

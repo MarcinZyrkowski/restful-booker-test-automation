@@ -5,7 +5,7 @@ import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.springframework.stereotype.Component;
 
-@Component("responseAssertionNG")
+@Component()
 public class ResponseAssertion {
 
   public void assertStatusCode(Response response, int expectedStatusCode) {

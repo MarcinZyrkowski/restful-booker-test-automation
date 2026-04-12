@@ -18,11 +18,7 @@ class FetchBookingTest extends SpringTestContext {
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
-    bookingAssertion
-        .assertThat(fetchResponse)
-        .statusIsOk()
-        .body()
-        .isEqualTo(bookingDetails.booking());
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingDetails.booking());
 
     bookingDetailsPool.push(bookingDetails);
   }

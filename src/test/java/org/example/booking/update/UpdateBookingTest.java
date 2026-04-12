@@ -20,10 +20,10 @@ class UpdateBookingTest extends SpringTestContext {
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
-    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
+    bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
@@ -40,10 +40,10 @@ class UpdateBookingTest extends SpringTestContext {
     String token = bookerClientSteps.createToken(adminUser).token();
 
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate, token);
-    bookingAssertion.assertThat(response).statusIsOk().body().isEqualTo(bookingUpdate);
+    bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertThat(fetchResponse).statusIsOk().body().isEqualTo(bookingUpdate);
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
