@@ -21,7 +21,7 @@ class CreateBookingTest extends SpringTestContext {
     Booking request = bookingFactory.getWithAllValidFields();
     Response response = bookerClient.createBooking(request);
 
-    bookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
+    bookingDetailsAssertion.assertIsCreatedFrom(response, request);
 
     bookingDetailsPool.push(response);
   }

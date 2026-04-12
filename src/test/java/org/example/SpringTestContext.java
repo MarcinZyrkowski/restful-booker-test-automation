@@ -1,8 +1,8 @@
 package org.example;
 
 import org.example.assertion.response.booking.BookingAssertion;
-import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.assertionNG.auth.TokenResponseAssertion;
+import org.example.assertionNG.booking.BookingDetailsAssertion;
 import org.example.assertionNG.booking.BookingIdAssertion;
 import org.example.assertionNG.common.ErrorResponseAssertion;
 import org.example.assertionNG.common.StringResponseAssertion;

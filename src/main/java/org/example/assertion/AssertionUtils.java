@@ -34,8 +34,4 @@ public class AssertionUtils {
     elements.forEach(
         e -> assertElementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
   }
-
-  public <T> void assertEquals(T actual, T expected) {
-    Assertions.assertThat(actual).isEqualTo(expected);
-  }
 }

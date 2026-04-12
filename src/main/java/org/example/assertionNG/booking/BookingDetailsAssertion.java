@@ -1,0 +1,49 @@
+package org.example.assertionNG.booking;
+
+import io.qameta.allure.Step;
+import io.restassured.response.Response;
+import lombok.RequiredArgsConstructor;
+import org.assertj.core.api.Assertions;
+import org.example.assertion.AssertionUtils;
+import org.example.assertionNG.common.ResponseAssertion;
+import org.example.mapper.ResponseMapper;
+import org.example.model.dto.common.Booking;
+import org.example.model.dto.response.booking.BookingDetails;
+import org.springframework.stereotype.Component;
+
+@Component("bookingDetailsAssertionNG")
+@RequiredArgsConstructor
+public class BookingDetailsAssertion extends ResponseAssertion {
+
+  private final ResponseMapper responseMapper;
+  private final AssertionUtils assertionUtils;
+
+  @Step("Assert that booking details are created")
+  public void assertIsCreated(Response response) {
+    assertStatusCodeIsOk(response);
+    BookingDetails bookingDetails = extractBookingDetails(response);
+    assertBookingDetailsNotNull(bookingDetails);
+  }
+
+  @Step("Assert that booking details are created from the given booking request")
+  public void assertIsCreatedFrom(Response response, Booking booking) {
+    assertStatusCodeIsOk(response);
+    BookingDetails bookingDetails = extractBookingDetails(response);
+    assertBookingDetailsCreatedFrom(bookingDetails, booking);
+  }
+
+  private BookingDetails extractBookingDetails(Response response) {
+    return responseMapper.map(response).toCreateBookingResponse();
+  }
+
+  private void assertBookingDetailsNotNull(BookingDetails bookingDetails) {
+    Assertions.assertThat(bookingDetails).isNotNull();
+    Assertions.assertThat(bookingDetails.booking()).isNotNull();
+    Assertions.assertThat(bookingDetails.bookingId()).isNotNull();
+  }
+
+  private void assertBookingDetailsCreatedFrom(BookingDetails bookingDetails, Booking booking) {
+    assertBookingDetailsNotNull(bookingDetails);
+    Assertions.assertThat(bookingDetails.booking()).isEqualTo(booking);
+  }
+}
