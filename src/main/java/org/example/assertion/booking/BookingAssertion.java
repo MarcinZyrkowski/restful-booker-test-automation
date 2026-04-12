@@ -30,6 +30,8 @@ public class BookingAssertion extends ResponseAssertion {
   }
 
   private void assertBookingEqualsExpected(Booking booking, Booking expected) {
-    Assertions.assertThat(booking).isEqualTo(expected);
+    Assertions.assertThat(booking)
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
   }
 }
