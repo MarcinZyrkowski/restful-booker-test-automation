@@ -19,6 +19,7 @@ public class ResponseMapper {
 
   private Response response;
 
+  // todo refactor
   public ResponseMapper map(Response response) {
     this.response = response;
     return this;

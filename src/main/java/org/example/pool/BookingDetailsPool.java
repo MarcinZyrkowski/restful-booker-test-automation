@@ -2,6 +2,10 @@ package org.example.pool;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ResponseMapper;
@@ -10,11 +14,6 @@ import org.example.model.dto.response.booking.BookingDetails;
 import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * Thread-safe pool for managing BookingDetails across tests.
