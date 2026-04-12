@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
-import org.example.assertionNG.StringResponseAssertion;
+import org.example.assertionNG.common.StringResponseAssertion;
 import org.example.assertionNG.auth.TokenResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.mapper.ResponseMapper;

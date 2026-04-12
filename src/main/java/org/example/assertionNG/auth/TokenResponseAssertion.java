@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
-import org.example.assertionNG.ResponseAssertion;
+import org.example.assertionNG.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.auth.Token;
 import org.springframework.stereotype.Component;

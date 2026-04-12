@@ -1,4 +1,4 @@
-package org.example.assertionNG;
+package org.example.assertionNG.common;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
