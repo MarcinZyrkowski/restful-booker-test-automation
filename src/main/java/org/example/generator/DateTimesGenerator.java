@@ -1,9 +1,10 @@
 package org.example.generator;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.utils.BookerRandomUtils;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimesGenerator {
@@ -12,10 +13,10 @@ public class DateTimesGenerator {
     LocalDate now = LocalDate.now();
     LocalDate twoYearsLater = now.plusYears(2);
 
-    long minDay = now.toEpochDay();
+    long minDay = now.toEpochDay() + 1;
     long maxDay = twoYearsLater.toEpochDay();
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay + 1);
+    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -28,7 +29,12 @@ public class DateTimesGenerator {
     long minDay = startDate.toEpochDay() + 1;
     long maxDay = startDate.toEpochDay() + maxDaysLater;
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay + 1);
+    // Ensure valid range: minDay < maxDay
+    if (minDay >= maxDay) {
+      maxDay = minDay + 1;
+    }
+
+    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -41,7 +47,12 @@ public class DateTimesGenerator {
     long maxDay = startDate.toEpochDay() - 1;
     long minDay = maxDay - maxDaysBefore;
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay + 1, maxDay);
+    // Ensure valid range: minDay < maxDay
+    if (minDay >= maxDay) {
+      minDay = maxDay - 1;
+    }
+
+    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
     return LocalDate.ofEpochDay(randomDay);
   }
 }

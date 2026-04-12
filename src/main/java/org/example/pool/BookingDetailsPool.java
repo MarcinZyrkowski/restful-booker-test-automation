@@ -2,10 +2,6 @@ package org.example.pool;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ResponseMapper;
@@ -15,6 +11,24 @@ import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+/**
+ * Thread-safe pool for managing BookingDetails across tests.
+ *
+ * <p>Note: This pool manages a shared collection of booking details. To prevent flaky tests and
+ * race conditions:
+ *
+ * <ul>
+ *   <li>All bookings are immutable records and should not be modified after creation
+ *   <li>The pool uses synchronization to ensure thread-safe add/remove operations
+ *   <li>Tests should push bookings back to the pool to allow reuse
+ *   <li>Avoid long-lived references to popped bookings
+ * </ul>
+ */
 @Component
 @RequiredArgsConstructor
 public class BookingDetailsPool {
