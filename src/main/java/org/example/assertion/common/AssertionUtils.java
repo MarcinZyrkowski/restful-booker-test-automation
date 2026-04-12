@@ -1,4 +1,4 @@
-package org.example.assertionNG.common;
+package org.example.assertion.common;
 
 import org.assertj.core.api.Assertions;
 import org.springframework.stereotype.Component;

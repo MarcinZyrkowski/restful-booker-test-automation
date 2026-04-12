@@ -1,11 +1,11 @@
 package org.example;
 
-import org.example.assertionNG.auth.TokenResponseAssertion;
-import org.example.assertionNG.booking.BookingAssertion;
-import org.example.assertionNG.booking.BookingDetailsAssertion;
-import org.example.assertionNG.booking.BookingIdAssertion;
-import org.example.assertionNG.common.ErrorResponseAssertion;
-import org.example.assertionNG.common.StringResponseAssertion;
+import org.example.assertion.auth.TokenResponseAssertion;
+import org.example.assertion.booking.BookingAssertion;
+import org.example.assertion.booking.BookingDetailsAssertion;
+import org.example.assertion.booking.BookingIdAssertion;
+import org.example.assertion.common.ErrorResponseAssertion;
+import org.example.assertion.common.StringResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
 import org.example.dataprovider.BookingDataProvider;

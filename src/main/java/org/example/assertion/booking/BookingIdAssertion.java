@@ -1,11 +1,11 @@
-package org.example.assertionNG.booking;
+package org.example.assertion.booking;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
-import org.example.assertionNG.common.ResponseAssertion;
+import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.booking.BookingId;
 import org.springframework.stereotype.Component;

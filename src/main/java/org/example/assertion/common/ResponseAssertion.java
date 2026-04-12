@@ -1,4 +1,4 @@
-package org.example.assertionNG.common;
+package org.example.assertion.common;
 
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
