@@ -13,6 +13,6 @@ class HealthCheckTest extends SpringTestContext {
   void verifyHealthCheck() {
     Response response = bookerClient.healthCheck();
 
-    stringResponseAssertionNG.assertResponseIsCreated(response);
+    stringResponseAssertion.assertResponseIsCreated(response);
   }
 }

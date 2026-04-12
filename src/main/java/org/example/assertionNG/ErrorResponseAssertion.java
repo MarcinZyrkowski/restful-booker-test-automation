@@ -15,7 +15,6 @@ public class ErrorResponseAssertion extends ResponseAssertion {
 
   private final ResponseMapper responseMapper;
 
-
   @Step("Assert that error reason is Bad credentials")
   public void assertReasonIsBadCredentials(Response response) {
     assertStatusCodeIsOk(response);

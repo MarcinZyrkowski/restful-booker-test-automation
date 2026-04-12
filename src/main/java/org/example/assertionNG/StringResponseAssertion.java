@@ -21,6 +21,34 @@ public class StringResponseAssertion extends ResponseAssertion {
     assertEquals(stringResponse, StringResponseBody.CREATED.getBody());
   }
 
+  @Step("Assert that response is not found")
+  public void assertResponseIsNotFound(Response response) {
+    assertStatusCodeIsNotFound(response);
+    String stringResponse = extractStringResponse(response);
+    assertEquals(stringResponse, StringResponseBody.NOT_FOUND.getBody());
+  }
+
+  @Step("Assert that response is forbidden")
+  public void assertResponseIsForbidden(Response response) {
+    assertStatusCodeIsForbidden(response);
+    String stringResponse = extractStringResponse(response);
+    assertEquals(stringResponse, StringResponseBody.FORBIDDEN.getBody());
+  }
+
+  @Step("Assert that response is method not allowed")
+  public void assertResponseIsMethodNotAllowed(Response response) {
+    assertStatusCodeIsMethodNotAllowed(response);
+    String stringResponse = extractStringResponse(response);
+    assertEquals(stringResponse, StringResponseBody.METHOD_NOT_ALLOWED.getBody());
+  }
+
+  @Step("Assert that response is internal server error")
+  public void assertResponseIsInternalServerError(Response response) {
+    assertStatusCodeIsInternalServerError(response);
+    String stringResponse = extractStringResponse(response);
+    assertEquals(stringResponse, StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+  }
+
   private String extractStringResponse(Response response) {
     return responseMapper.map(response).toStringResponse();
   }

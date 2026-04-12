@@ -1,16 +1,16 @@
 package org.example.booking.create;
 
 import io.restassured.response.Response;
-import java.util.stream.Stream;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
-import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Create Booking")
@@ -20,7 +20,6 @@ class CreateBookingTest extends SpringTestContext {
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
     Booking request = bookingFactory.getWithAllValidFields();
-
     Response response = bookerClient.createBooking(request);
 
     bookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
@@ -34,11 +33,7 @@ class CreateBookingTest extends SpringTestContext {
   void shouldNotCreateBookingTest(Booking request, String description) {
     Response response = bookerClient.createBooking(request);
 
-    stringResponseAssertion
-        .assertThat(response)
-        .statusIsInternalServerError()
-        .body()
-        .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+    stringResponseAssertion.assertResponseIsInternalServerError(response);
   }
 
   Stream<Arguments> providerMissingFieldBookings() {

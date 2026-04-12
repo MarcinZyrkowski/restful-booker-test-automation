@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.assertion.response.StringResponseAssertion;
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
 import org.example.assertion.response.booking.BookingIdAssertion;
@@ -44,7 +43,6 @@ public class SpringTestContext {
   @Autowired protected BookingAssertion bookingAssertion;
   @Autowired protected BookingDetailsAssertion bookingDetailsAssertion;
   @Autowired protected BookingIdAssertion bookingIdAssertion;
-  @Autowired protected StringResponseAssertion stringResponseAssertion;
-  @Autowired protected org.example.assertionNG.StringResponseAssertion stringResponseAssertionNG;
+  @Autowired protected org.example.assertionNG.StringResponseAssertion stringResponseAssertion;
   @Autowired protected TokenResponseAssertion tokenResponseAssertionNG;
 }

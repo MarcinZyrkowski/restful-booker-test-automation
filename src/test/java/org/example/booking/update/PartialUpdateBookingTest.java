@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
-import org.example.model.enums.service.StringResponseBody;
 import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,11 +60,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     Response response =
         bookerClient.partialUpdateBooking(nonExistentBookingId, partialBookingUpdate);
 
-    stringResponseAssertion
-        .assertThat(response)
-        .statusIsMethodNotAllowed()
-        .body()
-        .isEqualTo(StringResponseBody.METHOD_NOT_ALLOWED.getBody());
+    stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
   }
 
   @Test
@@ -80,11 +75,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     Response response =
         bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, invalidToken);
 
-    stringResponseAssertion
-        .assertThat(response)
-        .statusIsForbidden()
-        .body()
-        .isEqualTo(StringResponseBody.FORBIDDEN.getBody());
+    stringResponseAssertion.assertResponseIsForbidden(response);
 
     bookingDetailsPool.push(bookingDetails);
   }
