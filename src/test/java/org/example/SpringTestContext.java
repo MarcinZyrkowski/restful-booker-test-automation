@@ -2,9 +2,9 @@ package org.example;
 
 import org.example.assertion.response.booking.BookingAssertion;
 import org.example.assertion.response.booking.BookingDetailsAssertion;
-import org.example.assertion.response.booking.BookingIdAssertion;
-import org.example.assertionNG.common.ErrorResponseAssertion;
 import org.example.assertionNG.auth.TokenResponseAssertion;
+import org.example.assertionNG.booking.BookingIdAssertion;
+import org.example.assertionNG.common.ErrorResponseAssertion;
 import org.example.assertionNG.common.StringResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
@@ -31,8 +31,8 @@ public class SpringTestContext {
 
   @Autowired protected BookingDetailsPool bookingDetailsPool;
 
+  // factory
   @Autowired protected UserFactory userFactory;
-
   @Autowired protected BookingFactory bookingFactory;
 
   @Autowired protected BookingDataProvider bookingDataProvider;
@@ -45,5 +45,5 @@ public class SpringTestContext {
   @Autowired protected BookingDetailsAssertion bookingDetailsAssertion;
   @Autowired protected BookingIdAssertion bookingIdAssertion;
   @Autowired protected StringResponseAssertion stringResponseAssertion;
-  @Autowired protected TokenResponseAssertion tokenResponseAssertionNG;
+  @Autowired protected TokenResponseAssertion tokenResponseAssertion;
 }

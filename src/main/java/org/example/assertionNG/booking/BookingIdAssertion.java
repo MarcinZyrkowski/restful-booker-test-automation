@@ -2,14 +2,13 @@ package org.example.assertionNG.booking;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.assertionNG.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.booking.BookingId;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -45,4 +44,3 @@ public class BookingIdAssertion extends ResponseAssertion {
         .anyMatch(b -> b.bookingId() != null && b.bookingId() == bookingId);
   }
 }
-

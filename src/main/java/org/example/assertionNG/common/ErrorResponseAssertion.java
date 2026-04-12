@@ -1,4 +1,3 @@
-
 package org.example.assertionNG.common;
 
 import io.qameta.allure.Step;
@@ -38,4 +37,3 @@ public class ErrorResponseAssertion extends ResponseAssertion {
     return responseMapper.map(response).toErrorResponse();
   }
 }
-
