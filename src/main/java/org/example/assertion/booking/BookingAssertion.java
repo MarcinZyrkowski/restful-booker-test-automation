@@ -21,12 +21,8 @@ public class BookingAssertion extends ResponseAssertion {
   @Step("Assert that booking is equal to expected booking")
   public void assertResponseIsEqualTo(Response response, Booking expected) {
     assertStatusCodeIsOk(response);
-    Booking booking = extractBooking(response);
+    Booking booking = responseMapper.mapToBookingRequestResponse(response);
     assertBookingEqualsExpected(booking, expected);
-  }
-
-  private Booking extractBooking(Response response) {
-    return responseMapper.mapToBookingRequestResponse(response);
   }
 
   private void assertBookingEqualsExpected(Booking booking, Booking expected) {

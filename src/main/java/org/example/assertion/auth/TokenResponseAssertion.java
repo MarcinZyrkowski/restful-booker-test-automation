@@ -22,7 +22,7 @@ public class TokenResponseAssertion extends ResponseAssertion {
   public void assertTokenHas15Length(Response response) {
     assertStatusCodeIsOk(response);
 
-    Token token = extractTokenResponse(response);
+    Token token = responseMapper.mapToTokenResponse(response);
     assertValidToken(token);
   }
 
@@ -31,9 +31,5 @@ public class TokenResponseAssertion extends ResponseAssertion {
     Assertions.assertThat(token.token()).isNotNull();
     int expectedLength = 15;
     Assertions.assertThat(token.token().length()).isEqualTo(expectedLength);
-  }
-
-  private Token extractTokenResponse(Response response) {
-    return responseMapper.mapToTokenResponse(response);
   }
 }

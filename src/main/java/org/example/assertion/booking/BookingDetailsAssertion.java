@@ -22,19 +22,15 @@ public class BookingDetailsAssertion extends ResponseAssertion {
   @Step("Assert that booking details are created")
   public void assertIsCreated(Response response) {
     assertStatusCodeIsOk(response);
-    BookingDetails bookingDetails = extractBookingDetails(response);
+    BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
     assertBookingDetailsNotNull(bookingDetails);
   }
 
   @Step("Assert that booking details are created from the given booking request")
   public void assertIsCreatedFrom(Response response, Booking booking) {
     assertStatusCodeIsOk(response);
-    BookingDetails bookingDetails = extractBookingDetails(response);
+    BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
     assertBookingDetailsCreatedFrom(bookingDetails, booking);
-  }
-
-  private BookingDetails extractBookingDetails(Response response) {
-    return responseMapper.mapToCreateBookingResponse(response);
   }
 
   private void assertBookingDetailsNotNull(BookingDetails bookingDetails) {

@@ -20,7 +20,7 @@ public class ErrorResponseAssertion extends ResponseAssertion {
   @Step("Assert that error reason is Bad credentials")
   public void assertReasonIsBadCredentials(Response response) {
     assertStatusCodeIsOk(response);
-    ErrorResponse errorResponse = extractErrorResponse(response);
+    ErrorResponse errorResponse = responseMapper.mapToErrorResponse(response);
 
     assertBadCredentials(errorResponse);
   }
@@ -34,9 +34,5 @@ public class ErrorResponseAssertion extends ResponseAssertion {
     Assertions.assertThat(errorResponse).isNotNull();
     Assertions.assertThat(errorResponse.reason()).isNotNull();
     Assertions.assertThat(errorResponse.reason()).isEqualTo(expectedReason);
-  }
-
-  private ErrorResponse extractErrorResponse(Response response) {
-    return responseMapper.mapToErrorResponse(response);
   }
 }

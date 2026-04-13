@@ -2,7 +2,6 @@ package org.example.assertion.booking;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.common.ResponseAssertion;
@@ -11,6 +10,8 @@ import org.example.model.dto.response.booking.BookingId;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -22,19 +23,15 @@ public class BookingIdAssertion extends ResponseAssertion {
   @Step("Assert that booking IDs list is not null and not empty")
   public void assertBookingIdsAreNotEmpty(Response response) {
     assertStatusCodeIsOk(response);
-    List<BookingId> bookingIdList = extractBookingIdList(response);
+    List<BookingId> bookingIdList = responseMapper.mapToBookingIdResponseList(response);
     assertBookingIdsNotEmpty(bookingIdList);
   }
 
   @Step("Assert that booking IDs list contains booking ID: {bookingId}")
   public void assertBookingIdsContainsBookingId(Response response, int bookingId) {
     assertStatusCodeIsOk(response);
-    List<BookingId> bookingIdList = extractBookingIdList(response);
+    List<BookingId> bookingIdList = responseMapper.mapToBookingIdResponseList(response);
     assertBookingIdExists(bookingIdList, bookingId);
-  }
-
-  private List<BookingId> extractBookingIdList(Response response) {
-    return responseMapper.mapToBookingIdResponseList(response);
   }
 
   private void assertBookingIdsNotEmpty(List<BookingId> bookingIdList) {
