@@ -30,7 +30,7 @@ public class BookerClientSteps {
 
     bookingDetailsAssertion.assertIsCreated(createResponse);
 
-    return responseMapper.map(createResponse).toCreateBookingResponse();
+    return responseMapper.mapToCreateBookingResponse(createResponse);
   }
 
   @Step("Fetch booking by ID {bookingId} and assert not found")
@@ -45,6 +45,6 @@ public class BookerClientSteps {
     Response tokenResponse = bookerClient.createToken(user);
     tokenResponseAssertion.assertStatusCodeIsOk(tokenResponse);
 
-    return responseMapper.map(tokenResponse).toTokenResponse();
+    return responseMapper.mapToTokenResponse(tokenResponse);
   }
 }

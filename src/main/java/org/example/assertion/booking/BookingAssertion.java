@@ -26,12 +26,10 @@ public class BookingAssertion extends ResponseAssertion {
   }
 
   private Booking extractBooking(Response response) {
-    return responseMapper.map(response).toBookingRequestResponse();
+    return responseMapper.mapToBookingRequestResponse(response);
   }
 
   private void assertBookingEqualsExpected(Booking booking, Booking expected) {
-    Assertions.assertThat(booking)
-        .usingRecursiveComparison()
-        .isEqualTo(expected);
+    Assertions.assertThat(booking).usingRecursiveComparison().isEqualTo(expected);
   }
 }

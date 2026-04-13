@@ -53,7 +53,7 @@ public class StringResponseAssertion extends ResponseAssertion {
   }
 
   private String extractStringResponse(Response response) {
-    return responseMapper.map(response).toStringResponse();
+    return responseMapper.mapToStringResponse(response);
   }
 
   private void assertEquals(String actual, String expected) {

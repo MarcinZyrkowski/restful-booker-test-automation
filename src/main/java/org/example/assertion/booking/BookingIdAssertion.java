@@ -34,7 +34,7 @@ public class BookingIdAssertion extends ResponseAssertion {
   }
 
   private List<BookingId> extractBookingIdList(Response response) {
-    return responseMapper.map(response).toBookingIdResponseList();
+    return responseMapper.mapToBookingIdResponseList(response);
   }
 
   private void assertBookingIdsNotEmpty(List<BookingId> bookingIdList) {

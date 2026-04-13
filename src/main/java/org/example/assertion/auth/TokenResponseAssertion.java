@@ -34,6 +34,6 @@ public class TokenResponseAssertion extends ResponseAssertion {
   }
 
   private Token extractTokenResponse(Response response) {
-    return responseMapper.map(response).toTokenResponse();
+    return responseMapper.mapToTokenResponse(response);
   }
 }

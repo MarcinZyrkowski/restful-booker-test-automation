@@ -39,7 +39,7 @@ public class BookingDetailsPool {
       Collections.synchronizedSet(new HashSet<>());
 
   public void push(Response response) {
-    BookingDetails bookingDetails = responseMapper.map(response).toCreateBookingResponse();
+    BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
     push(bookingDetails);
   }
 

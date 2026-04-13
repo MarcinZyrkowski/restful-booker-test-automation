@@ -37,6 +37,6 @@ public class ErrorResponseAssertion extends ResponseAssertion {
   }
 
   private ErrorResponse extractErrorResponse(Response response) {
-    return responseMapper.map(response).toErrorResponse();
+    return responseMapper.mapToErrorResponse(response);
   }
 }

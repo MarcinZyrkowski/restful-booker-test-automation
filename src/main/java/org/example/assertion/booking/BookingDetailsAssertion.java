@@ -34,7 +34,7 @@ public class BookingDetailsAssertion extends ResponseAssertion {
   }
 
   private BookingDetails extractBookingDetails(Response response) {
-    return responseMapper.map(response).toCreateBookingResponse();
+    return responseMapper.mapToCreateBookingResponse(response);
   }
 
   private void assertBookingDetailsNotNull(BookingDetails bookingDetails) {
@@ -45,8 +45,6 @@ public class BookingDetailsAssertion extends ResponseAssertion {
 
   private void assertBookingDetailsCreatedFrom(BookingDetails bookingDetails, Booking booking) {
     assertBookingDetailsNotNull(bookingDetails);
-    Assertions.assertThat(bookingDetails.booking())
-        .usingRecursiveComparison()
-        .isEqualTo(booking);
+    Assertions.assertThat(bookingDetails.booking()).usingRecursiveComparison().isEqualTo(booking);
   }
 }

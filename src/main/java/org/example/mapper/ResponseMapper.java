@@ -17,39 +17,31 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class ResponseMapper {
 
-  private Response response;
-
-  // todo refactor
-  public ResponseMapper map(Response response) {
-    this.response = response;
-    return this;
-  }
-
-  private <T> T to(Class<T> clazz) {
+  private <T> T mapTo(Response response, Class<T> clazz) {
     return response.getBody().as(clazz);
   }
 
-  public String toStringResponse() {
+  public String mapToStringResponse(Response response) {
     return response.getBody().asString();
   }
 
-  public Token toTokenResponse() {
-    return to(Token.class);
+  public Token mapToTokenResponse(Response response) {
+    return mapTo(response, Token.class);
   }
 
-  public ErrorResponse toErrorResponse() {
-    return to(ErrorResponse.class);
+  public ErrorResponse mapToErrorResponse(Response response) {
+    return mapTo(response, ErrorResponse.class);
   }
 
-  public List<BookingId> toBookingIdResponseList() {
+  public List<BookingId> mapToBookingIdResponseList(Response response) {
     return response.jsonPath().getList("", BookingId.class);
   }
 
-  public BookingDetails toCreateBookingResponse() {
-    return to(BookingDetails.class);
+  public BookingDetails mapToCreateBookingResponse(Response response) {
+    return mapTo(response, BookingDetails.class);
   }
 
-  public Booking toBookingRequestResponse() {
-    return to(Booking.class);
+  public Booking mapToBookingRequestResponse(Response response) {
+    return mapTo(response, Booking.class);
   }
 }
