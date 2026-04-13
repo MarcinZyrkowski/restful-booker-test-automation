@@ -20,6 +20,10 @@ public class AssertionUtils {
     assertEqualsIgnoringOrderAndFields(actual, expected);
   }
 
+  public <T> void assertEquals(T actual, T expected) {
+    Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+  }
+
   public <T> void assertElementIsInCollectionIgnoringOrderAndFields(
       T element, Iterable<T> collection, String... ignorableFields) {
     Assertions.assertThat(element)

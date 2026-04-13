@@ -2,6 +2,7 @@ package org.example.assertion.booking;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.common.ResponseAssertion;
@@ -10,8 +11,6 @@ import org.example.model.dto.response.booking.BookingId;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

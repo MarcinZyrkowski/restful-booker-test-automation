@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
+import org.example.assertion.common.AssertionUtils;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class BookingDetailsAssertion extends ResponseAssertion {
 
   private final ResponseMapper responseMapper;
+  private final AssertionUtils assertionUtils;
 
   @Step("Assert that booking details are created")
   public void assertIsCreated(Response response) {
@@ -41,6 +43,6 @@ public class BookingDetailsAssertion extends ResponseAssertion {
 
   private void assertBookingDetailsCreatedFrom(BookingDetails bookingDetails, Booking booking) {
     assertBookingDetailsNotNull(bookingDetails);
-    Assertions.assertThat(bookingDetails.booking()).usingRecursiveComparison().isEqualTo(booking);
+    assertionUtils.assertEquals(bookingDetails.booking(), booking);
   }
 }
