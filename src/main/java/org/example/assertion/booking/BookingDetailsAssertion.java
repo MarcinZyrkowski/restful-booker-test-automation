@@ -9,12 +9,9 @@ import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component()
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
 public class BookingDetailsAssertion {
 

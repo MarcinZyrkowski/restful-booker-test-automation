@@ -3,12 +3,9 @@ package org.example.assertion.common;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ResponseAssertion {
 
   public void assertStatusCodeIsCreated(Response response) {

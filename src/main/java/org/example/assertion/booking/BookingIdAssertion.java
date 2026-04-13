@@ -8,12 +8,9 @@ import org.assertj.core.api.Assertions;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.booking.BookingId;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
 public class BookingIdAssertion {
 

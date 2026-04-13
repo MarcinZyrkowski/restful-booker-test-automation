@@ -6,12 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.auth.ErrorResponse;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
 public class ErrorResponseAssertion {
 
