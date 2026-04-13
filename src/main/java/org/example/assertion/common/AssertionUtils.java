@@ -38,4 +38,8 @@ public class AssertionUtils {
     elements.forEach(
         e -> assertElementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
   }
+
+  public <T> void assertElementIsInCollection(T element, Iterable<T> collection) {
+    Assertions.assertThat(element).usingRecursiveComparison().isIn(collection);
+  }
 }

@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
+import org.example.assertion.common.AssertionUtils;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
 import org.example.model.dto.response.booking.BookingId;
@@ -16,6 +17,7 @@ public class BookingIdAssertion {
 
   private final ResponseMapper responseMapper;
   private final ResponseAssertion responseAssertion;
+  private final AssertionUtils assertionUtils;
 
   @Step("Assert that booking IDs list is not null and not empty")
   public void assertBookingIdsAreNotEmpty(Response response) {
@@ -37,7 +39,6 @@ public class BookingIdAssertion {
 
   private void assertBookingIdExists(List<BookingId> bookingIdList, int bookingId) {
     Assertions.assertThat(bookingIdList).isNotNull().isNotEmpty();
-    Assertions.assertThat(bookingIdList)
-        .anyMatch(b -> b.bookingId() != null && b.bookingId() == bookingId);
+    assertionUtils.assertElementIsInCollection(new BookingId(bookingId), bookingIdList);
   }
 }
