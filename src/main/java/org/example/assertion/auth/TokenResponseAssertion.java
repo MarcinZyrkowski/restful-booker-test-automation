@@ -14,13 +14,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
-public class TokenResponseAssertion extends ResponseAssertion {
+public class TokenResponseAssertion {
 
   private final ResponseMapper responseMapper;
+  private final ResponseAssertion responseAssertion;
 
   @Step("Assert that token has 15 length")
   public void assertTokenHas15Length(Response response) {
-    assertStatusCodeIsOk(response);
+    responseAssertion.assertStatusCodeIsOk(response);
 
     Token token = responseMapper.mapToTokenResponse(response);
     assertValidToken(token);

@@ -13,13 +13,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
-public class ErrorResponseAssertion extends ResponseAssertion {
+public class ErrorResponseAssertion {
 
   private final ResponseMapper responseMapper;
+  private final ResponseAssertion responseAssertion;
 
   @Step("Assert that error reason is Bad credentials")
   public void assertReasonIsBadCredentials(Response response) {
-    assertStatusCodeIsOk(response);
+    responseAssertion.assertStatusCodeIsOk(response);
     ErrorResponse errorResponse = responseMapper.mapToErrorResponse(response);
 
     assertBadCredentials(errorResponse);

@@ -12,42 +12,43 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
-public class StringResponseAssertion extends ResponseAssertion {
+public class StringResponseAssertion {
 
   private final ResponseMapper responseMapper;
+  private final ResponseAssertion responseAssertion;
   private final AssertionUtils assertionUtils;
 
   @Step("Assert that response is created")
   public void assertResponseIsCreated(Response response) {
-    assertStatusCodeIsCreated(response);
+    responseAssertion.assertStatusCodeIsCreated(response);
     String stringResponse = responseMapper.mapToStringResponse(response);
     assertionUtils.assertEquals(stringResponse, StringResponseBody.CREATED.getBody());
   }
 
   @Step("Assert that response is not found")
   public void assertResponseIsNotFound(Response response) {
-    assertStatusCodeIsNotFound(response);
+    responseAssertion.assertStatusCodeIsNotFound(response);
     String stringResponse = responseMapper.mapToStringResponse(response);
     assertionUtils.assertEquals(stringResponse, StringResponseBody.NOT_FOUND.getBody());
   }
 
   @Step("Assert that response is forbidden")
   public void assertResponseIsForbidden(Response response) {
-    assertStatusCodeIsForbidden(response);
+    responseAssertion.assertStatusCodeIsForbidden(response);
     String stringResponse = responseMapper.mapToStringResponse(response);
     assertionUtils.assertEquals(stringResponse, StringResponseBody.FORBIDDEN.getBody());
   }
 
   @Step("Assert that response is method not allowed")
   public void assertResponseIsMethodNotAllowed(Response response) {
-    assertStatusCodeIsMethodNotAllowed(response);
+    responseAssertion.assertStatusCodeIsMethodNotAllowed(response);
     String stringResponse = responseMapper.mapToStringResponse(response);
     assertionUtils.assertEquals(stringResponse, StringResponseBody.METHOD_NOT_ALLOWED.getBody());
   }
 
   @Step("Assert that response is internal server error")
   public void assertResponseIsInternalServerError(Response response) {
-    assertStatusCodeIsInternalServerError(response);
+    responseAssertion.assertStatusCodeIsInternalServerError(response);
     String stringResponse = responseMapper.mapToStringResponse(response);
     assertionUtils.assertEquals(stringResponse, StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
   }

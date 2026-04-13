@@ -15,20 +15,21 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
-public class BookingIdAssertion extends ResponseAssertion {
+public class BookingIdAssertion {
 
   private final ResponseMapper responseMapper;
+  private final ResponseAssertion responseAssertion;
 
   @Step("Assert that booking IDs list is not null and not empty")
   public void assertBookingIdsAreNotEmpty(Response response) {
-    assertStatusCodeIsOk(response);
+    responseAssertion.assertStatusCodeIsOk(response);
     List<BookingId> bookingIdList = responseMapper.mapToBookingIdResponseList(response);
     assertBookingIdsNotEmpty(bookingIdList);
   }
 
   @Step("Assert that booking IDs list contains booking ID: {bookingId}")
   public void assertBookingIdsContainsBookingId(Response response, int bookingId) {
-    assertStatusCodeIsOk(response);
+    responseAssertion.assertStatusCodeIsOk(response);
     List<BookingId> bookingIdList = responseMapper.mapToBookingIdResponseList(response);
     assertBookingIdExists(bookingIdList, bookingId);
   }

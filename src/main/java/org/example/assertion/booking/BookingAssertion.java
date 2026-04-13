@@ -14,13 +14,14 @@ import org.springframework.stereotype.Component;
 @Component()
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
-public class BookingAssertion extends ResponseAssertion {
+public class BookingAssertion {
 
   private final ResponseMapper responseMapper;
+  private final ResponseAssertion responseAssertion;
 
   @Step("Assert that booking is equal to expected booking")
   public void assertResponseIsEqualTo(Response response, Booking expected) {
-    assertStatusCodeIsOk(response);
+    responseAssertion.assertStatusCodeIsOk(response);
     Booking booking = responseMapper.mapToBookingRequestResponse(response);
     assertBookingEqualsExpected(booking, expected);
   }
