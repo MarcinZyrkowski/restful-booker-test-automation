@@ -42,8 +42,8 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     String invalidToken = "invalid-token";
-
     Response deleteResponse = bookerClient.deleteBooking(bookingId, invalidToken);
+
     stringResponseAssertion.assertResponseIsForbidden(deleteResponse);
   }
 }
