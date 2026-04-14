@@ -58,7 +58,7 @@ public class BookingGenerator {
     return this;
   }
 
-  public BookingGenerator withValidFieldsOrRandomlyNull() {
+  public BookingGenerator withValidFieldsOrNulls() {
     this.booking =
         Booking.builder()
             .firstName(BookerRandomUtils.randomNullOrValue(booking.firstName()))

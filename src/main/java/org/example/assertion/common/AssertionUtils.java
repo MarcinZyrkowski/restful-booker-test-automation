@@ -1,4 +1,4 @@
-package org.example.assertion;
+package org.example.assertion.common;
 
 import org.assertj.core.api.Assertions;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,10 @@ public class AssertionUtils {
     assertEqualsIgnoringOrderAndFields(actual, expected);
   }
 
+  public <T> void assertEquals(T actual, T expected) {
+    Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+  }
+
   public <T> void assertElementIsInCollectionIgnoringOrderAndFields(
       T element, Iterable<T> collection, String... ignorableFields) {
     Assertions.assertThat(element)
@@ -35,7 +39,7 @@ public class AssertionUtils {
         e -> assertElementIsInCollectionIgnoringOrderAndFields(e, collection, ignorableFields));
   }
 
-  public <T> void assertEquals(T actual, T expected) {
-    Assertions.assertThat(actual).isEqualTo(expected);
+  public <T> void assertElementIsInCollection(T element, Iterable<T> collection) {
+    Assertions.assertThat(element).usingRecursiveComparison().isIn(collection);
   }
 }

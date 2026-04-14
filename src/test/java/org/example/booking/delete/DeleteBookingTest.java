@@ -3,7 +3,6 @@ package org.example.booking.delete;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
 import org.example.model.dto.response.booking.BookingDetails;
-import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +16,7 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
-    stringResponseAssertion
-        .assertThat(deleteResponse)
-        .statusIsCreated()
-        .body()
-        .isEqualTo(StringResponseBody.CREATED.getBody());
+    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
@@ -35,11 +30,7 @@ class DeleteBookingTest extends SpringTestContext {
     String token = bookerClientSteps.createToken(adminUser).token();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
-    stringResponseAssertion
-        .assertThat(deleteResponse)
-        .statusIsCreated()
-        .body()
-        .isEqualTo(StringResponseBody.CREATED.getBody());
+    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
@@ -51,12 +42,8 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     String invalidToken = "invalid-token";
-
     Response deleteResponse = bookerClient.deleteBooking(bookingId, invalidToken);
-    stringResponseAssertion
-        .assertThat(deleteResponse)
-        .statusIsForbidden()
-        .body()
-        .isEqualTo(StringResponseBody.FORBIDDEN.getBody());
+
+    stringResponseAssertion.assertResponseIsForbidden(deleteResponse);
   }
 }

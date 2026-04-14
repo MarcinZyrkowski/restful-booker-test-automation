@@ -1,11 +1,11 @@
 package org.example;
 
-import org.example.assertion.response.ErrorResponseAssertion;
-import org.example.assertion.response.StringResponseAssertion;
-import org.example.assertion.response.auth.TokenResponseAssertion;
-import org.example.assertion.response.booking.BookingAssertion;
-import org.example.assertion.response.booking.BookingDetailsAssertion;
-import org.example.assertion.response.booking.BookingIdAssertion;
+import org.example.assertion.auth.TokenResponseAssertion;
+import org.example.assertion.booking.BookingAssertion;
+import org.example.assertion.booking.BookingDetailsAssertion;
+import org.example.assertion.booking.BookingIdAssertion;
+import org.example.assertion.common.ErrorResponseAssertion;
+import org.example.assertion.common.StringResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
 import org.example.dataprovider.BookingDataProvider;
@@ -31,8 +31,8 @@ public class SpringTestContext {
 
   @Autowired protected BookingDetailsPool bookingDetailsPool;
 
+  // factory
   @Autowired protected UserFactory userFactory;
-
   @Autowired protected BookingFactory bookingFactory;
 
   @Autowired protected BookingDataProvider bookingDataProvider;
@@ -40,10 +40,10 @@ public class SpringTestContext {
   @Autowired protected DateMapper dateMapper;
 
   // assertions
-  @Autowired protected TokenResponseAssertion tokenResponseAssertion;
   @Autowired protected ErrorResponseAssertion errorResponseAssertion;
   @Autowired protected BookingAssertion bookingAssertion;
   @Autowired protected BookingDetailsAssertion bookingDetailsAssertion;
   @Autowired protected BookingIdAssertion bookingIdAssertion;
   @Autowired protected StringResponseAssertion stringResponseAssertion;
+  @Autowired protected TokenResponseAssertion tokenResponseAssertion;
 }

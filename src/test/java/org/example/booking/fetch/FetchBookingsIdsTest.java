@@ -21,7 +21,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   void fetchAllBookingIdsTest() {
     Response response = bookerClient.getBookingIds(null, null, null, null);
 
-    bookingIdAssertion.assertThat(response).statusIsOk().body().hasBookingIds();
+    bookingIdAssertion.assertBookingIdsAreNotEmpty(response);
   }
 
   @Test
@@ -32,11 +32,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
 
     Response response = bookerClient.getBookingIds(booking.firstName(), null, null, null);
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -49,11 +45,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
 
     Response response = bookerClient.getBookingIds(null, booking.lastName(), null, null);
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -69,11 +61,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
     Response response =
         bookerClient.getBookingIds(null, null, booking.bookingDates().checkIn(), null);
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -90,11 +78,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
 
     Response response = bookerClient.getBookingIds(null, null, filterCheckIn.toString(), null);
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -108,11 +92,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
     Response response =
         bookerClient.getBookingIds(null, null, null, booking.bookingDates().checkOut());
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -131,11 +111,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
 
     Response response = bookerClient.getBookingIds(null, null, null, filterCheckOut.toString());
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -154,11 +130,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
     String checkOut = BookerRandomUtils.randomOf(null, booking.bookingDates().checkOut());
     Response response = bookerClient.getBookingIds(firstName, lastName, checkIn, checkOut);
 
-    bookingIdAssertion
-        .assertThat(response)
-        .statusIsOk()
-        .body()
-        .hasBookingId(bookingDetails.bookingId());
+    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }

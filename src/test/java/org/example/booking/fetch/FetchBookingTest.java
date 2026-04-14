@@ -3,7 +3,6 @@ package org.example.booking.fetch;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
 import org.example.model.dto.response.booking.BookingDetails;
-import org.example.model.enums.service.StringResponseBody;
 import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +18,7 @@ class FetchBookingTest extends SpringTestContext {
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
-    bookingAssertion
-        .assertThat(fetchResponse)
-        .statusIsOk()
-        .body()
-        .isEqualTo(bookingDetails.booking());
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingDetails.booking());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -35,10 +30,6 @@ class FetchBookingTest extends SpringTestContext {
 
     Response fetchResponse = bookerClient.getBookingById(nonExistentBookingId);
 
-    stringResponseAssertion
-        .assertThat(fetchResponse)
-        .statusIsNotFound()
-        .body()
-        .isEqualTo(StringResponseBody.NOT_FOUND.getBody());
+    stringResponseAssertion.assertResponseIsNotFound(fetchResponse);
   }
 }

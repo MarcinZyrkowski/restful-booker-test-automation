@@ -16,4 +16,8 @@ public class BookerRandomUtils {
   public static <T> T randomOf(T... values) {
     return values[RANDOM.randomInt(0, values.length)];
   }
+
+  public static <T> T nonNullValueOrDefault(T value, T defaultValue) {
+    return value != null ? value : defaultValue;
+  }
 }

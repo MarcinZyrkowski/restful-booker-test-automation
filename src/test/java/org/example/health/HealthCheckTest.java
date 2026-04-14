@@ -2,7 +2,6 @@ package org.example.health;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +13,6 @@ class HealthCheckTest extends SpringTestContext {
   void verifyHealthCheck() {
     Response response = bookerClient.healthCheck();
 
-    stringResponseAssertion
-        .assertThat(response)
-        .statusIsCreated()
-        .body()
-        .isEqualTo(StringResponseBody.CREATED.getBody());
+    stringResponseAssertion.assertResponseIsCreated(response);
   }
 }

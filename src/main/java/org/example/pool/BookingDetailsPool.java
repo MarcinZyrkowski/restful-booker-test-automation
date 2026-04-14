@@ -15,6 +15,19 @@ import org.example.steps.BookerClientSteps;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+/**
+ * Thread-safe pool for managing BookingDetails across tests.
+ *
+ * <p>Note: This pool manages a shared collection of booking details. To prevent flaky tests and
+ * race conditions:
+ *
+ * <ul>
+ *   <li>All bookings are immutable records and should not be modified after creation
+ *   <li>The pool uses synchronization to ensure thread-safe add/remove operations
+ *   <li>Tests should push bookings back to the pool to allow reuse
+ *   <li>Avoid long-lived references to popped bookings
+ * </ul>
+ */
 @Component
 @RequiredArgsConstructor
 public class BookingDetailsPool {
@@ -26,7 +39,7 @@ public class BookingDetailsPool {
       Collections.synchronizedSet(new HashSet<>());
 
   public void push(Response response) {
-    BookingDetails bookingDetails = responseMapper.map(response).toCreateBookingResponse();
+    BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
     push(bookingDetails);
   }
 

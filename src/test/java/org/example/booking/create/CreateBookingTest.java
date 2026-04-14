@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import java.util.stream.Stream;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
-import org.example.model.enums.service.StringResponseBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,10 +19,9 @@ class CreateBookingTest extends SpringTestContext {
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
     Booking request = bookingFactory.getWithAllValidFields();
-
     Response response = bookerClient.createBooking(request);
 
-    bookingDetailsAssertion.assertThat(response).statusIsOk().body().isCreatedFrom(request);
+    bookingDetailsAssertion.assertIsCreatedFrom(response, request);
 
     bookingDetailsPool.push(response);
   }
@@ -34,11 +32,7 @@ class CreateBookingTest extends SpringTestContext {
   void shouldNotCreateBookingTest(Booking request, String description) {
     Response response = bookerClient.createBooking(request);
 
-    stringResponseAssertion
-        .assertThat(response)
-        .statusIsInternalServerError()
-        .body()
-        .isEqualTo(StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
+    stringResponseAssertion.assertResponseIsInternalServerError(response);
   }
 
   Stream<Arguments> providerMissingFieldBookings() {
