@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.qameta.allure.Step;
 import lombok.Builder;
 import lombok.With;
-import org.example.utils.BookerUtils;
+import org.example.utils.BookerRandomUtils;
 
 @With
 @Builder
@@ -26,13 +26,13 @@ public record Booking(
     }
 
     return Booking.builder()
-        .firstName(BookerUtils.nonNullValueOrDefault(other.firstName, this.firstName))
-        .lastName(BookerUtils.nonNullValueOrDefault(other.lastName, this.lastName))
-        .totalPrice(BookerUtils.nonNullValueOrDefault(other.totalPrice, this.totalPrice))
-        .depositPaid(BookerUtils.nonNullValueOrDefault(other.depositPaid, this.depositPaid))
+        .firstName(BookerRandomUtils.nonNullValueOrDefault(other.firstName, this.firstName))
+        .lastName(BookerRandomUtils.nonNullValueOrDefault(other.lastName, this.lastName))
+        .totalPrice(BookerRandomUtils.nonNullValueOrDefault(other.totalPrice, this.totalPrice))
+        .depositPaid(BookerRandomUtils.nonNullValueOrDefault(other.depositPaid, this.depositPaid))
         .bookingDates(this.bookingDates.mergeNonNullable(other.bookingDates))
         .additionalNeeds(
-            BookerUtils.nonNullValueOrDefault(other.additionalNeeds, this.additionalNeeds))
+            BookerRandomUtils.nonNullValueOrDefault(other.additionalNeeds, this.additionalNeeds))
         .build();
   }
 
@@ -49,8 +49,8 @@ public record Booking(
       }
 
       return BookingDates.builder()
-          .checkIn(BookerUtils.nonNullValueOrDefault(other.checkIn, this.checkIn))
-          .checkOut(BookerUtils.nonNullValueOrDefault(other.checkOut, this.checkOut))
+          .checkIn(BookerRandomUtils.nonNullValueOrDefault(other.checkIn, this.checkIn))
+          .checkOut(BookerRandomUtils.nonNullValueOrDefault(other.checkOut, this.checkOut))
           .build();
     }
   }
