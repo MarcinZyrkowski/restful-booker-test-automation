@@ -14,11 +14,10 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - basic auth")
   void updateBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
-
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
     bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
@@ -32,7 +31,7 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - token auth")
   void updateBookingUsingTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
@@ -52,7 +51,7 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotUpdateBookingWithInvalidTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();

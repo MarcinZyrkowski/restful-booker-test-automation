@@ -12,7 +12,7 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking using basic auth")
   void deleteBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
@@ -24,7 +24,7 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking using token")
   void deleteBookingUsingTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     String token = bookerClientSteps.createToken(adminUser).token();
@@ -38,7 +38,7 @@ class DeleteBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Delete booking using invalid token")
   void deleteBookingUsingInvalidTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     String invalidToken = "invalid-token";

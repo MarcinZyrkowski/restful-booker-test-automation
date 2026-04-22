@@ -1,7 +1,6 @@
 package org.example.booking.create;
 
 import io.restassured.response.Response;
-import java.util.stream.Stream;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.stream.Stream;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Create Booking")
 class CreateBookingTest extends SpringTestContext {
@@ -18,10 +19,11 @@ class CreateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
-    Booking request = bookingFactory.getWithAllValidFields();
-    Response response = bookerClient.createBooking(request);
+    Booking requestBody = bookingFactory.getWithAllValidFields();
 
-    bookingDetailsAssertion.assertIsCreatedFrom(response, request);
+    Response response = bookerClient.createBooking(requestBody);
+
+    bookingDetailsAssertion.assertResponseIsCreatedFrom(response, requestBody);
 
     bookingDetailsPool.push(response);
   }

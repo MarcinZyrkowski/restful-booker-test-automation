@@ -63,7 +63,7 @@ public class BookingDetailsPool {
   }
 
   @Step("Get existing booking details from pool or create a new one")
-  public BookingDetails popOrGet() {
+  public BookingDetails popOrCreate() {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
       synchronized (bookingDetailsList) {

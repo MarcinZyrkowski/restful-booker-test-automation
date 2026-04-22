@@ -14,7 +14,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Partial update booking with all valid fields - basic auth")
   void partialUpdateBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
@@ -32,7 +32,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Partial update booking with all valid fields - token auth")
   void partialUpdateBookingUsingTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
@@ -64,7 +64,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotPartialUpdateBookingWithInvalidTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();

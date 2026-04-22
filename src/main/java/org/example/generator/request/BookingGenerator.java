@@ -1,6 +1,5 @@
 package org.example.generator.request;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.generator.DateTimesGenerator;
@@ -9,6 +8,8 @@ import org.example.model.dto.common.Booking.BookingDates;
 import org.example.model.enums.utils.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingGenerator {
@@ -55,6 +56,11 @@ public class BookingGenerator {
 
   public BookingGenerator withMissingLastName() {
     this.booking = booking.withLastName(null);
+    return this;
+  }
+
+  public BookingGenerator withMissingTotalPrice() {
+    this.booking = booking.withTotalPrice(null);
     return this;
   }
 

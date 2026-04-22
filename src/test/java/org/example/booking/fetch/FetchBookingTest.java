@@ -13,7 +13,7 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);

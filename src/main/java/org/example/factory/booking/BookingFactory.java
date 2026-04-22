@@ -30,7 +30,7 @@ public class BookingFactory {
 
   @Step("Prepare booking with missing total price")
   public Booking getWithMissingTotalPrice() {
-    return getWithAllValidFields().withTotalPrice(null);
+    return BookingGenerator.builder().withAllValidFields().withMissingTotalPrice().build();
   }
 
   @Step("Prepare booking with missing deposit paid")
