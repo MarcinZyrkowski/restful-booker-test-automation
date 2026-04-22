@@ -19,13 +19,6 @@ public class BookingDetailsAssertion {
   private final AssertionUtils assertionUtils;
   private final ResponseAssertion responseAssertion;
 
-  @Step("Assert that booking details are created")
-  public void assertIsCreated(Response response) {
-    responseAssertion.assertStatusCodeIsOk(response);
-    BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
-    assertBookingDetailsNotNull(bookingDetails);
-  }
-
   @Step("Assert that booking details are created from the given booking request")
   public void assertIsCreatedFrom(Response response, Booking booking) {
     responseAssertion.assertStatusCodeIsOk(response);

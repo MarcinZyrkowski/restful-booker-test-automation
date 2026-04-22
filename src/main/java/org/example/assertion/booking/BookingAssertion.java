@@ -20,7 +20,17 @@ public class BookingAssertion {
   @Step("Assert that booking is equal to expected booking")
   public void assertResponseIsEqualTo(Response response, Booking expected) {
     responseAssertion.assertStatusCodeIsOk(response);
-    Booking booking = responseMapper.mapToBookingRequestResponse(response);
-    assertionUtils.assertEquals(booking, expected);
+    Booking actual = responseMapper.mapToBookingRequestResponse(response);
+    assertionUtils.assertEquals(actual, expected);
+  }
+
+  @Step("Assert that booking is partially updated")
+  public void assertBookingIsPartiallyUpdated(
+      Response response, Booking original, Booking partiallyUpdated) {
+    responseAssertion.assertStatusCodeIsOk(response);
+    Booking actual = responseMapper.mapToBookingRequestResponse(response);
+
+    Booking expected = original.mergeNonNullable(partiallyUpdated);
+    assertionUtils.assertEquals(actual, expected);
   }
 }

@@ -19,15 +19,14 @@ class PartialUpdateBookingTest extends SpringTestContext {
 
     Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
 
-    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
-    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
+    Response partialUpdateResponse =
+        bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
-
-    bookingDetailsPool.push(
-        BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }
 
   @Test
@@ -39,15 +38,14 @@ class PartialUpdateBookingTest extends SpringTestContext {
     Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
     String token = bookerClientSteps.createToken(adminUser).token();
 
-    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
-    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
+    Response partialUpdateResponse =
+        bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
-
-    bookingDetailsPool.push(
-        BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }
 
   @Test
