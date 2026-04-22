@@ -24,7 +24,7 @@ public class BookingFactory {
   }
 
   @Step("Prepare booking with valid fields or randomly null fields")
-  public Booking getWithValidFieldsOrRandomlyNullFields() {
+  public Booking getWithValidOrNullFields() {
     return BookingGenerator.builder().withAllValidFields().withValidFieldsOrNulls().build();
   }
 

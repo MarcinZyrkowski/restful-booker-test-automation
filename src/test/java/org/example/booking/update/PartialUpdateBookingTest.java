@@ -17,7 +17,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
     Response partialUpdateResponse =
         bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
@@ -35,7 +35,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
     String token = bookerClientSteps.createToken(adminUser).token();
 
     Response partialUpdateResponse =
@@ -53,7 +53,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
   void shouldNotPartialUpdateBookingWhenBookingIdDoesNotExistTest() {
     int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
     Response response =
         bookerClient.partialUpdateBooking(nonExistentBookingId, partialBookingUpdate);
@@ -67,7 +67,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
     String invalidToken = "invalid_token";
 
     Response response =
