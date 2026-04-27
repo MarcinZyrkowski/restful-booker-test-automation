@@ -1,12 +1,11 @@
 package org.example.merger.booking;
 
+import java.util.Optional;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.common.Booking.BookingBuilder;
 import org.example.model.dto.common.Booking.BookingDates;
 import org.example.model.dto.common.Booking.BookingDates.BookingDatesBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class BookingMerger {
