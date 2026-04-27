@@ -24,7 +24,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     bookingAssertion.assertBookingIsPartiallyUpdated(
         partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertBookingIsPartiallyUpdated(
         fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }
@@ -43,7 +43,7 @@ class PartialUpdateBookingTest extends SpringTestContext {
     bookingAssertion.assertBookingIsPartiallyUpdated(
         partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertBookingIsPartiallyUpdated(
         fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }

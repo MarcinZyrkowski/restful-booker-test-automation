@@ -21,7 +21,7 @@ class UpdateBookingTest extends SpringTestContext {
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
     bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(
@@ -41,7 +41,7 @@ class UpdateBookingTest extends SpringTestContext {
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate, token);
     bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(

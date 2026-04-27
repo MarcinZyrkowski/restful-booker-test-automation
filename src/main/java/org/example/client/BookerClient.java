@@ -3,13 +3,14 @@ package org.example.client;
 import io.qameta.allure.Step;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
-import java.util.HashMap;
-import java.util.Map;
 import org.example.config.SpringConfig;
 import org.example.model.dto.common.Booking;
 import org.example.model.dto.request.auth.User;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class BookerClient extends RestClient {
@@ -93,7 +94,7 @@ public class BookerClient extends RestClient {
   }
 
   @Step("Get booking by id: {bookingId}")
-  public Response getBookingById(int bookingId) {
+  public Response getBookingById(String bookingId) {
     return basicRequest().get(BOOKING_ID_ENDPOINT, bookingId);
   }
 

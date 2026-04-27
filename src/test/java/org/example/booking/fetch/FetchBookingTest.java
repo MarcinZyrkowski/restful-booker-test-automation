@@ -14,7 +14,7 @@ class FetchBookingTest extends SpringTestContext {
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
-    int bookingId = bookingDetails.bookingId();
+    String bookingId = String.valueOf(bookingDetails.bookingId());
 
     Response fetchResponse = bookerClient.getBookingById(bookingId);
 
@@ -26,10 +26,13 @@ class FetchBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking by id that doesn't exist")
   void fetchBookingByIdThatNotExistsTest() {
-    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+    String nonExistentBookingId =
+        String.valueOf(BookerRandomUtils.RANDOM.randomInt(100000, 200000));
 
     Response fetchResponse = bookerClient.getBookingById(nonExistentBookingId);
 
     stringResponseAssertion.assertResponseIsNotFound(fetchResponse);
   }
+
+  // todo add negative test: id is random string
 }

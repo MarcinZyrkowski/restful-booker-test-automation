@@ -31,7 +31,7 @@ public class BookerClientSteps {
   }
 
   @Step("Fetch booking by ID {bookingId} and assert not found")
-  public void fetchBookingAssertNotFound(int bookingId) {
+  public void fetchBookingAssertNotFound(String bookingId) {
     Response getResponse = bookerClient.getBookingById(bookingId);
 
     stringResponseAssertion.assertResponseIsNotFound(getResponse);

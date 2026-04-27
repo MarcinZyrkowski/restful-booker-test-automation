@@ -3,6 +3,7 @@ package org.example.generator.request;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.model.dto.request.auth.User;
+import org.example.utils.BookerStringUtils;
 import org.example.utils.FakerUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,8 +22,8 @@ public class UserGenerator {
   public UserGenerator withInvalidCredentials() {
     this.user =
         User.builder()
-            .username(FakerUtils.FAKER.internet().username())
-            .password(FakerUtils.FAKER.internet().password())
+            .username(BookerStringUtils.randomFullName())
+            .password(FakerUtils.FAKER.credentials().password())
             .build();
     return this;
   }
