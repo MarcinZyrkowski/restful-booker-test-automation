@@ -1,9 +1,12 @@
 package org.example.merger.booking;
 
 import org.example.model.dto.common.Booking;
+import org.example.model.dto.common.Booking.BookingBuilder;
 import org.example.model.dto.common.Booking.BookingDates;
-import org.example.utils.BookerRandomUtils;
+import org.example.model.dto.common.Booking.BookingDates.BookingDatesBuilder;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class BookingMerger {
@@ -17,28 +20,22 @@ public class BookingMerger {
    * @return a merged booking with non-null values from partialUpdate
    */
   public Booking mergeNonNullableBooking(Booking original, Booking partialUpdate) {
-    if (partialUpdate == null) {
-      return original;
+    if (partialUpdate == null) return original;
+    if (original == null) return partialUpdate;
+
+    BookingBuilder builder = original.toBuilder();
+    Optional.ofNullable(partialUpdate.firstName()).ifPresent(builder::firstName);
+    Optional.ofNullable(partialUpdate.lastName()).ifPresent(builder::lastName);
+    Optional.ofNullable(partialUpdate.totalPrice()).ifPresent(builder::totalPrice);
+    Optional.ofNullable(partialUpdate.depositPaid()).ifPresent(builder::depositPaid);
+    Optional.ofNullable(partialUpdate.additionalNeeds()).ifPresent(builder::additionalNeeds);
+
+    if (partialUpdate.bookingDates() != null) {
+      builder.bookingDates(
+          mergeNonNullableBookingDates(original.bookingDates(), partialUpdate.bookingDates()));
     }
 
-    return Booking.builder()
-        .firstName(
-            BookerRandomUtils.nonNullValueOrDefault(
-                partialUpdate.firstName(), original.firstName()))
-        .lastName(
-            BookerRandomUtils.nonNullValueOrDefault(partialUpdate.lastName(), original.lastName()))
-        .totalPrice(
-            BookerRandomUtils.nonNullValueOrDefault(
-                partialUpdate.totalPrice(), original.totalPrice()))
-        .depositPaid(
-            BookerRandomUtils.nonNullValueOrDefault(
-                partialUpdate.depositPaid(), original.depositPaid()))
-        .bookingDates(
-            mergeNonNullableBookingDates(original.bookingDates(), partialUpdate.bookingDates()))
-        .additionalNeeds(
-            BookerRandomUtils.nonNullValueOrDefault(
-                partialUpdate.additionalNeeds(), original.additionalNeeds()))
-        .build();
+    return builder.build();
   }
 
   /**
@@ -51,15 +48,13 @@ public class BookingMerger {
    */
   public BookingDates mergeNonNullableBookingDates(
       BookingDates original, BookingDates partialUpdate) {
-    if (partialUpdate == null) {
-      return original;
-    }
+    if (partialUpdate == null) return original;
+    if (original == null) return partialUpdate;
 
-    return BookingDates.builder()
-        .checkIn(
-            BookerRandomUtils.nonNullValueOrDefault(partialUpdate.checkIn(), original.checkIn()))
-        .checkOut(
-            BookerRandomUtils.nonNullValueOrDefault(partialUpdate.checkOut(), original.checkOut()))
-        .build();
+    BookingDatesBuilder builder = original.toBuilder();
+    Optional.ofNullable(partialUpdate.checkIn()).ifPresent(builder::checkIn);
+    Optional.ofNullable(partialUpdate.checkOut()).ifPresent(builder::checkOut);
+
+    return builder.build();
   }
 }

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.With;
 
 @With
-@Builder
+@Builder(toBuilder = true)
 @JsonInclude(Include.NON_NULL)
 public record Booking(
     @JsonProperty(value = "firstname") String firstName,
@@ -18,7 +18,7 @@ public record Booking(
     @JsonProperty(value = "additionalneeds") String additionalNeeds) {
 
   @With
-  @Builder
+  @Builder(toBuilder = true)
   @JsonInclude(Include.NON_NULL)
   public record BookingDates(
       @JsonProperty(value = "checkin") String checkIn,
