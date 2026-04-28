@@ -9,7 +9,7 @@ public class EnumUtils {
   public static <T extends Enum<T>> T getRandomValue(Class<T> enumClass) {
     T[] values = enumClass.getEnumConstants();
 
-    if (values == null || values.length == 0) {
+    if (CollectionUtils.isNullOrEmpty(values)) {
       throw new IllegalArgumentException("Enum class must have at least one constant");
     }
 

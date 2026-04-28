@@ -1,12 +1,13 @@
 package org.example.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CollectionUtils {
@@ -24,4 +25,9 @@ public class CollectionUtils {
   public static boolean isNullOrEmpty(Collection<?> collection) {
     return collection == null || collection.isEmpty();
   }
+
+  public static <T> boolean isNullOrEmpty(T[] array) {
+    return array == null || array.length == 0;
+  }
 }
+
