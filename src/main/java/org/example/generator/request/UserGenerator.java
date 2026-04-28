@@ -23,7 +23,7 @@ public class UserGenerator {
     this.user =
         User.builder()
             .username(BookerStringUtils.randomFullName())
-            .password(FakerUtils.FAKER.credentials().password())
+            .password(FakerUtils.generatePassword())
             .build();
     return this;
   }

@@ -10,11 +10,11 @@ public class BookerStringUtils {
   private static final RandomStringUtils RANDOM = RandomStringUtils.secureStrong();
 
   public static String randomFullName() {
-    return FakerUtils.FAKER.name().fullName();
+    return FakerUtils.generateFullName();
   }
 
   public static String randomSentence() {
-    return FakerUtils.FAKER.lorem().sentence();
+    return FakerUtils.generateSentence();
   }
 
   public static String randomAlphaNumericSequence() {
