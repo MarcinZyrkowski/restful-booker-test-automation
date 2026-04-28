@@ -14,15 +14,14 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - basic auth")
   void updateBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
-
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
     bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(
@@ -32,7 +31,7 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Update booking with all valid fields - token auth")
   void updateBookingUsingTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
@@ -42,7 +41,7 @@ class UpdateBookingTest extends SpringTestContext {
     Response response = bookerClient.updateBooking(bookingId, bookingUpdate, token);
     bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
     bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
 
     bookingDetailsPool.push(
@@ -52,7 +51,7 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotUpdateBookingWithInvalidTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
@@ -67,11 +66,11 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotUpdateBookingWhenBookingIdDoesNotExistTest() {
-    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
-    Response response = bookerClient.updateBooking(nonExistentBookingId, bookingUpdate);
+    Response response = bookerClient.updateBooking((int) nonExistentBookingId, bookingUpdate);
 
     stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
   }

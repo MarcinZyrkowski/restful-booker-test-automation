@@ -24,13 +24,13 @@ public class BookingFactory {
   }
 
   @Step("Prepare booking with valid fields or randomly null fields")
-  public Booking getWithValidFieldsOrRandomlyNullFields() {
+  public Booking getWithValidOrNullFields() {
     return BookingGenerator.builder().withAllValidFields().withValidFieldsOrNulls().build();
   }
 
   @Step("Prepare booking with missing total price")
   public Booking getWithMissingTotalPrice() {
-    return getWithAllValidFields().withTotalPrice(null);
+    return BookingGenerator.builder().withAllValidFields().withMissingTotalPrice().build();
   }
 
   @Step("Prepare booking with missing deposit paid")

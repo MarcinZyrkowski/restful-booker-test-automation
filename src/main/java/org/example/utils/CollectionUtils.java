@@ -12,9 +12,7 @@ import lombok.NonNull;
 public class CollectionUtils {
 
   public static <T> Optional<T> getRandomElement(@NonNull Collection<T> collection) {
-    return collection.stream()
-        .skip(BookerRandomUtils.RANDOM.randomInt(0, collection.size()))
-        .findAny();
+    return collection.stream().skip(BookerRandomUtils.randomNumber(0, collection.size())).findAny();
   }
 
   public static <K, V> Map<K, V> filterNonNullValues(@NonNull Map<K, V> map) {

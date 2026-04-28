@@ -3,13 +3,11 @@ package org.example.model.dto.common;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.qameta.allure.Step;
 import lombok.Builder;
 import lombok.With;
-import org.example.utils.BookerRandomUtils;
 
 @With
-@Builder
+@Builder(toBuilder = true)
 @JsonInclude(Include.NON_NULL)
 public record Booking(
     @JsonProperty(value = "firstname") String firstName,
@@ -19,39 +17,10 @@ public record Booking(
     @JsonProperty(value = "bookingdates") BookingDates bookingDates,
     @JsonProperty(value = "additionalneeds") String additionalNeeds) {
 
-  @Step("Merge non-nullable fields from another Booking object")
-  public Booking mergeNonNullable(Booking other) {
-    if (other == null) {
-      return this;
-    }
-
-    return Booking.builder()
-        .firstName(BookerRandomUtils.nonNullValueOrDefault(other.firstName, this.firstName))
-        .lastName(BookerRandomUtils.nonNullValueOrDefault(other.lastName, this.lastName))
-        .totalPrice(BookerRandomUtils.nonNullValueOrDefault(other.totalPrice, this.totalPrice))
-        .depositPaid(BookerRandomUtils.nonNullValueOrDefault(other.depositPaid, this.depositPaid))
-        .bookingDates(this.bookingDates.mergeNonNullable(other.bookingDates))
-        .additionalNeeds(
-            BookerRandomUtils.nonNullValueOrDefault(other.additionalNeeds, this.additionalNeeds))
-        .build();
-  }
-
   @With
-  @Builder
+  @Builder(toBuilder = true)
   @JsonInclude(Include.NON_NULL)
   public record BookingDates(
       @JsonProperty(value = "checkin") String checkIn,
-      @JsonProperty(value = "checkout") String checkOut) {
-
-    public BookingDates mergeNonNullable(BookingDates other) {
-      if (other == null) {
-        return this;
-      }
-
-      return BookingDates.builder()
-          .checkIn(BookerRandomUtils.nonNullValueOrDefault(other.checkIn, this.checkIn))
-          .checkOut(BookerRandomUtils.nonNullValueOrDefault(other.checkOut, this.checkOut))
-          .build();
-    }
-  }
+      @JsonProperty(value = "checkout") String checkOut) {}
 }

@@ -27,7 +27,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking ids with filter by first name")
   void fetchBookingIdsWithFilterByFirstNameTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     Response response = bookerClient.getBookingIds(booking.firstName(), null, null, null);
@@ -40,7 +40,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking ids with filter by last name")
   void fetchBookingIdsWithFilterByLastNameTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     Response response = bookerClient.getBookingIds(null, booking.lastName(), null, null);
@@ -55,7 +55,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking ids with filter by check in date (equal to booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     Response response =
@@ -70,7 +70,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @DisplayName(
       "Fetch booking ids with filter by check in date (earlier than booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateEarlierThanTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     LocalDate bookingCheckIn = dateMapper.mapStringToLocalDate(booking.bookingDates().checkIn());
@@ -86,7 +86,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking ids with filter by checkout date (equal to booking checkout date)")
   void fetchBookingIdsWithFilterByCheckOutDateTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     Response response =
@@ -103,7 +103,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @DisplayName(
       "Fetch booking ids with filter by checkout date (earlier than booking checkout date)")
   void fetchBookingIdsWithFilterByCheckOutDateLessThanTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     LocalDate bookingCheckOut = LocalDate.parse(booking.bookingDates().checkOut());
@@ -121,7 +121,7 @@ class FetchBookingsIdsTest extends SpringTestContext {
   @Test
   @DisplayName("Fetch booking ids with combination of all filters")
   void fetchBookingIdsWithMixedFiltersTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
     String firstName = BookerRandomUtils.randomOf(null, booking.firstName());

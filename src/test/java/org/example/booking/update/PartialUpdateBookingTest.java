@@ -14,51 +14,49 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Partial update booking with all valid fields - basic auth")
   void partialUpdateBookingUsingBasicAuthTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
-    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
-    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
+    Response partialUpdateResponse =
+        bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate);
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
-
-    bookingDetailsPool.push(
-        BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }
 
   @Test
   @DisplayName("Partial update booking with all valid fields - token auth")
   void partialUpdateBookingUsingTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
     String token = bookerClientSteps.createToken(adminUser).token();
 
-    Response response = bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
-    Booking expectedBooking = bookingDetails.booking().mergeNonNullable(partialBookingUpdate);
-    bookingAssertion.assertResponseIsEqualTo(response, expectedBooking);
+    Response partialUpdateResponse =
+        bookerClient.partialUpdateBooking(bookingId, partialBookingUpdate, token);
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        partialUpdateResponse, bookingDetails.booking(), partialBookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, expectedBooking);
-
-    bookingDetailsPool.push(
-        BookingDetails.builder().bookingId(bookingId).booking(expectedBooking).build());
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
+    bookingAssertion.assertBookingIsPartiallyUpdated(
+        fetchResponse, bookingDetails.booking(), partialBookingUpdate);
   }
 
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotPartialUpdateBookingWhenBookingIdDoesNotExistTest() {
-    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
     Response response =
-        bookerClient.partialUpdateBooking(nonExistentBookingId, partialBookingUpdate);
+        bookerClient.partialUpdateBooking((int) nonExistentBookingId, partialBookingUpdate);
 
     stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
   }
@@ -66,10 +64,10 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotPartialUpdateBookingWithInvalidTokenTest() {
-    BookingDetails bookingDetails = bookingDetailsPool.popOrGet();
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
-    Booking partialBookingUpdate = bookingFactory.getWithValidFieldsOrRandomlyNullFields();
+    Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
     String invalidToken = "invalid_token";
 
     Response response =

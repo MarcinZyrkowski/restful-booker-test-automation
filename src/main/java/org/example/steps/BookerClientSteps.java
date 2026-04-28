@@ -3,7 +3,6 @@ package org.example.steps;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
-import org.example.assertion.booking.BookingDetailsAssertion;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.assertion.common.StringResponseAssertion;
 import org.example.client.BookerClient;
@@ -20,22 +19,21 @@ public class BookerClientSteps {
 
   private final ResponseMapper responseMapper;
   private final BookerClient bookerClient;
-  private final BookingDetailsAssertion bookingDetailsAssertion;
   private final StringResponseAssertion stringResponseAssertion;
   private final ResponseAssertion responseAssertion;
 
   @Step("Create booking")
   public BookingDetails createBooking(Booking request) {
     Response createResponse = bookerClient.createBooking(request);
-
-    bookingDetailsAssertion.assertIsCreated(createResponse);
+    responseAssertion.assertStatusCodeIsOk(createResponse);
 
     return responseMapper.mapToCreateBookingResponse(createResponse);
   }
 
   @Step("Fetch booking by ID {bookingId} and assert not found")
   public void fetchBookingAssertNotFound(int bookingId) {
-    Response getResponse = bookerClient.getBookingById(bookingId);
+    String bookingIdAsString = String.valueOf(bookingId);
+    Response getResponse = bookerClient.getBookingById(bookingIdAsString);
 
     stringResponseAssertion.assertResponseIsNotFound(getResponse);
   }

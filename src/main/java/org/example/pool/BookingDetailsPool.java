@@ -38,11 +38,13 @@ public class BookingDetailsPool {
   private final Set<BookingDetails> bookingDetailsList =
       Collections.synchronizedSet(new HashSet<>());
 
+  @Step("Push booking details (response) to the reusable pool")
   public void push(Response response) {
     BookingDetails bookingDetails = responseMapper.mapToCreateBookingResponse(response);
     push(bookingDetails);
   }
 
+  @Step("Push booking details to the reusable pool")
   public void push(BookingDetails bookingDetails) {
     synchronized (bookingDetailsList) {
       bookingDetailsList.add(bookingDetails);
@@ -63,7 +65,7 @@ public class BookingDetailsPool {
   }
 
   @Step("Get existing booking details from pool or create a new one")
-  public BookingDetails popOrGet() {
+  public BookingDetails popOrCreate() {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
       synchronized (bookingDetailsList) {

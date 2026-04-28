@@ -93,7 +93,7 @@ public class BookerClient extends RestClient {
   }
 
   @Step("Get booking by id: {bookingId}")
-  public Response getBookingById(int bookingId) {
+  public Response getBookingById(String bookingId) {
     return basicRequest().get(BOOKING_ID_ENDPOINT, bookingId);
   }
 
