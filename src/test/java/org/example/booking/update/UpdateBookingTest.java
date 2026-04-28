@@ -66,11 +66,11 @@ class UpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotUpdateBookingWhenBookingIdDoesNotExistTest() {
-    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
-    Response response = bookerClient.updateBooking(nonExistentBookingId, bookingUpdate);
+    Response response = bookerClient.updateBooking((int) nonExistentBookingId, bookingUpdate);
 
     stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
   }

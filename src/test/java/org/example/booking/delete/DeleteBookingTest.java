@@ -18,7 +18,7 @@ class DeleteBookingTest extends SpringTestContext {
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
     stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
-    bookerClientSteps.fetchBookingAssertNotFound(String.valueOf(bookingId));
+    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 
   @Test
@@ -32,7 +32,7 @@ class DeleteBookingTest extends SpringTestContext {
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
     stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
-    bookerClientSteps.fetchBookingAssertNotFound(String.valueOf(bookingId));
+    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 
   @Test

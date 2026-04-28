@@ -51,12 +51,12 @@ class PartialUpdateBookingTest extends SpringTestContext {
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotPartialUpdateBookingWhenBookingIdDoesNotExistTest() {
-    int nonExistentBookingId = BookerRandomUtils.RANDOM.randomInt(100000, 200000);
+    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
 
     Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
     Response response =
-        bookerClient.partialUpdateBooking(nonExistentBookingId, partialBookingUpdate);
+        bookerClient.partialUpdateBooking((int) nonExistentBookingId, partialBookingUpdate);
 
     stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
   }

@@ -15,7 +15,7 @@ public class DateTimesGenerator {
     long minDay = now.toEpochDay() + 1;
     long maxDay = twoYearsLater.toEpochDay();
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -33,7 +33,7 @@ public class DateTimesGenerator {
       maxDay = minDay + 1;
     }
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -51,7 +51,7 @@ public class DateTimesGenerator {
       minDay = maxDay - 1;
     }
 
-    long randomDay = BookerRandomUtils.RANDOM.randomLong(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
     return LocalDate.ofEpochDay(randomDay);
   }
 }
