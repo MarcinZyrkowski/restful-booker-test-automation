@@ -35,23 +35,21 @@ public class BookingFactory {
 
   @Step("Prepare booking with missing deposit paid")
   public Booking getWithMissingDepositPaid() {
-    return getWithAllValidFields().withDepositPaid(null);
+    return BookingGenerator.builder().withAllValidFields().withMissingDepositPaid().build();
   }
 
   @Step("Prepare booking with missing booking dates")
   public Booking getWithMissingBookingDates() {
-    return getWithAllValidFields().withBookingDates(null);
+    return BookingGenerator.builder().withAllValidFields().withMissingBookingDates().build();
   }
 
   @Step("Prepare booking with missing checkin date")
   public Booking getWithMissingCheckin() {
-    Booking booking = getWithAllValidFields();
-    return booking.withBookingDates(booking.bookingDates().withCheckIn(null));
+    return BookingGenerator.builder().withAllValidFields().withMissingCheckin().build();
   }
 
   @Step("Prepare booking with missing checkout date")
   public Booking getWithMissingCheckout() {
-    Booking booking = getWithAllValidFields();
-    return booking.withBookingDates(booking.bookingDates().withCheckOut(null));
+    return BookingGenerator.builder().withAllValidFields().withMissingCheckout().build();
   }
 }
