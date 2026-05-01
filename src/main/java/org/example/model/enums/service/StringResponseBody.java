@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum StringResponseBody {
   CREATED("Created"),
+  BAD_REQUEST("Bad Request"),
   FORBIDDEN("Forbidden"),
   NOT_FOUND("Not Found"),
   METHOD_NOT_ALLOWED("Method Not Allowed"),

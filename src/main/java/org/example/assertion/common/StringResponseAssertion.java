@@ -52,6 +52,13 @@ public class StringResponseAssertion {
     assertResponseBodyEquals(stringResponse, StringResponseBody.INTERNAL_SERVER_ERROR.getBody());
   }
 
+  @Step("Assert that response is bad request")
+  public void assertResponseIsBadRequest(Response response) {
+    responseAssertion.assertStatusCodeIsBadRequest(response);
+    String stringResponse = responseMapper.mapToStringResponse(response);
+    assertResponseBodyEquals(stringResponse, StringResponseBody.BAD_REQUEST.getBody());
+  }
+
   private void assertResponseBodyEquals(String actual, String expected) {
     Assertions.assertThat(actual)
         .withFailMessage(EXPECTED_RESPONSE_BODY_MSG, expected, actual)

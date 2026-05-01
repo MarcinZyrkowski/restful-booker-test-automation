@@ -52,4 +52,9 @@ public class BookingFactory {
   public Booking getWithMissingCheckout() {
     return BookingGenerator.builder().withAllValidFields().withMissingCheckout().build();
   }
+
+  @Step("Prepare booking with negative total price")
+  public Booking getWithNegativeTotalPrice() {
+    return BookingGenerator.builder().withAllValidFields().withTotalPrice(-100).build();
+  }
 }
