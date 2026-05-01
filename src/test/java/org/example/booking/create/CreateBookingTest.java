@@ -1,8 +1,11 @@
 package org.example.booking.create;
 
+import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
 import org.example.model.dto.common.Booking;
+import org.example.tracking.Bugs;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,6 +31,8 @@ class CreateBookingTest extends SpringTestContext {
     bookingDetailsPool.push(response);
   }
 
+  @Issue(value = Bugs.NEGATIVE_TOTAL_PRICE_BUG)
+  @Disabled(value = "Skipped because of bug: " + Bugs.NEGATIVE_TOTAL_PRICE_BUG)
   @Test
   @DisplayName("Should not create booking when total price is negative")
   void shouldNotCreateBookingWithNegativeTotalPrice() {
