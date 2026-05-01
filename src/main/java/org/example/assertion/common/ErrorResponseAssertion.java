@@ -14,7 +14,6 @@ public class ErrorResponseAssertion {
 
   private final ResponseMapper responseMapper;
   private final ResponseAssertion responseAssertion;
-  private final AssertionUtils assertionUtils;
 
   @Step("Assert that error reason is Bad credentials")
   public void assertReasonIsBadCredentials(Response response) {
@@ -32,6 +31,9 @@ public class ErrorResponseAssertion {
   private void assertReasonMessage(ErrorResponse errorResponse, String expectedReason) {
     Assertions.assertThat(errorResponse).isNotNull();
     Assertions.assertThat(errorResponse.reason()).isNotNull();
-    assertionUtils.assertEquals(errorResponse.reason(), expectedReason);
+    Assertions.assertThat(errorResponse.reason())
+        .withFailMessage(
+            "Expected reason to be <%s> but was <%s>", expectedReason, errorResponse.reason())
+        .isEqualTo(expectedReason);
   }
 }
