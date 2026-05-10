@@ -49,6 +49,24 @@ class PartialUpdateBookingTest extends SpringTestContext {
   }
 
   @Test
+  @DisplayName("Partial update booking with empty body - basic auth")
+  void partialUpdateBookingWithEmptyBodyTest() {
+    BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
+    int bookingId = bookingDetails.bookingId();
+
+    Booking emptyBookingUpdate = Booking.builder().build();
+
+    Response partialUpdateResponse =
+        bookerClient.partialUpdateBooking(bookingId, emptyBookingUpdate);
+    bookingAssertion.assertResponseIsEqualTo(partialUpdateResponse, bookingDetails.booking());
+
+    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
+    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingDetails.booking());
+
+    bookingDetailsPool.push(bookingDetails);
+  }
+
+  @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotPartialUpdateBookingWhenBookingIdDoesNotExistTest() {
     long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
