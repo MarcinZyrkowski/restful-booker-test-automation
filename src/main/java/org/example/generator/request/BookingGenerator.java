@@ -1,6 +1,5 @@
 package org.example.generator.request;
 
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.generator.DateTimesGenerator;
@@ -9,6 +8,8 @@ import org.example.model.dto.common.Booking.BookingDates;
 import org.example.model.enums.utils.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingGenerator {
@@ -63,11 +64,6 @@ public class BookingGenerator {
     return this;
   }
 
-  public BookingGenerator withTotalPrice(Integer totalPrice) {
-    this.booking = booking.withTotalPrice(totalPrice);
-    return this;
-  }
-
   public BookingGenerator withValidFieldsOrNulls() {
     this.booking =
         Booking.builder()
@@ -99,6 +95,12 @@ public class BookingGenerator {
 
   public BookingGenerator withMissingCheckout() {
     this.booking = booking.withBookingDates(booking.bookingDates().withCheckOut(null));
+    return this;
+  }
+
+  public BookingGenerator withNegativeTotalPrice() {
+    int negativeTotal = (int) BookerRandomUtils.randomNumber(-1000, 0);
+    this.booking = booking.withTotalPrice(negativeTotal);
     return this;
   }
 }

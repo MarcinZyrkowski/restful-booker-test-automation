@@ -3,7 +3,6 @@ package org.example.factory.booking;
 import io.qameta.allure.Step;
 import org.example.generator.request.BookingGenerator;
 import org.example.model.dto.common.Booking;
-import org.example.utils.BookerRandomUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -56,7 +55,6 @@ public class BookingFactory {
 
   @Step("Prepare booking with negative total price")
   public Booking getWithNegativeTotalPrice() {
-    int negativeTotal = (int) BookerRandomUtils.randomNumber(-1000, 0);
-    return BookingGenerator.builder().withAllValidFields().withTotalPrice(negativeTotal).build();
+    return BookingGenerator.builder().withAllValidFields().withNegativeTotalPrice().build();
   }
 }
