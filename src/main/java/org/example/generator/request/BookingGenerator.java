@@ -29,8 +29,8 @@ public class BookingGenerator {
 
     this.booking =
         Booking.builder()
-            .firstName(FakerUtils.FAKER.name().firstName())
-            .lastName(FakerUtils.FAKER.name().lastName())
+            .firstName(FakerUtils.generateFirstName())
+            .lastName(FakerUtils.generateLastName())
             .totalPrice((int) totalPrice)
             .depositPaid(BookerRandomUtils.randomBoolean())
             .bookingDates(validBookingDates())
@@ -74,6 +74,32 @@ public class BookingGenerator {
             .additionalNeeds(
                 BookerRandomUtils.randomNullOrValue(AdditionalNeed.getRandom().getValue()))
             .build();
+    return this;
+  }
+
+  public BookingGenerator withMissingDepositPaid() {
+    this.booking = booking.withDepositPaid(null);
+    return this;
+  }
+
+  public BookingGenerator withMissingBookingDates() {
+    this.booking = booking.withBookingDates(null);
+    return this;
+  }
+
+  public BookingGenerator withMissingCheckin() {
+    this.booking = booking.withBookingDates(booking.bookingDates().withCheckIn(null));
+    return this;
+  }
+
+  public BookingGenerator withMissingCheckout() {
+    this.booking = booking.withBookingDates(booking.bookingDates().withCheckOut(null));
+    return this;
+  }
+
+  public BookingGenerator withNegativeTotalPrice() {
+    int negativeTotal = (int) BookerRandomUtils.randomNumber(-1000, 0);
+    this.booking = booking.withTotalPrice(negativeTotal);
     return this;
   }
 }

@@ -3,13 +3,12 @@ package org.example.assertion.common;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
+import org.assertj.core.api.Assertions;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ResponseAssertion {
-
-  private final AssertionUtils assertionUtils;
 
   public void assertStatusCodeIsCreated(Response response) {
     assertStatusCode(response, HttpStatus.SC_CREATED);
@@ -35,7 +34,15 @@ public class ResponseAssertion {
     assertStatusCode(response, HttpStatus.SC_INTERNAL_SERVER_ERROR);
   }
 
+  public void assertStatusCodeIsBadRequest(Response response) {
+    assertStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+  }
+
   private void assertStatusCode(Response response, int expectedStatusCode) {
-    assertionUtils.assertEquals(response.getStatusCode(), expectedStatusCode);
+    Assertions.assertThat(response.getStatusCode())
+        .withFailMessage(
+            "Expected status code to be %d but was %d",
+            expectedStatusCode, response.getStatusCode())
+        .isEqualTo(expectedStatusCode);
   }
 }
