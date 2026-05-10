@@ -17,14 +17,6 @@ public class BookerRandomUtils {
     return values[RANDOM.randomInt(0, values.length)];
   }
 
-  /**
-   * Generates a random integer between {@code includedMin} (included) and {@code excludedMax}
-   * (included).
-   *
-   * <p>Supports negative ranges, e.g. {@code (-6, -1)}.
-   *
-   * @throws IllegalArgumentException if {@code includedMin > excludedMax}
-   */
   public static long randomNumber(long includedMin, long excludedMax) {
     if (includedMin > excludedMax) {
       throw new IllegalArgumentException("includedMin should be <= excludedMax");
