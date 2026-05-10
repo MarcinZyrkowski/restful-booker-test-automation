@@ -26,6 +26,13 @@ public class BookingIdAssertion {
     assertBookingIdsNotEmpty(bookingIdList);
   }
 
+  @Step("Assert that booking IDs list is empty")
+  public void assertBookingIdsIsEmpty(Response response) {
+    responseAssertion.assertStatusCodeIsOk(response);
+    List<BookingId> bookingIdList = responseMapper.mapToBookingIdResponseList(response);
+    Assertions.assertThat(bookingIdList).isNotNull().isEmpty();
+  }
+
   @Step("Assert that booking IDs list contains booking ID: {bookingId}")
   public void assertBookingIdsContainsBookingId(Response response, int bookingId) {
     responseAssertion.assertStatusCodeIsOk(response);

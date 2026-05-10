@@ -9,6 +9,7 @@ import org.example.model.dto.common.Booking;
 import org.example.model.dto.response.booking.BookingDetails;
 import org.example.tracking.Bugs;
 import org.example.utils.BookerRandomUtils;
+import org.example.utils.BookerStringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,26 @@ class FetchBookingsIdsTest extends SpringTestContext {
     bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
+  }
+
+  @Test
+  @DisplayName("Fetch booking ids with filter by non-existent first name")
+  void fetchBookingIdsWithFilterByNonExistentFirstNameTest() {
+    String nonExistentFirstName = BookerStringUtils.randomAlphaNumericSequence();
+
+    Response response = bookerClient.getBookingIds(nonExistentFirstName, null, null, null);
+
+    bookingIdAssertion.assertBookingIdsIsEmpty(response);
+  }
+
+  @Test
+  @DisplayName("Fetch booking ids with filter by non-existent last name")
+  void fetchBookingIdsWithFilterByNonExistentLastNameTest() {
+    String nonExistentLastName = BookerStringUtils.randomAlphaNumericSequence();
+
+    Response response = bookerClient.getBookingIds(null, nonExistentLastName, null, null);
+
+    bookingIdAssertion.assertBookingIdsIsEmpty(response);
   }
 
   @Issue(value = Bugs.CHECK_IN_BUG)
