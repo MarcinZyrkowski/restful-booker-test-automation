@@ -1,4 +1,4 @@
-package org.example.helper.merger;
+package org.example.helper.booking;
 
 import java.util.Optional;
 import org.example.model.dto.common.Booking;
