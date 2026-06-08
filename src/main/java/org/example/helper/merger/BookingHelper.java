@@ -8,7 +8,7 @@ import org.example.model.dto.common.Booking.BookingDates.BookingDatesBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingMerger {
+public class BookingHelper {
 
   /**
    * Merges a partial Booking update into the original Booking. Non-null values from the partial
