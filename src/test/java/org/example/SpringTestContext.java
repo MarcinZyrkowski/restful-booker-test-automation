@@ -12,7 +12,7 @@ import org.example.dataprovider.BookingDataProvider;
 import org.example.factory.auth.UserFactory;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.DateMapper;
-import org.example.model.dto.request.auth.User;
+import org.example.model.service.dto.request.auth.User;
 import org.example.pool.BookingDetailsPool;
 import org.example.steps.BookerClientSteps;
 import org.example.tags.Regression;

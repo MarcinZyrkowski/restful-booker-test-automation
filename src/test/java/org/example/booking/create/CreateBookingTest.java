@@ -3,7 +3,7 @@ package org.example.booking.create;
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.common.Booking;
+import org.example.model.service.dto.common.Booking;
 import org.example.tracking.Bugs;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

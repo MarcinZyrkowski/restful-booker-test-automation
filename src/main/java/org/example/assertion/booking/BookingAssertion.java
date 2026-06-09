@@ -7,7 +7,7 @@ import org.example.assertion.common.AssertionUtils;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.helper.booking.BookingHelper;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.common.Booking;
+import org.example.model.service.dto.common.Booking;
 import org.springframework.stereotype.Component;
 
 @Component()

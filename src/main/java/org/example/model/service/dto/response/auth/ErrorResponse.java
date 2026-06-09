@@ -1,4 +1,4 @@
-package org.example.model.dto.response.auth;
+package org.example.model.service.dto.response.auth;
 
 import lombok.Builder;
 

@@ -2,7 +2,7 @@ package org.example.booking.delete;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

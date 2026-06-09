@@ -1,4 +1,4 @@
-package org.example.model.dto.common;
+package org.example.model.service.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

@@ -1,4 +1,4 @@
-package org.example.model.enums.utils;
+package org.example.model.helper;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

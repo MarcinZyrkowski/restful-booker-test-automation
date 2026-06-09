@@ -6,8 +6,8 @@ import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 import org.example.config.SpringConfig;
-import org.example.model.dto.common.Booking;
-import org.example.model.dto.request.auth.User;
+import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.request.auth.User;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 

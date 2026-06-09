@@ -2,7 +2,7 @@ package org.example.factory.booking;
 
 import io.qameta.allure.Step;
 import org.example.generator.request.BookingGenerator;
-import org.example.model.dto.common.Booking;
+import org.example.model.service.dto.common.Booking;
 import org.springframework.stereotype.Component;
 
 @Component

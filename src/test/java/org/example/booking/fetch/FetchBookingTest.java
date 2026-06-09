@@ -2,7 +2,7 @@ package org.example.booking.fetch;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.BookerStringUtils;
 import org.junit.jupiter.api.DisplayName;

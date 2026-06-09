@@ -7,10 +7,10 @@ import org.example.assertion.common.ResponseAssertion;
 import org.example.assertion.common.StringResponseAssertion;
 import org.example.client.BookerClient;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.common.Booking;
-import org.example.model.dto.request.auth.User;
-import org.example.model.dto.response.auth.Token;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.request.auth.User;
+import org.example.model.service.dto.response.auth.Token;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.springframework.stereotype.Component;
 
 @Component
