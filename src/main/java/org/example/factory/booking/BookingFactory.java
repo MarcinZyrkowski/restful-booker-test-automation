@@ -33,6 +33,14 @@ public class BookingFactory {
     return BookingGenerator.builder().withAllValidFields().withMissingTotalPrice().build();
   }
 
+  @Step("Prepare booking with random missing required fields")
+  public Booking getWithRandomMissingRequiredFields() {
+    return BookingGenerator.builder()
+        .withAllValidFields()
+        .withRandomMissingRequiredFields()
+        .build();
+  }
+
   @Step("Prepare booking with missing deposit paid")
   public Booking getWithMissingDepositPaid() {
     return BookingGenerator.builder().withAllValidFields().withMissingDepositPaid().build();

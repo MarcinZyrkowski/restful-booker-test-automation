@@ -1,15 +1,14 @@
 package org.example.generator.request;
 
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.model.helper.AdditionalNeed;
 import org.example.generator.DateTimesGenerator;
+import org.example.model.helper.AdditionalNeed;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.common.Booking.BookingDates;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingGenerator {
@@ -75,6 +74,34 @@ public class BookingGenerator {
             .additionalNeeds(
                 BookerRandomUtils.randomNullOrValue(AdditionalNeed.getRandom().getValue()))
             .build();
+    return this;
+  }
+
+  public BookingGenerator withRandomMissingRequiredFields() {
+    boolean anyFieldModified = false;
+
+    while (!anyFieldModified) {
+      if (BookerRandomUtils.randomBoolean()) {
+        this.booking = this.booking.withFirstName(null);
+        anyFieldModified = true;
+      }
+      if (BookerRandomUtils.randomBoolean()) {
+        this.booking = this.booking.withLastName(null);
+        anyFieldModified = true;
+      }
+      if (BookerRandomUtils.randomBoolean()) {
+        this.booking = this.booking.withTotalPrice(null);
+        anyFieldModified = true;
+      }
+      if (BookerRandomUtils.randomBoolean()) {
+        this.booking = this.booking.withDepositPaid(null);
+        anyFieldModified = true;
+      }
+      if (BookerRandomUtils.randomBoolean()) {
+        this.booking = this.booking.withBookingDates(null);
+        anyFieldModified = true;
+      }
+    }
     return this;
   }
 
