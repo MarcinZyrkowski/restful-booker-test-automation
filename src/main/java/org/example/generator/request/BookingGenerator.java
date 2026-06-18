@@ -13,6 +13,12 @@ import org.example.utils.FakerUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingGenerator {
 
+  private static final int MIN_TOTAL_PRICE = 50;
+  private static final int MAX_TOTAL_PRICE = 100;
+  private static final int MIN_NEGATIVE_TOTAL_PRICE = -1000;
+  private static final int MAX_NEGATIVE_TOTAL_PRICE = 0;
+  private static final int MAX_STAY_DURATION_IN_DAYS = 50;
+
   private Booking booking;
 
   public static BookingGenerator builder() {
@@ -24,7 +30,7 @@ public class BookingGenerator {
   }
 
   public BookingGenerator withAllValidFields() {
-    long totalPrice = BookerRandomUtils.randomNumber(50, 100);
+    long totalPrice = BookerRandomUtils.randomNumber(MIN_TOTAL_PRICE, MAX_TOTAL_PRICE);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
     this.booking =
@@ -40,10 +46,8 @@ public class BookingGenerator {
   }
 
   private BookingDates validBookingDates() {
-    int maxStayDurationInDays = 50;
-
     LocalDate checkIn = DateTimesGenerator.getRandomFutureDate();
-    LocalDate checkOut = DateTimesGenerator.getRandomDateAfter(checkIn, maxStayDurationInDays);
+    LocalDate checkOut = DateTimesGenerator.getRandomDateAfter(checkIn, MAX_STAY_DURATION_IN_DAYS);
 
     return BookingDates.builder().checkIn(checkIn.toString()).checkOut(checkOut.toString()).build();
   }
@@ -126,7 +130,8 @@ public class BookingGenerator {
   }
 
   public BookingGenerator withNegativeTotalPrice() {
-    int negativeTotal = (int) BookerRandomUtils.randomNumber(-1000, 0);
+    int negativeTotal =
+        (int) BookerRandomUtils.randomNumber(MIN_NEGATIVE_TOTAL_PRICE, MAX_NEGATIVE_TOTAL_PRICE);
     this.booking = booking.withTotalPrice(negativeTotal);
     return this;
   }
