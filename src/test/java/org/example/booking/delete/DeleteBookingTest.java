@@ -1,13 +1,29 @@
 package org.example.booking.delete;
 
 import io.restassured.response.Response;
-import org.example.SpringTestContext;
+import org.example.assertion.common.StringResponseAssertion;
+import org.example.client.BookerClient;
+import org.example.config.SpringConfig;
+import org.example.model.service.dto.request.auth.User;
 import org.example.model.service.dto.response.booking.BookingDetails;
+import org.example.pool.BookingDetailsPool;
+import org.example.steps.BookerClientSteps;
+import org.example.tags.Regression;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@Regression
+@SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Delete Booking")
-class DeleteBookingTest extends SpringTestContext {
+class DeleteBookingTest {
+
+  @Autowired private BookingDetailsPool bookingDetailsPool;
+  @Autowired private BookerClient bookerClient;
+  @Autowired private StringResponseAssertion stringResponseAssertion;
+  @Autowired private BookerClientSteps bookerClientSteps;
+  @Autowired private User adminUser;
 
   @Test
   @DisplayName("Delete booking using basic auth")

@@ -3,8 +3,15 @@ package org.example.booking.create;
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import java.util.stream.Stream;
-import org.example.SpringTestContext;
+import org.example.assertion.booking.BookingDetailsAssertion;
+import org.example.assertion.common.StringResponseAssertion;
+import org.example.client.BookerClient;
+import org.example.config.SpringConfig;
+import org.example.dataprovider.BookingDataProvider;
+import org.example.factory.booking.BookingFactory;
 import org.example.model.service.dto.common.Booking;
+import org.example.pool.BookingDetailsPool;
+import org.example.tags.Regression;
 import org.example.tracking.Bugs;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +20,21 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@Regression
+@SpringBootTest(classes = SpringConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Create Booking")
-class CreateBookingTest extends SpringTestContext {
+class CreateBookingTest {
+
+  @Autowired private BookingFactory bookingFactory;
+  @Autowired private BookerClient bookerClient;
+  @Autowired private BookingDetailsAssertion bookingDetailsAssertion;
+  @Autowired private BookingDetailsPool bookingDetailsPool;
+  @Autowired private StringResponseAssertion stringResponseAssertion;
+  @Autowired private BookingDataProvider bookingDataProvider;
 
   @Test
   @DisplayName("Create booking with all valid fields")

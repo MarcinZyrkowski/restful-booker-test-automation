@@ -3,19 +3,33 @@ package org.example.booking.fetch;
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import java.time.LocalDate;
-import org.example.SpringTestContext;
+import org.example.assertion.booking.BookingIdAssertion;
+import org.example.client.BookerClient;
+import org.example.config.SpringConfig;
 import org.example.generator.DateTimesGenerator;
+import org.example.mapper.DateMapper;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
+import org.example.pool.BookingDetailsPool;
+import org.example.tags.Regression;
 import org.example.tracking.Bugs;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.BookerStringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@Regression
+@SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Fetch Booking Ids")
-class FetchBookingsIdsTest extends SpringTestContext {
+class FetchBookingsIdsTest {
+
+  @Autowired private BookerClient bookerClient;
+  @Autowired private BookingIdAssertion bookingIdAssertion;
+  @Autowired private BookingDetailsPool bookingDetailsPool;
+  @Autowired private DateMapper dateMapper;
 
   @Test
   @DisplayName("Fetch all booking ids")
