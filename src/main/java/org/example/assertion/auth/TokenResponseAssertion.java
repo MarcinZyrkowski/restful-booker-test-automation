@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.response.auth.Token;
+import org.example.model.service.dto.response.auth.Token;
 import org.springframework.stereotype.Component;
 
 @Component

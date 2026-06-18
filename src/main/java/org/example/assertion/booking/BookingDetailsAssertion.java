@@ -7,8 +7,8 @@ import org.assertj.core.api.Assertions;
 import org.example.assertion.common.AssertionUtils;
 import org.example.assertion.common.ResponseAssertion;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.common.Booking;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.springframework.stereotype.Component;
 
 @Component()

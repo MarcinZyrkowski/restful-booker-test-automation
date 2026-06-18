@@ -2,8 +2,8 @@ package org.example.booking.update;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.common.Booking;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

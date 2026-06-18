@@ -2,7 +2,7 @@ package org.example.factory.booking;
 
 import io.qameta.allure.Step;
 import org.example.generator.request.BookingGenerator;
-import org.example.model.dto.common.Booking;
+import org.example.model.service.dto.common.Booking;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,6 +31,14 @@ public class BookingFactory {
   @Step("Prepare booking with missing total price")
   public Booking getWithMissingTotalPrice() {
     return BookingGenerator.builder().withAllValidFields().withMissingTotalPrice().build();
+  }
+
+  @Step("Prepare booking with random missing required fields")
+  public Booking getWithRandomMissingRequiredFields() {
+    return BookingGenerator.builder()
+        .withAllValidFields()
+        .withRandomMissingRequiredFields()
+        .build();
   }
 
   @Step("Prepare booking with missing deposit paid")

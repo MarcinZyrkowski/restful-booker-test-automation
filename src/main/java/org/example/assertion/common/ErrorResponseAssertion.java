@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.example.mapper.ResponseMapper;
-import org.example.model.dto.response.auth.ErrorResponse;
+import org.example.model.service.dto.response.auth.ErrorResponse;
 import org.springframework.stereotype.Component;
 
 @Component

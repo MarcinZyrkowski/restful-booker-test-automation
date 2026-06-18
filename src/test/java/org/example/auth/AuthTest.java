@@ -2,7 +2,7 @@ package org.example.auth;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.request.auth.User;
+import org.example.model.service.dto.request.auth.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

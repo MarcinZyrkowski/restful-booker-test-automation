@@ -2,7 +2,7 @@ package org.example.booking.delete;
 
 import io.restassured.response.Response;
 import org.example.SpringTestContext;
-import org.example.model.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +16,8 @@ class DeleteBookingTest extends SpringTestContext {
     int bookingId = bookingDetails.bookingId();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId);
-    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
+    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 
@@ -30,8 +30,8 @@ class DeleteBookingTest extends SpringTestContext {
     String token = bookerClientSteps.createToken(adminUser).token();
 
     Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
-    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
 
+    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
     bookerClientSteps.fetchBookingAssertNotFound(bookingId);
   }
 

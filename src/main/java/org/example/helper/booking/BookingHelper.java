@@ -1,14 +1,14 @@
-package org.example.helper.merger;
+package org.example.helper.booking;
 
 import java.util.Optional;
-import org.example.model.dto.common.Booking;
-import org.example.model.dto.common.Booking.BookingBuilder;
-import org.example.model.dto.common.Booking.BookingDates;
-import org.example.model.dto.common.Booking.BookingDates.BookingDatesBuilder;
+import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.common.Booking.BookingBuilder;
+import org.example.model.service.dto.common.Booking.BookingDates;
+import org.example.model.service.dto.common.Booking.BookingDates.BookingDatesBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingMerger {
+public class BookingHelper {
 
   /**
    * Merges a partial Booking update into the original Booking. Non-null values from the partial

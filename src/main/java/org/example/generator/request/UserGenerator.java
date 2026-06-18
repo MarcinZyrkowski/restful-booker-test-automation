@@ -2,7 +2,7 @@ package org.example.generator.request;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.model.dto.request.auth.User;
+import org.example.model.service.dto.request.auth.User;
 import org.example.utils.BookerStringUtils;
 import org.example.utils.FakerUtils;
 

@@ -1,8 +1,8 @@
-package org.example.model.dto.response.booking;
+package org.example.model.service.dto.response.booking;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import org.example.model.dto.common.Booking;
+import org.example.model.service.dto.common.Booking;
 
 @Builder
 public record BookingDetails(

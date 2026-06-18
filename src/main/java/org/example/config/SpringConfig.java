@@ -1,7 +1,7 @@
 package org.example.config;
 
 import lombok.Getter;
-import org.example.model.dto.request.auth.User;
+import org.example.model.service.dto.request.auth.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
