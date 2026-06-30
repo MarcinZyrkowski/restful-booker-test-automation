@@ -1,15 +1,29 @@
 package org.example.booking.fetch;
 
 import io.restassured.response.Response;
-import org.example.SpringTestContext;
+import org.example.assertion.booking.BookingAssertion;
+import org.example.assertion.common.StringResponseAssertion;
+import org.example.client.BookerClient;
+import org.example.config.SpringConfig;
 import org.example.model.service.dto.response.booking.BookingDetails;
+import org.example.pool.BookingDetailsPool;
+import org.example.tags.Regression;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.BookerStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@Regression
+@SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Fetch Booking by Id")
-class FetchBookingTest extends SpringTestContext {
+class FetchBookingTest {
+
+  @Autowired private BookingDetailsPool bookingDetailsPool;
+  @Autowired private BookerClient bookerClient;
+  @Autowired private BookingAssertion bookingAssertion;
+  @Autowired private StringResponseAssertion stringResponseAssertion;
 
   @Test
   @DisplayName("Fetch booking by id")

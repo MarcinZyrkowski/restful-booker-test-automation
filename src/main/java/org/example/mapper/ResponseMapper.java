@@ -8,12 +8,9 @@ import org.example.model.service.dto.response.auth.ErrorResponse;
 import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.model.service.dto.response.booking.BookingId;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @NoArgsConstructor
 public class ResponseMapper {
 

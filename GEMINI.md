@@ -23,8 +23,8 @@ The project is built with the following core technologies (specified in [build.g
 
 The project follows a multi-layered architecture to separate concerns, enforce clean boundaries, and improve code reusability:
 
-- **Base Test Context ([SpringTestContext](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/test/java/org/example/SpringTestContext.java)):** 
-  The base class that bootstraps the Spring Boot test context. All test classes should extend this class to gain automatic access to autowired dependencies (clients, steps, pools, factories, assertions) without needing boilerplate `@Autowired` declarations in individual test classes.
+- **Dependency Injection in Tests:** 
+  Test classes are annotated with `@SpringBootTest` and directly autowire only the specific dependencies (clients, steps, pools, factories, assertions) they require. This prevents the "God Object" anti-pattern and couples tests only to the components they actually use.
 - **Client Layer (`org.example.client`):** 
   Wraps RestAssured to make low-level HTTP calls. 
   - [RestClient](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/client/RestClient.java) configures the base URI, content type, and Allure/logging filters.
@@ -74,7 +74,7 @@ app.password=password123
 To optimize test execution speed and prevent the API from getting overwhelmed with redundant requests, we use a thread-safe entity pool:
 
 * **Pool Component ([BookingDetailsPool](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/pool/BookingDetailsPool.java)):**
-  - Manages a thread-safe `Set<BookingDetails>`.
+  - Manages a thread-safe `Queue<BookingDetails>`.
   - Use `bookingDetailsPool.popOrCreate()` to pop an existing booking or create one dynamically if the pool is empty.
   - After creating a booking in a test, push it to the pool: `bookingDetailsPool.push(response)`.
   - Bookings are treated as immutable records to prevent state mutation race conditions.
