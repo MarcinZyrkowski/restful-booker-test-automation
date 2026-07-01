@@ -141,7 +141,7 @@ class FetchBookingsIdsTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
-    LocalDate bookingCheckOut = LocalDate.parse(booking.bookingDates().checkOut());
+    LocalDate bookingCheckOut = dateMapper.mapStringToLocalDate(booking.bookingDates().checkOut());
     LocalDate filterCheckOut = DateTimesGenerator.getRandomDateBefore(bookingCheckOut, 50);
 
     Response response = bookerClient.getBookingIds(null, null, null, filterCheckOut.toString());
