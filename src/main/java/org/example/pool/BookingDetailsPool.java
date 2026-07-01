@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  *
  * <ul>
  *   <li>All bookings are immutable records and should not be modified after creation
- *   <li>The pool uses synchronization to ensure thread-safe add/remove operations
+ *   <li>The pool relies on ConcurrentLinkedQueue for safe, non-blocking add/remove operations across threads.
  *   <li>Tests should push bookings back to the pool to allow reuse
  *   <li>Avoid long-lived references to popped bookings
  * </ul>
