@@ -19,7 +19,7 @@ class HealthCheckTest {
   @Autowired private StringResponseAssertion stringResponseAssertion;
 
   @Test
-  @DisplayName("Health Check")
+  @DisplayName("Verify Health Check")
   void verifyHealthCheck() {
     Response response = bookerClient.healthCheck();
 
