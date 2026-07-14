@@ -2,7 +2,6 @@ package org.example.booking.fetch;
 
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
-import java.time.LocalDate;
 import org.example.assertion.booking.BookingIdAssertion;
 import org.example.client.BookerClient;
 import org.example.config.SpringConfig;
@@ -20,6 +19,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDate;
 
 @Regression
 @SpringBootTest(classes = SpringConfig.class)

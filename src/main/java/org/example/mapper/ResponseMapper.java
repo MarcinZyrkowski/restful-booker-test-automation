@@ -1,14 +1,13 @@
 package org.example.mapper;
 
 import io.restassured.response.Response;
+import java.util.List;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.auth.ErrorResponse;
 import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.model.service.dto.response.booking.BookingId;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ResponseMapper {
