@@ -47,6 +47,8 @@ The project follows a multi-layered architecture to separate concerns, enforce c
   Manages states of test entities across different test scopes to speed up execution.
 - **Config Layer (`org.example.config`):** 
   Uses Spring `@Configuration` to load environment properties.
+- **Mapper Layer (`org.example.mapper`):** 
+  Contains components for object conversion and data translation, such as [ResponseMapper](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/mapper/ResponseMapper.java) and [DateMapper](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/mapper/DateMapper.java).
 - **Tracking Layer (`org.example.tracking`):** 
   Houses definitions for known bugs and issues to keep test results clear.
 - **Utilities (`org.example.utils`):** 
@@ -56,16 +58,29 @@ The project follows a multi-layered architecture to separate concerns, enforce c
 
 ## ⚙️ Configuration & Environment
 
-Environment variables and configurations are mapped from [application.properties](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/resources/application.properties) into [SpringConfig.java](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/config/SpringConfig.java):
+Configuration properties are loaded from [application.properties](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/resources/application.properties) into [SpringConfig.java](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/config/SpringConfig.java).
+
+### Environment Profiles
+The framework supports environment-specific profiles (e.g., `qa`, `dev`) loaded from profile-specific properties files:
+- [application-dev.properties](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/resources/application-dev.properties)
+- [application-qa.properties](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/resources/application-qa.properties)
+
+To activate a profile:
+- **macOS/Linux:** `SPRING_PROFILES_ACTIVE=dev ./gradlew test`
+- **Windows PowerShell:** `$env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew test`
+- **CI (GitHub Actions):** Handled via the workflow input environment variable mapping.
+
+### Property Keys & Environment Overrides
+The base configurations support overrides via standard environment variables:
 
 ```properties
-base_url=https://restful-booker.herokuapp.com
-app.username=admin
-app.password=password123
+booker.base-url=${BOOKER_BASE_URL:https://restful-booker.herokuapp.com}
+booker.auth.username=${BOOKER_USERNAME:admin}
+booker.auth.password=${BOOKER_PASSWORD:password123}
 ```
 
 - `@ComponentScan` scans everything under the `org.example` package.
-- `SpringConfig` instantiates a default `@Bean` user using the credentials mapped from `application.properties`.
+- `SpringConfig` instantiates a default `@Bean` user using the credentials mapped from the active profile or environment properties.
 
 ---
 
@@ -74,7 +89,7 @@ app.password=password123
 To optimize test execution speed and prevent the API from getting overwhelmed with redundant requests, we use a thread-safe entity pool:
 
 * **Pool Component ([BookingDetailsPool](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/pool/BookingDetailsPool.java)):**
-  - Manages a thread-safe `Queue<BookingDetails>`.
+  - Manages a thread-safe `Queue<BookingDetails>` using `ConcurrentLinkedQueue` for non-blocking, thread-safe operations.
   - Use `bookingDetailsPool.popOrCreate()` to pop an existing booking or create one dynamically if the pool is empty.
   - After creating a booking in a test, push it to the pool: `bookingDetailsPool.push(response)`.
   - Bookings are treated as immutable records to prevent state mutation race conditions.
@@ -111,6 +126,8 @@ Known issues in the target API are explicitly tracked using constants and test a
 | **Apply Formatting** | `./gradlew spotlessApply` |
 | **Check Formatting** | `./gradlew spotlessCheck` |
 | **Clean Build** | `./gradlew clean build` |
+| **Generate Allure Report** | `./gradlew allureReport` |
+| **Serve Allure Report** | `./gradlew allureServe` |
 
 ### Tag Configuration
 * Tag filters are evaluated in [build.gradle](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/build.gradle):
@@ -119,9 +136,20 @@ Known issues in the target API are explicitly tracked using constants and test a
 
 ### Viewing Reports
 Allure report generation:
-1. Ensure the Allure CLI is installed on your local machine.
-2. The JUnit run outputs are stored under `build/allure-results`.
-3. Command to view the interactive server: `allure serve build/allure-results`.
+
+#### 1. Via Gradle Tasks (Recommended)
+You can use the configured Allure Gradle plugin:
+- Build the HTML report: `./gradlew allureReport` (outputs to `build/reports/allure-report`)
+- Serve the report locally: `./gradlew allureServe`
+
+#### 2. Via Allure CLI
+- Generate and serve directly using Allure CLI:
+  `allure serve build/allure-results`
+
+#### 3. CI/CD Artifacts (GitHub Actions)
+- The CI workflow runs tests and uploads the generated `build/reports` folder as an artifact named `reports`.
+- Once downloaded and unzipped, open a terminal in the unzipped `reports/` folder and run:
+  `allure open allure-report/allureReport`
 
 ---
 
