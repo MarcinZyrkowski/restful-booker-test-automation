@@ -15,6 +15,17 @@ documentation: https://restful-booker.herokuapp.com/apidoc
 
 ## 3. Test execution
 
+### 3.0 Configuration (recommended)
+Defaults are configured for the public Restful Booker demo service, but configuration should be injected (CI-friendly pattern).
+
+You can override via environment variables:
+- `BOOKER_BASE_URL` (default: `https://restful-booker.herokuapp.com`)
+- `BOOKER_USERNAME` (default: `admin`)
+- `BOOKER_PASSWORD` (default: `password123`)
+
+Example:
+- `BOOKER_BASE_URL=https://restful-booker.herokuapp.com BOOKER_USERNAME=admin BOOKER_PASSWORD=password123 ./gradlew test`
+
 ### 3.1 Regression test execution
 `./gradlew test`
 <br/>

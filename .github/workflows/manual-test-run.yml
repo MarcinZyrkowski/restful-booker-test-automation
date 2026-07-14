@@ -36,7 +36,14 @@ jobs:
       # run tests
       - name: Run tests
         continue-on-error: false
-        run: env=${{ inputs.environment }} ./gradlew test -PincludeTags=regression
+        env:
+          # Keep CI configuration injected via environment variables (good practice),
+          # even though Restful Booker demo credentials are publicly known.
+          BOOKER_BASE_URL: https://restful-booker.herokuapp.com
+          BOOKER_USERNAME: admin
+          BOOKER_PASSWORD: password123
+          env: ${{ inputs.environment }}
+        run: ./gradlew test -PincludeTags=regression
 
       # allure generate allure report
       - name: Generate allure report

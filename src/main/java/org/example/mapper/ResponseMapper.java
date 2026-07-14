@@ -1,8 +1,6 @@
 package org.example.mapper;
 
 import io.restassured.response.Response;
-import java.util.List;
-import lombok.NoArgsConstructor;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.auth.ErrorResponse;
 import org.example.model.service.dto.response.auth.Token;
@@ -10,8 +8,9 @@ import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.model.service.dto.response.booking.BookingId;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-@NoArgsConstructor
 public class ResponseMapper {
 
   private <T> T mapTo(Response response, Class<T> clazz) {
