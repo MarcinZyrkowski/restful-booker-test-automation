@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"org.example"})
 public class SpringConfig {
 
-  @Value("${base_url}")
+  @Value("${booker.base-url}")
   private String baseUrl;
 
-  @Value("${app.username}")
+  @Value("${booker.auth.username}")
   private String username;
 
-  @Value("${app.password}")
+  @Value("${booker.auth.password}")
   private String password;
 
   @Bean
