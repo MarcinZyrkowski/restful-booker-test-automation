@@ -1,12 +1,13 @@
 package org.example.auth;
 
-import io.restassured.response.Response;
-import org.example.assertion.auth.TokenResponseAssertion;
-import org.example.assertion.common.ErrorResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.auth.TokenAssert;
+import org.example.assertion.common.ErrorResponseAssert;
+import org.example.client.token.TokenClient;
 import org.example.config.SpringConfig;
 import org.example.factory.auth.UserFactory;
 import org.example.model.service.dto.request.auth.User;
+import org.example.model.service.dto.response.auth.ErrorResponse;
+import org.example.model.service.dto.response.auth.Token;
 import org.example.tags.Regression;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,18 +19,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @DisplayName("Auth")
 class AuthTest {
 
-  @Autowired private BookerClient bookerClient;
+  @Autowired private TokenClient tokenClient;
   @Autowired private User adminUser;
-  @Autowired private TokenResponseAssertion tokenResponseAssertion;
   @Autowired private UserFactory userFactory;
-  @Autowired private ErrorResponseAssertion errorResponseAssertion;
 
   @Test
   @DisplayName("Create token with valid user")
   void createTokenTest() {
-    Response response = bookerClient.createToken(adminUser);
+    Token token = tokenClient.createToken(adminUser);
 
-    tokenResponseAssertion.assertTokenHas15Length(response);
+    TokenAssert.assertThat(token).hasLengthOf(15);
   }
 
   @Test
@@ -37,8 +36,8 @@ class AuthTest {
   void createTokenWithInvalidUserTest() {
     User invalidUser = userFactory.getWithInvalidCredentials();
 
-    Response response = bookerClient.createToken(invalidUser);
+    ErrorResponse errorResponse = tokenClient.createTokenExpectingError(invalidUser);
 
-    errorResponseAssertion.assertReasonIsBadCredentials(response);
+    ErrorResponseAssert.assertThat(errorResponse).hasReason("Bad credentials");
   }
 }

@@ -1,15 +1,16 @@
 package org.example.booking.fetch;
 
 import io.qameta.allure.Issue;
-import io.restassured.response.Response;
 import java.time.LocalDate;
-import org.example.assertion.booking.BookingIdAssertion;
-import org.example.client.BookerClient;
+import java.util.List;
+import org.example.assertion.booking.BookingIdListAssert;
+import org.example.client.booking.FetchBookingClient;
 import org.example.config.SpringConfig;
 import org.example.generator.DateTimesGenerator;
 import org.example.mapper.DateMapper;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
+import org.example.model.service.dto.response.booking.BookingId;
 import org.example.pool.BookingDetailsPool;
 import org.example.tags.Regression;
 import org.example.tracking.Bugs;
@@ -26,17 +27,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @DisplayName("Fetch Booking Ids")
 class FetchBookingsIdsTest {
 
-  @Autowired private BookerClient bookerClient;
-  @Autowired private BookingIdAssertion bookingIdAssertion;
   @Autowired private BookingDetailsPool bookingDetailsPool;
   @Autowired private DateMapper dateMapper;
+  @Autowired private FetchBookingClient fetchBookingClient;
 
   @Test
   @DisplayName("Fetch all booking ids")
   void fetchAllBookingIdsTest() {
-    Response response = bookerClient.getBookingIds(null, null, null, null);
+    List<BookingId> response = fetchBookingClient.getBookingIds(null, null, null, null);
 
-    bookingIdAssertion.assertBookingIdsAreNotEmpty(response);
+    BookingIdListAssert.assertThat(response).isNotEmpty();
   }
 
   @Test
@@ -45,9 +45,10 @@ class FetchBookingsIdsTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
-    Response response = bookerClient.getBookingIds(booking.firstName(), null, null, null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(booking.firstName(), null, null, null);
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -58,9 +59,10 @@ class FetchBookingsIdsTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
-    Response response = bookerClient.getBookingIds(null, booking.lastName(), null, null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, booking.lastName(), null, null);
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -70,9 +72,10 @@ class FetchBookingsIdsTest {
   void fetchBookingIdsWithFilterByNonExistentFirstNameTest() {
     String nonExistentFirstName = BookerStringUtils.randomAlphaNumericSequence();
 
-    Response response = bookerClient.getBookingIds(nonExistentFirstName, null, null, null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(nonExistentFirstName, null, null, null);
 
-    bookingIdAssertion.assertBookingIdsIsEmpty(response);
+    BookingIdListAssert.assertThat(response).isEmpty();
   }
 
   @Test
@@ -80,9 +83,10 @@ class FetchBookingsIdsTest {
   void fetchBookingIdsWithFilterByNonExistentLastNameTest() {
     String nonExistentLastName = BookerStringUtils.randomAlphaNumericSequence();
 
-    Response response = bookerClient.getBookingIds(null, nonExistentLastName, null, null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, nonExistentLastName, null, null);
 
-    bookingIdAssertion.assertBookingIdsIsEmpty(response);
+    BookingIdListAssert.assertThat(response).isEmpty();
   }
 
   @Issue(value = Bugs.CHECK_IN_BUG)
@@ -93,10 +97,10 @@ class FetchBookingsIdsTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
-    Response response =
-        bookerClient.getBookingIds(null, null, booking.bookingDates().checkIn(), null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, null, booking.bookingDates().checkIn(), null);
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -111,9 +115,10 @@ class FetchBookingsIdsTest {
     LocalDate bookingCheckIn = dateMapper.mapStringToLocalDate(booking.bookingDates().checkIn());
     LocalDate filterCheckIn = DateTimesGenerator.getRandomDateBefore(bookingCheckIn, 50);
 
-    Response response = bookerClient.getBookingIds(null, null, filterCheckIn.toString(), null);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, null, filterCheckIn.toString(), null);
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -124,10 +129,10 @@ class FetchBookingsIdsTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
-    Response response =
-        bookerClient.getBookingIds(null, null, null, booking.bookingDates().checkOut());
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, null, null, booking.bookingDates().checkOut());
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -144,9 +149,10 @@ class FetchBookingsIdsTest {
     LocalDate bookingCheckOut = dateMapper.mapStringToLocalDate(booking.bookingDates().checkOut());
     LocalDate filterCheckOut = DateTimesGenerator.getRandomDateBefore(bookingCheckOut, 50);
 
-    Response response = bookerClient.getBookingIds(null, null, null, filterCheckOut.toString());
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(null, null, null, filterCheckOut.toString());
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -163,9 +169,10 @@ class FetchBookingsIdsTest {
     String lastName = BookerRandomUtils.randomOf(null, booking.lastName());
     String checkIn = BookerRandomUtils.randomOf(null, booking.bookingDates().checkIn());
     String checkOut = BookerRandomUtils.randomOf(null, booking.bookingDates().checkOut());
-    Response response = bookerClient.getBookingIds(firstName, lastName, checkIn, checkOut);
+    List<BookingId> response =
+        fetchBookingClient.getBookingIds(firstName, lastName, checkIn, checkOut);
 
-    bookingIdAssertion.assertBookingIdsContainsBookingId(response, bookingDetails.bookingId());
+    BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
     bookingDetailsPool.push(bookingDetails);
   }

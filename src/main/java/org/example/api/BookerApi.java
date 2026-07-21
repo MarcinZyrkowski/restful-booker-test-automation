@@ -1,4 +1,4 @@
-package org.example.client;
+package org.example.api;
 
 import io.qameta.allure.Step;
 import io.restassured.http.Header;
@@ -12,14 +12,14 @@ import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookerClient extends RestClient {
+public class BookerApi extends RestApi {
 
   private static final String HEALTH_CHECK_ENDPOINT = "/ping";
   private static final String AUTH_ENDPOINT = "/auth";
   private static final String BOOKING_ENDPOINT = "/booking";
   private static final String BOOKING_ID_ENDPOINT = "/booking/{id}";
 
-  public BookerClient(SpringConfig springConfig) {
+  public BookerApi(SpringConfig springConfig) {
     super(springConfig);
   }
 

@@ -1,4 +1,4 @@
-package org.example.client;
+package org.example.api;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RestClient {
+public class RestApi {
 
   protected final SpringConfig springConfig;
 

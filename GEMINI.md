@@ -25,13 +25,16 @@ The project follows a multi-layered architecture to separate concerns, enforce c
 
 - **Dependency Injection in Tests:** 
   Test classes are annotated with `@SpringBootTest` and directly autowire only the specific dependencies (clients, steps, pools, factories, assertions) they require. This prevents the "God Object" anti-pattern and couples tests only to the components they actually use.
-- **Client Layer (`org.example.client`):** 
+- **API Layer (`org.example.api`):** 
   Wraps RestAssured to make low-level HTTP calls. 
-  - [RestClient](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/client/RestClient.java) configures the base URI, content type, and Allure/logging filters.
-  - [BookerClient](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/client/BookerClient.java) contains specific endpoint paths and request mapping definitions (e.g., ping, auth, booking).
-- **Steps Layer (`org.example.steps`):** 
-  Contains business-level workflow orchestrations. 
-  - [BookerClientSteps](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/steps/BookerClientSteps.java) orchestrates client requests, performs status assertions, and maps responses into DTOs.
+  - [RestApi](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/api/RestApi.java) configures the base URI, content type, and Allure/logging filters.
+  - [BookerApi](file:///Users/mzyrkowski/IdeaProjects/restful-booker-test-automation/src/main/java/org/example/api/BookerApi.java) contains specific endpoint paths and request mapping definitions (e.g., ping, auth, booking).
+- **Client Layer (`org.example.client`):** 
+  Contains business-level, developer-friendly orchestration clients. These clients make the low-level API calls, assert successful status codes, and map HTTP responses into clean domain objects/Strings for tests. Grouped into business sub-scopes:
+  - `booking` (e.g., `FetchBookingClient`, `DeleteBookingClient`, `UpdateBookingClient`, `PartialUpdateBookingClient`)
+  - `bookingdetails` (e.g., `BookingDetailsClient` for booking creation)
+  - `token` (e.g., `TokenClient` for authentication token operations)
+  - `health` (e.g., `HealthClient` for ping checks)
 - **Assertion Layer (`org.example.assertion`):** 
   Provides domain-specific, fluent assertions. Divided into package sub-scopes:
   - `common` (e.g., status codes, error messages)
@@ -167,7 +170,8 @@ You can use the configured Allure Gradle plugin:
   - The project strictly adheres to **Google Java Format**.
   - The `compileJava` task has a dependency on `spotlessApply`. Hence, compiling or running tests via `./gradlew` will automatically format files before execution.
 - **Assertions Style:**
-  - Prefer using custom assertion classes inside `org.example.assertion` to maintain readability and enable expressive testing workflows.
+  - Prefer using custom assertion classes inside `org.example.assertion` extending AssertJ's `AbstractAssert<Self, Actual>` to enable native fluent testing interfaces.
+  - Do not use static imports for `Assertions`. Always import `org.assertj.core.api.Assertions;` and use `Assertions.assertThat` explicitly in code (avoid fully-qualified class names like `org.assertj.core.api.Assertions.assertThat` in method bodies).
 - **Data Providers vs Factories:**
   - Use **Data Providers** (`@MethodSource`) *only* for multi-parameter cases where the same test logic applies to various inputs.
   - Use **Factories** to provide objects for single-case scenarios to keep tests simpler and more direct.
