@@ -14,14 +14,22 @@ This project is a Java-based, enterprise-grade test automation framework designe
 
 ## 🏗️ Architecture & Component Design
 
-The framework utilizes a highly modular, multi-layered architecture backed by **Spring Dependency Injection** to promote decoupling, clean boundaries, and reusable assertions.
+The framework utilizes a highly modular, multi-layered architecture backed by **Spring Dependency Injection** and **AssertJ Fluent Assertions** to promote decoupling, clean boundaries, and highly readable tests.
 
 ### 📁 Directory Layout Overview
 ```text
 src/
 ├── main/java/org/example/
-│   ├── assertion/         # Domain-specific, fluent assertions (booking, auth, common)
-│   ├── client/            # Low-level RestAssured clients configuring base URI and filters
+│   ├── api/               # Low-level RestAssured API client definitions (RestApi, BookerApi)
+│   ├── assertion/         # Domain-specific, fluent AssertJ custom assertions (extends AbstractAssert)
+│   │   ├── auth/          # TokenAssert
+│   │   ├── booking/       # BookingAssert, BookingDetailsAssert, BookingIdListAssert
+│   │   └── common/        # ErrorResponseAssert, StringResponseAssert, ResponseAssertion
+│   ├── client/            # High-level orchestration clients grouped by business capability sub-scopes
+│   │   ├── booking/       # FetchBookingClient, DeleteBookingClient, UpdateBookingClient, PartialUpdateBookingClient
+│   │   ├── bookingdetails/# BookingDetailsClient (creation operations)
+│   │   ├── health/        # HealthClient
+│   │   └── token/         # TokenClient
 │   ├── config/            # Spring @Configuration & application properties loading
 │   ├── dataprovider/      # Parameterized payloads for data-driven JUnit tests
 │   ├── factory/           # Entity generation workflows (BookingFactory, UserFactory)
@@ -30,7 +38,6 @@ src/
 │   ├── mapper/            # Converters & mapping layers (ResponseMapper, DateMapper)
 │   ├── model/             # Lombok-powered request/response DTO models
 │   ├── pool/              # Thread-safe entity caching / state management
-│   ├── steps/             # Business-level workflow orchestrators & API interaction
 │   ├── tags/              # Custom JUnit 5 annotations (@Regression, @Debug)
 │   ├── tracking/          # Central dictionary of known bugs and issues
 │   └── utils/             # Domain-agnostic pure utility/helper classes
@@ -57,6 +64,18 @@ To optimize execution speed and prevent rate-limiting or service degradation on 
 - Pushes newly-created entities to the pool.
 - Retrieves or lazily initializes entities dynamically via `.popOrCreate()`.
 - Guarantees test thread safety with non-blocking concurrent queues.
+
+### 🧪 SDK-Grade Client & API Separation
+- **API Layer (`BookerApi`)**: Low-level endpoint pathways, headers, and HTTP request actions using RestAssured.
+- **Client Layer (`*Client`)**: High-level, developer-friendly orchestration APIs that run operations, verify response code boundaries, map JSON bodies to models, and return structured Java objects to tests.
+
+### 🎯 Fluent Custom AssertJ Assertions
+All assertions are implemented as specialized AssertJ classes inheriting from `AbstractAssert`. Tests achieve industry-standard readability without requiring Spring container autowiring:
+```java
+// Example of extremely readable assertions
+BookingAssert.assertThat(response).isEqualToBooking(expectedBooking);
+TokenAssert.assertThat(token).hasLengthOf(15);
+```
 
 ### 🐛 Smart Bug Tracking & Defect Isolation
 We isolate test noise using explicit annotations coupled with a known bug registry:
