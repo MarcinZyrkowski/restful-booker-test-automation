@@ -25,14 +25,28 @@ src/
 │   ├── config/            # Spring @Configuration & application properties loading
 │   ├── dataprovider/      # Parameterized payloads for data-driven JUnit tests
 │   ├── factory/           # Entity generation workflows (BookingFactory, UserFactory)
+│   ├── generator/         # Specialized builder generators for request payloads and dates
+│   ├── helper/            # Domain-specific helpers and workflows (e.g., entity merging)
 │   ├── mapper/            # Converters & mapping layers (ResponseMapper, DateMapper)
 │   ├── model/             # Lombok-powered request/response DTO models
 │   ├── pool/              # Thread-safe entity caching / state management
 │   ├── steps/             # Business-level workflow orchestrators & API interaction
 │   ├── tags/              # Custom JUnit 5 annotations (@Regression, @Debug)
-│   └── tracking/          # Central dictionary of known bugs and issues
+│   ├── tracking/          # Central dictionary of known bugs and issues
+│   └── utils/             # Domain-agnostic pure utility/helper classes
 └── main/resources/        # Environment profile-specific configuration files
 ```
+
+### 📐 Factory vs. Generator vs. Helper vs. Utils
+
+To maintain clear separation of concerns, the framework differentiates between these four layers:
+
+| Component Type | Responsibility | Spring Bean? | Examples | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **Factory** | High-level orchestration of complete, valid or invalid test entities. | **Yes** (`@Component`) | `BookingFactory`, `UserFactory` | Use in tests to quickly arrange test data with descriptive, readable method names (e.g., `bookingFactory.getWithAllValidFields()`). |
+| **Generator** | Reusable builder-pattern payload construction and date/time manipulation. | **No** (Static utility / builder) | `BookingGenerator`, `DateTimesGenerator` | Use to define granular construction steps, random field modifications, or generic fake data generation logic. |
+| **Helper** | Domain-specific, rich business workflows (e.g., merging entity states). | **Yes** (`@Component`) | `BookingHelper` | Use when performing operations specific to domain models (like merging a patch update) that are used across multiple steps or tests. |
+| **Utils** | Domain-agnostic pure static functions for generic logic. | **No** (Static methods only) | `CollectionUtils`, `BookerStringUtils`, `FakerUtils` | Use for general-purpose helpers (e.g., checking if a list is empty, custom string formatting) that have zero knowledge of restful-booker domain models. |
 
 ---
 
