@@ -36,7 +36,10 @@ jobs:
       # run tests
       - name: Run tests
         continue-on-error: false
-        run: env=${{ inputs.environment }} ./gradlew test -PincludeTags=regression
+        env:
+          # Select environment via Spring profiles (qa/dev).
+          SPRING_PROFILES_ACTIVE: ${{ inputs.environment }}
+        run: ./gradlew test -PincludeTags=regression
 
       # allure generate allure report
       - name: Generate allure report

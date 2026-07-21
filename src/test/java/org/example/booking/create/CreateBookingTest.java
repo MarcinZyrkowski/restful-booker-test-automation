@@ -1,15 +1,15 @@
 package org.example.booking.create;
 
 import io.qameta.allure.Issue;
-import io.restassured.response.Response;
 import java.util.stream.Stream;
-import org.example.assertion.booking.BookingDetailsAssertion;
-import org.example.assertion.common.StringResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.booking.BookingDetailsAssert;
+import org.example.assertion.common.StringResponseAssert;
+import org.example.client.bookingdetails.BookingDetailsClient;
 import org.example.config.SpringConfig;
 import org.example.dataprovider.BookingDataProvider;
 import org.example.factory.booking.BookingFactory;
 import org.example.model.service.dto.common.Booking;
+import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
 import org.example.tags.Regression;
 import org.example.tracking.Bugs;
@@ -30,10 +30,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CreateBookingTest {
 
   @Autowired private BookingFactory bookingFactory;
-  @Autowired private BookerClient bookerClient;
-  @Autowired private BookingDetailsAssertion bookingDetailsAssertion;
+  @Autowired private BookingDetailsClient bookingDetailsClient;
   @Autowired private BookingDetailsPool bookingDetailsPool;
-  @Autowired private StringResponseAssertion stringResponseAssertion;
   @Autowired private BookingDataProvider bookingDataProvider;
 
   @Test
@@ -41,11 +39,11 @@ class CreateBookingTest {
   void createBookingTest() {
     Booking requestBody = bookingFactory.getWithAllValidFields();
 
-    Response response = bookerClient.createBooking(requestBody);
+    BookingDetails bookingDetails = bookingDetailsClient.createBooking(requestBody);
 
-    bookingDetailsAssertion.assertResponseIsCreatedFrom(response, requestBody);
+    BookingDetailsAssert.assertThat(bookingDetails).isCreatedFrom(requestBody);
 
-    bookingDetailsPool.push(response);
+    bookingDetailsPool.push(bookingDetails);
   }
 
   @Issue(value = Bugs.NEGATIVE_TOTAL_PRICE_BUG)
@@ -55,27 +53,27 @@ class CreateBookingTest {
   void shouldNotCreateBookingWithNegativeTotalPrice() {
     Booking requestBody = bookingFactory.getWithNegativeTotalPrice();
 
-    Response response = bookerClient.createBooking(requestBody);
+    String response = bookingDetailsClient.createBookingExpectingError(requestBody);
 
-    stringResponseAssertion.assertResponseIsBadRequest(response);
+    StringResponseAssert.assertThat(response).isBadRequest();
   }
 
   @DisplayName("Should not create booking with missing required field")
   @ParameterizedTest(name = "{1}")
   @MethodSource("providerMissingFieldBookings")
   void shouldNotCreateBookingTest(Booking request, String description) {
-    Response response = bookerClient.createBooking(request);
+    String response = bookingDetailsClient.createBookingExpectingError(request);
 
-    stringResponseAssertion.assertResponseIsInternalServerError(response);
+    StringResponseAssert.assertThat(response).isInternalServerError();
   }
 
   @DisplayName("Should not create booking with random multiple missing required fields")
   @Test
   void shouldNotCreateBookingWithRandomMissingFieldsTest() {
     Booking request = bookingFactory.getWithRandomMissingRequiredFields();
-    Response response = bookerClient.createBooking(request);
+    String response = bookingDetailsClient.createBookingExpectingError(request);
 
-    stringResponseAssertion.assertResponseIsInternalServerError(response);
+    StringResponseAssert.assertThat(response).isInternalServerError();
   }
 
   Stream<Arguments> providerMissingFieldBookings() {

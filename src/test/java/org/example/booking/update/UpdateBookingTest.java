@@ -1,16 +1,17 @@
 package org.example.booking.update;
 
-import io.restassured.response.Response;
-import org.example.assertion.booking.BookingAssertion;
-import org.example.assertion.common.StringResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.booking.BookingAssert;
+import org.example.assertion.common.StringResponseAssert;
+import org.example.client.booking.FetchBookingClient;
+import org.example.client.booking.UpdateBookingClient;
+import org.example.client.token.TokenClient;
 import org.example.config.SpringConfig;
 import org.example.factory.booking.BookingFactory;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.request.auth.User;
+import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
-import org.example.steps.BookerClientSteps;
 import org.example.tags.Regression;
 import org.example.utils.BookerRandomUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -25,11 +26,10 @@ class UpdateBookingTest {
 
   @Autowired private BookingDetailsPool bookingDetailsPool;
   @Autowired private BookingFactory bookingFactory;
-  @Autowired private BookerClient bookerClient;
-  @Autowired private BookingAssertion bookingAssertion;
-  @Autowired private BookerClientSteps bookerClientSteps;
+  @Autowired private UpdateBookingClient updateBookingClient;
+  @Autowired private FetchBookingClient fetchBookingClient;
+  @Autowired private TokenClient tokenClient;
   @Autowired private User adminUser;
-  @Autowired private StringResponseAssertion stringResponseAssertion;
 
   @Test
   @DisplayName("Update booking with all valid fields - basic auth")
@@ -38,11 +38,11 @@ class UpdateBookingTest {
     int bookingId = bookingDetails.bookingId();
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
-    Response response = bookerClient.updateBooking(bookingId, bookingUpdate);
-    bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
+    Booking response = updateBookingClient.updateBooking(bookingId, bookingUpdate);
+    BookingAssert.assertThat(response).isEqualToBooking(bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
+    Booking fetchedResponse = fetchBookingClient.getBookingById(String.valueOf(bookingId));
+    BookingAssert.assertThat(fetchedResponse).isEqualToBooking(bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
@@ -56,13 +56,14 @@ class UpdateBookingTest {
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
-    String token = bookerClientSteps.createToken(adminUser).token();
+    Token tokenResponse = tokenClient.createToken(adminUser);
+    String token = tokenResponse.token();
 
-    Response response = bookerClient.updateBooking(bookingId, bookingUpdate, token);
-    bookingAssertion.assertResponseIsEqualTo(response, bookingUpdate);
+    Booking response = updateBookingClient.updateBooking(bookingId, bookingUpdate, token);
+    BookingAssert.assertThat(response).isEqualToBooking(bookingUpdate);
 
-    Response fetchResponse = bookerClient.getBookingById(String.valueOf(bookingId));
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingUpdate);
+    Booking fetchedResponse = fetchBookingClient.getBookingById(String.valueOf(bookingId));
+    BookingAssert.assertThat(fetchedResponse).isEqualToBooking(bookingUpdate);
 
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
@@ -76,9 +77,10 @@ class UpdateBookingTest {
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
     String invalidToken = "invalid_token";
-    Response response = bookerClient.updateBooking(bookingId, bookingUpdate, invalidToken);
+    String response =
+        updateBookingClient.updateBookingExpectingError(bookingId, bookingUpdate, invalidToken);
 
-    stringResponseAssertion.assertResponseIsForbidden(response);
+    StringResponseAssert.assertThat(response).isForbidden();
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -90,8 +92,9 @@ class UpdateBookingTest {
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
-    Response response = bookerClient.updateBooking((int) nonExistentBookingId, bookingUpdate);
+    String response =
+        updateBookingClient.updateBookingExpectingError((int) nonExistentBookingId, bookingUpdate);
 
-    stringResponseAssertion.assertResponseIsMethodNotAllowed(response);
+    StringResponseAssert.assertThat(response).isMethodNotAllowed();
   }
 }

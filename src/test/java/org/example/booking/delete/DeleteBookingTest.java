@@ -1,13 +1,14 @@
 package org.example.booking.delete;
 
-import io.restassured.response.Response;
-import org.example.assertion.common.StringResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.common.StringResponseAssert;
+import org.example.client.booking.DeleteBookingClient;
+import org.example.client.booking.FetchBookingClient;
+import org.example.client.token.TokenClient;
 import org.example.config.SpringConfig;
 import org.example.model.service.dto.request.auth.User;
+import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
-import org.example.steps.BookerClientSteps;
 import org.example.tags.Regression;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DeleteBookingTest {
 
   @Autowired private BookingDetailsPool bookingDetailsPool;
-  @Autowired private BookerClient bookerClient;
-  @Autowired private StringResponseAssertion stringResponseAssertion;
-  @Autowired private BookerClientSteps bookerClientSteps;
+  @Autowired private DeleteBookingClient deleteBookingClient;
+  @Autowired private FetchBookingClient fetchBookingClient;
+  @Autowired private TokenClient tokenClient;
   @Autowired private User adminUser;
 
   @Test
@@ -31,10 +32,12 @@ class DeleteBookingTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
-    Response deleteResponse = bookerClient.deleteBooking(bookingId);
+    String deleteResponse = deleteBookingClient.deleteBooking(bookingId);
+    StringResponseAssert.assertThat(deleteResponse).isCreated();
 
-    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
-    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
+    String fetchResponse =
+        fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
+    StringResponseAssert.assertThat(fetchResponse).isNotFound();
   }
 
   @Test
@@ -43,12 +46,15 @@ class DeleteBookingTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
-    String token = bookerClientSteps.createToken(adminUser).token();
+    Token tokenResponse = tokenClient.createToken(adminUser);
+    String token = tokenResponse.token();
 
-    Response deleteResponse = bookerClient.deleteBooking(bookingId, token);
+    String deleteResponse = deleteBookingClient.deleteBooking(bookingId, token);
+    StringResponseAssert.assertThat(deleteResponse).isCreated();
 
-    stringResponseAssertion.assertResponseIsCreated(deleteResponse);
-    bookerClientSteps.fetchBookingAssertNotFound(bookingId);
+    String fetchResponse =
+        fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
+    StringResponseAssert.assertThat(fetchResponse).isNotFound();
   }
 
   @Test
@@ -58,8 +64,8 @@ class DeleteBookingTest {
     int bookingId = bookingDetails.bookingId();
 
     String invalidToken = "invalid-token";
-    Response deleteResponse = bookerClient.deleteBooking(bookingId, invalidToken);
+    String response = deleteBookingClient.deleteBookingExpectingError(bookingId, invalidToken);
 
-    stringResponseAssertion.assertResponseIsForbidden(deleteResponse);
+    StringResponseAssert.assertThat(response).isForbidden();
   }
 }

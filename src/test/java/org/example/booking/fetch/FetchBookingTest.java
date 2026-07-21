@@ -1,10 +1,10 @@
 package org.example.booking.fetch;
 
-import io.restassured.response.Response;
-import org.example.assertion.booking.BookingAssertion;
-import org.example.assertion.common.StringResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.booking.BookingAssert;
+import org.example.assertion.common.StringResponseAssert;
+import org.example.client.booking.FetchBookingClient;
 import org.example.config.SpringConfig;
+import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
 import org.example.tags.Regression;
@@ -21,9 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class FetchBookingTest {
 
   @Autowired private BookingDetailsPool bookingDetailsPool;
-  @Autowired private BookerClient bookerClient;
-  @Autowired private BookingAssertion bookingAssertion;
-  @Autowired private StringResponseAssertion stringResponseAssertion;
+  @Autowired private FetchBookingClient fetchBookingClient;
 
   @Test
   @DisplayName("Fetch booking by id")
@@ -31,9 +29,8 @@ class FetchBookingTest {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     String bookingId = String.valueOf(bookingDetails.bookingId());
 
-    Response fetchResponse = bookerClient.getBookingById(bookingId);
-
-    bookingAssertion.assertResponseIsEqualTo(fetchResponse, bookingDetails.booking());
+    Booking actualBooking = fetchBookingClient.getBookingById(bookingId);
+    BookingAssert.assertThat(actualBooking).isEqualToBooking(bookingDetails.booking());
 
     bookingDetailsPool.push(bookingDetails);
   }
@@ -43,9 +40,9 @@ class FetchBookingTest {
   void fetchBookingByIdThatNotExistsTest() {
     String nonExistentBookingId = BookerRandomUtils.randomNumberAsString(100_000, 200_000);
 
-    Response fetchResponse = bookerClient.getBookingById(nonExistentBookingId);
+    String response = fetchBookingClient.getBookingByIdExpectingError(nonExistentBookingId);
 
-    stringResponseAssertion.assertResponseIsNotFound(fetchResponse);
+    StringResponseAssert.assertThat(response).isNotFound();
   }
 
   @Test
@@ -53,8 +50,8 @@ class FetchBookingTest {
   void fetchBookingWithRandomAlphanumericIdTest() {
     String randomId = BookerStringUtils.randomAlphaNumericSequence();
 
-    Response fetchResponse = bookerClient.getBookingById(randomId);
+    String response = fetchBookingClient.getBookingByIdExpectingError(randomId);
 
-    stringResponseAssertion.assertResponseIsNotFound(fetchResponse);
+    StringResponseAssert.assertThat(response).isNotFound();
   }
 }

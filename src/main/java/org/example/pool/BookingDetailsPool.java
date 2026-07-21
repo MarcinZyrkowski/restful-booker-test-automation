@@ -5,11 +5,11 @@ import io.restassured.response.Response;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import lombok.RequiredArgsConstructor;
+import org.example.client.bookingdetails.BookingDetailsClient;
 import org.example.factory.booking.BookingFactory;
 import org.example.mapper.ResponseMapper;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
-import org.example.steps.BookerClientSteps;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +20,8 @@ import org.springframework.stereotype.Component;
  *
  * <ul>
  *   <li>All bookings are immutable records and should not be modified after creation
- *   <li>The pool uses synchronization to ensure thread-safe add/remove operations
+ *   <li>The pool relies on ConcurrentLinkedQueue for safe, non-blocking add/remove operations
+ *       across threads.
  *   <li>Tests should push bookings back to the pool to allow reuse
  *   <li>Avoid long-lived references to popped bookings
  * </ul>
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class BookingDetailsPool {
 
   private final ResponseMapper responseMapper;
-  private final BookerClientSteps bookerClientSteps;
+  private final BookingDetailsClient bookingDetailsClient;
   private final BookingFactory bookingFactory;
   private final Queue<BookingDetails> pool = new ConcurrentLinkedQueue<>();
 
@@ -54,7 +55,7 @@ public class BookingDetailsPool {
     BookingDetails bookingDetails = pop();
     if (bookingDetails == null) {
       Booking request = bookingFactory.getWithAllValidFields();
-      return bookerClientSteps.createBooking(request);
+      return bookingDetailsClient.createBooking(request);
     }
 
     return bookingDetails;

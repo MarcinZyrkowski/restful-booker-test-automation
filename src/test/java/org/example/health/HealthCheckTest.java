@@ -1,8 +1,7 @@
 package org.example.health;
 
-import io.restassured.response.Response;
-import org.example.assertion.common.StringResponseAssertion;
-import org.example.client.BookerClient;
+import org.example.assertion.common.StringResponseAssert;
+import org.example.client.health.HealthClient;
 import org.example.config.SpringConfig;
 import org.example.tags.Regression;
 import org.junit.jupiter.api.DisplayName;
@@ -15,14 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @DisplayName("Health Check")
 class HealthCheckTest {
 
-  @Autowired private BookerClient bookerClient;
-  @Autowired private StringResponseAssertion stringResponseAssertion;
+  @Autowired private HealthClient healthClient;
 
   @Test
-  @DisplayName("Health Check")
+  @DisplayName("Verify Health Check")
   void verifyHealthCheck() {
-    Response response = bookerClient.healthCheck();
+    String response = healthClient.healthCheck();
 
-    stringResponseAssertion.assertResponseIsCreated(response);
+    StringResponseAssert.assertThat(response).isCreated();
   }
 }
