@@ -88,12 +88,12 @@ class UpdateBookingTest {
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotUpdateBookingWhenBookingIdDoesNotExistTest() {
-    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
+    int nonExistentBookingId = BookerRandomUtils.randomInt(100_000, 200_000);
 
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
     String response =
-        updateBookingClient.updateBookingExpectingError((int) nonExistentBookingId, bookingUpdate);
+        updateBookingClient.updateBookingExpectingError(nonExistentBookingId, bookingUpdate);
 
     StringResponseAssert.assertThat(response).isMethodNotAllowed();
   }

@@ -90,13 +90,13 @@ class PartialUpdateBookingTest {
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotPartialUpdateBookingWhenBookingIdDoesNotExistTest() {
-    long nonExistentBookingId = BookerRandomUtils.randomNumber(100_000, 200_000);
+    int nonExistentBookingId = BookerRandomUtils.randomInt(100_000, 200_000);
 
     Booking partialBookingUpdate = bookingFactory.getWithValidOrNullFields();
 
     String response =
         partialUpdateBookingClient.partialUpdateBookingExpectingError(
-            (int) nonExistentBookingId, partialBookingUpdate);
+            nonExistentBookingId, partialBookingUpdate);
 
     StringResponseAssert.assertThat(response).isMethodNotAllowed();
   }

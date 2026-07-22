@@ -30,7 +30,7 @@ public class BookingGenerator {
   }
 
   public BookingGenerator withAllValidFields() {
-    long totalPrice = BookerRandomUtils.randomNumber(MIN_TOTAL_PRICE, MAX_TOTAL_PRICE);
+    long totalPrice = BookerRandomUtils.randomLong(MIN_TOTAL_PRICE, MAX_TOTAL_PRICE);
     String additionalNeed = AdditionalNeed.getRandom().getValue();
 
     this.booking =
@@ -131,7 +131,7 @@ public class BookingGenerator {
 
   public BookingGenerator withNegativeTotalPrice() {
     int negativeTotal =
-        (int) BookerRandomUtils.randomNumber(MIN_NEGATIVE_TOTAL_PRICE, MAX_NEGATIVE_TOTAL_PRICE);
+        BookerRandomUtils.randomInt(MIN_NEGATIVE_TOTAL_PRICE, MAX_NEGATIVE_TOTAL_PRICE);
     this.booking = booking.withTotalPrice(negativeTotal);
     return this;
   }

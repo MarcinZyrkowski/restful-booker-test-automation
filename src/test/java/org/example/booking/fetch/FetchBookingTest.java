@@ -38,7 +38,7 @@ class FetchBookingTest {
   @Test
   @DisplayName("Fetch booking by id that doesn't exist")
   void fetchBookingByIdThatNotExistsTest() {
-    String nonExistentBookingId = BookerRandomUtils.randomNumberAsString(100_000, 200_000);
+    String nonExistentBookingId = BookerRandomUtils.randomLongAsString(100_000, 200_000);
 
     String response = fetchBookingClient.getBookingByIdExpectingError(nonExistentBookingId);
 

@@ -2,14 +2,13 @@ package org.example.api;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import java.util.HashMap;
+import java.util.Map;
 import org.example.config.SpringConfig;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.request.auth.User;
 import org.example.utils.CollectionUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class BookerApi extends RestApi {
