@@ -1,5 +1,10 @@
 package org.example.booking.fetch;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.example.assertion.booking.BookingAssert;
 import org.example.assertion.common.StringResponseAssert;
 import org.example.client.booking.FetchBookingClient;
@@ -15,6 +20,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.NORMAL)
+@Epic("Booking API")
+@Feature("Booking Management")
+@Story("Fetch Booking")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Fetch Booking by Id")

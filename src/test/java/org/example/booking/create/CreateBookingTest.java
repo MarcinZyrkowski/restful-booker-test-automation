@@ -1,6 +1,11 @@
 package org.example.booking.create;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import java.util.stream.Stream;
 import org.example.assertion.booking.BookingDetailsAssert;
 import org.example.assertion.common.StringResponseAssert;
@@ -23,6 +28,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.CRITICAL)
+@Epic("Booking API")
+@Feature("Booking Management")
+@Story("Create Booking")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

@@ -1,5 +1,10 @@
 package org.example.booking.delete;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.example.assertion.common.StringResponseAssert;
 import org.example.client.booking.DeleteBookingClient;
 import org.example.client.booking.FetchBookingClient;
@@ -15,6 +20,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.CRITICAL)
+@Epic("Booking API")
+@Feature("Booking Management")
+@Story("Delete Booking")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Delete Booking")

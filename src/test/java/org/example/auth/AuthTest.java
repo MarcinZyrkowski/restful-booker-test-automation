@@ -1,5 +1,10 @@
 package org.example.auth;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.example.assertion.auth.TokenAssert;
 import org.example.assertion.common.ErrorResponseAssert;
 import org.example.client.token.TokenClient;
@@ -14,6 +19,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.BLOCKER)
+@Epic("Security & Identity")
+@Feature("Authentication token")
+@Story("Authentication")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Auth")

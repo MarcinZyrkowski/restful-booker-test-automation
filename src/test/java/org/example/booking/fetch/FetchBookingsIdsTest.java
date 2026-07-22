@@ -1,6 +1,11 @@
 package org.example.booking.fetch;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import java.time.LocalDate;
 import java.util.List;
 import org.example.assertion.booking.BookingIdListAssert;
@@ -22,6 +27,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.NORMAL)
+@Epic("Booking API")
+@Feature("Booking Management")
+@Story("Fetch Booking IDs")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @DisplayName("Fetch Booking Ids")
