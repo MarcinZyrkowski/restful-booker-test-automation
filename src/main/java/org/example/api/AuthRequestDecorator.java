@@ -1,6 +1,7 @@
 package org.example.api;
 
 import io.restassured.specification.RequestSpecification;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.example.config.SpringConfig;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthRequestDecorator {
+
+  private static final String AUTH_COOKIE_NAME = "token";
 
   private final SpringConfig springConfig;
 
@@ -29,6 +32,7 @@ public class AuthRequestDecorator {
    * @return The decorated request specification with token cookie.
    */
   public RequestSpecification withTokenAuth(RequestSpecification spec, String token) {
-    return spec.cookie("token", token);
+    Objects.requireNonNull(token, "Auth token must not be null");
+    return spec.cookie(AUTH_COOKIE_NAME, token);
   }
 }

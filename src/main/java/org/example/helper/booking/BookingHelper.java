@@ -1,13 +1,14 @@
 package org.example.helper.booking;
 
 import java.util.Optional;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.common.Booking.BookingBuilder;
 import org.example.model.service.dto.common.Booking.BookingDates;
 import org.example.model.service.dto.common.Booking.BookingDates.BookingDatesBuilder;
-import org.springframework.stereotype.Component;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingHelper {
 
   /**
@@ -18,7 +19,7 @@ public class BookingHelper {
    * @param partialUpdate the partial booking with updates
    * @return a merged booking with non-null values from partialUpdate
    */
-  public Booking mergeNonNullableBooking(Booking original, Booking partialUpdate) {
+  public static Booking mergeNonNullableBooking(Booking original, Booking partialUpdate) {
     if (partialUpdate == null) return original;
     if (original == null) return partialUpdate;
 
@@ -45,7 +46,7 @@ public class BookingHelper {
    * @param partialUpdate the partial booking dates with updates
    * @return a merged booking dates with non-null values from partialUpdate
    */
-  public BookingDates mergeNonNullableBookingDates(
+  public static BookingDates mergeNonNullableBookingDates(
       BookingDates original, BookingDates partialUpdate) {
     if (partialUpdate == null) return original;
     if (original == null) return partialUpdate;

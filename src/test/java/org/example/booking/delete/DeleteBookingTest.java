@@ -2,6 +2,7 @@ package org.example.booking.delete;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Issue;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
@@ -15,6 +16,7 @@ import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
 import org.example.tags.Regression;
+import org.example.tracking.Bugs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ class DeleteBookingTest {
   @Autowired private User adminUser;
 
   @Test
+  @Issue(value = Bugs.DELETE_RETURNS_201_CREATED_BUG)
   @DisplayName("Delete booking using basic auth")
   void deleteBookingUsingBasicAuthTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
@@ -50,6 +53,7 @@ class DeleteBookingTest {
   }
 
   @Test
+  @Issue(value = Bugs.DELETE_RETURNS_201_CREATED_BUG)
   @DisplayName("Delete booking using token")
   void deleteBookingUsingTokenTest() {
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();

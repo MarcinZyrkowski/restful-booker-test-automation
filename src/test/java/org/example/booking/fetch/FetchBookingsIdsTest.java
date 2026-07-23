@@ -11,12 +11,13 @@ import java.util.List;
 import org.example.assertion.booking.BookingIdListAssert;
 import org.example.client.booking.FetchBookingClient;
 import org.example.config.SpringConfig;
-import org.example.generator.DateTimesGenerator;
+import org.example.generator.DateGenerator;
 import org.example.mapper.DateMapper;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.model.service.dto.response.booking.BookingId;
 import org.example.pool.BookingDetailsPool;
+import org.example.tags.Bug;
 import org.example.tags.Regression;
 import org.example.tracking.Bugs;
 import org.example.utils.BookerRandomUtils;
@@ -100,6 +101,7 @@ class FetchBookingsIdsTest {
 
   @Issue(value = Bugs.CHECK_IN_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_IN_BUG)
+  @Bug
   @Test
   @DisplayName("Fetch booking ids with filter by check in date (equal to booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateTest() {
@@ -122,7 +124,7 @@ class FetchBookingsIdsTest {
     Booking booking = bookingDetails.booking();
 
     LocalDate bookingCheckIn = dateMapper.mapStringToLocalDate(booking.bookingDates().checkIn());
-    LocalDate filterCheckIn = DateTimesGenerator.getRandomDateBefore(bookingCheckIn, 50);
+    LocalDate filterCheckIn = DateGenerator.getRandomDateBefore(bookingCheckIn, 50);
 
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, filterCheckIn.toString(), null);
@@ -148,6 +150,7 @@ class FetchBookingsIdsTest {
 
   @Issue(value = Bugs.CHECK_OUT_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_OUT_BUG)
+  @Bug
   @Test
   @DisplayName(
       "Fetch booking ids with filter by checkout date (earlier than booking checkout date)")
@@ -156,7 +159,7 @@ class FetchBookingsIdsTest {
     Booking booking = bookingDetails.booking();
 
     LocalDate bookingCheckOut = dateMapper.mapStringToLocalDate(booking.bookingDates().checkOut());
-    LocalDate filterCheckOut = DateTimesGenerator.getRandomDateBefore(bookingCheckOut, 50);
+    LocalDate filterCheckOut = DateGenerator.getRandomDateBefore(bookingCheckOut, 50);
 
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, null, filterCheckOut.toString());
@@ -168,6 +171,7 @@ class FetchBookingsIdsTest {
 
   @Issue(value = Bugs.CHECK_IN_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.CHECK_IN_BUG)
+  @Bug
   @Test
   @DisplayName("Fetch booking ids with combination of all filters")
   void fetchBookingIdsWithMixedFiltersTest() {

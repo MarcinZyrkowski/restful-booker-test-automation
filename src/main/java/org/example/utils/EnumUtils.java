@@ -13,7 +13,7 @@ public class EnumUtils {
       throw new IllegalArgumentException("Enum class must have at least one constant");
     }
 
-    long randomIndex = BookerRandomUtils.randomLong(0, values.length);
-    return values[(int) randomIndex];
+    int randomIndex = BookerRandomUtils.randomInt(0, values.length);
+    return values[randomIndex];
   }
 }

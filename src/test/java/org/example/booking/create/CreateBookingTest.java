@@ -16,6 +16,7 @@ import org.example.factory.booking.BookingFactory;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
+import org.example.tags.Bug;
 import org.example.tags.Regression;
 import org.example.tracking.Bugs;
 import org.junit.jupiter.api.Disabled;
@@ -57,6 +58,7 @@ class CreateBookingTest {
 
   @Issue(value = Bugs.NEGATIVE_TOTAL_PRICE_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.NEGATIVE_TOTAL_PRICE_BUG)
+  @Bug
   @Test
   @DisplayName("Should not create booking when total price is negative")
   void shouldNotCreateBookingWithNegativeTotalPrice() {

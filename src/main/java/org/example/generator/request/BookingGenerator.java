@@ -3,10 +3,10 @@ package org.example.generator.request;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.generator.DateTimesGenerator;
-import org.example.model.helper.AdditionalNeed;
+import org.example.generator.DateGenerator;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.common.Booking.BookingDates;
+import org.example.model.service.enums.AdditionalNeed;
 import org.example.utils.BookerRandomUtils;
 import org.example.utils.FakerUtils;
 
@@ -46,8 +46,8 @@ public class BookingGenerator {
   }
 
   private BookingDates validBookingDates() {
-    LocalDate checkIn = DateTimesGenerator.getRandomFutureDate();
-    LocalDate checkOut = DateTimesGenerator.getRandomDateAfter(checkIn, MAX_STAY_DURATION_IN_DAYS);
+    LocalDate checkIn = DateGenerator.getRandomFutureDate();
+    LocalDate checkOut = DateGenerator.getRandomDateAfter(checkIn, MAX_STAY_DURATION_IN_DAYS);
 
     return BookingDates.builder().checkIn(checkIn.toString()).checkOut(checkOut.toString()).build();
   }
