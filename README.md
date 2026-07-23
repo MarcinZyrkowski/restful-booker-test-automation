@@ -146,6 +146,8 @@ When tests run in GitHub Actions:
   - Use `@RequiredArgsConstructor` for constructor-based dependency injection in components.
 - **Reporting Steps:**
   - Annotate client methods and step orchestrations with `@Step("Description")` to write detailed, human-readable step entries in the Allure reports.
+- **Test Documentation:**
+  - Every action or logical group of actions within a test method must be concisely described using inline comments.
 - **Custom JUnit 5 Tags:**
   - Standard tags are defined under `org.example.tags` (e.g., `@Regression`, `@Debug`). Use these annotations instead of raw `@Tag("name")` strings.
 - **Automated Formatting:**

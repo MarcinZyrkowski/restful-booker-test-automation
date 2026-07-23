@@ -43,16 +43,23 @@ class UpdateBookingTest {
   @Test
   @DisplayName("Update booking with all valid fields - basic auth")
   void updateBookingUsingBasicAuthTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Prepare a full update payload with valid fields
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
+
+    // Send request to fully update the booking using basic auth
     Booking response = updateBookingClient.updateBooking(bookingId, bookingUpdate);
+    // Verify the response matches the updated payload
     BookingAssert.assertThat(response).isEqualToBooking(bookingUpdate);
 
+    // Fetch the booking and verify the changes persisted
     Booking fetchedResponse = fetchBookingClient.getBookingById(String.valueOf(bookingId));
     BookingAssert.assertThat(fetchedResponse).isEqualToBooking(bookingUpdate);
 
+    // Add the updated booking to the pool for reuse
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
   }
@@ -60,20 +67,27 @@ class UpdateBookingTest {
   @Test
   @DisplayName("Update booking with all valid fields - token auth")
   void updateBookingUsingTokenTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Prepare a full update payload with valid fields
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
+    // Generate a valid authentication token
     Token tokenResponse = tokenClient.createToken(adminUser);
     String token = tokenResponse.token();
 
+    // Send request to fully update the booking using the token
     Booking response = updateBookingClient.updateBooking(bookingId, bookingUpdate, token);
+    // Verify the response matches the updated payload
     BookingAssert.assertThat(response).isEqualToBooking(bookingUpdate);
 
+    // Fetch the booking and verify the changes persisted
     Booking fetchedResponse = fetchBookingClient.getBookingById(String.valueOf(bookingId));
     BookingAssert.assertThat(fetchedResponse).isEqualToBooking(bookingUpdate);
 
+    // Add the updated booking to the pool for reuse
     bookingDetailsPool.push(
         BookingDetails.builder().bookingId(bookingId).booking(bookingUpdate).build());
   }
@@ -81,29 +95,39 @@ class UpdateBookingTest {
   @Test
   @DisplayName("Should return: forbidden when updating booking with invalid token")
   void shouldNotUpdateBookingWithInvalidTokenTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Prepare a full update payload and an invalid token
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
     String invalidToken = "invalid_token";
+
+    // Attempt to fully update the booking with an invalid token and expect an error
     String response =
         updateBookingClient.updateBookingExpectingError(bookingId, bookingUpdate, invalidToken);
 
+    // Verify a forbidden status code is returned
     StringResponseAssert.assertThat(response).isForbidden();
 
+    // Return the original booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Test
   @DisplayName("Should return: method not allowed when booking ID does not exist")
   void shouldNotUpdateBookingWhenBookingIdDoesNotExistTest() {
+    // Generate a random non-existent booking ID
     int nonExistentBookingId = BookerRandomUtils.randomInt(100_000, 200_000);
 
+    // Prepare a full update payload
     Booking bookingUpdate = bookingFactory.getWithAllValidFields();
 
+    // Attempt to fully update a non-existent booking and expect an error
     String response =
         updateBookingClient.updateBookingExpectingError(nonExistentBookingId, bookingUpdate);
 
+    // Verify a method not allowed status code is returned
     StringResponseAssert.assertThat(response).isMethodNotAllowed();
   }
 }

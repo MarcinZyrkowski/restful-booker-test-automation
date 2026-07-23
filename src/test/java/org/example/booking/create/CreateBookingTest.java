@@ -47,12 +47,16 @@ class CreateBookingTest {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
+    // Prepare a valid booking request payload
     Booking requestBody = bookingFactory.getWithAllValidFields();
 
+    // Send request to create the booking
     BookingDetails bookingDetails = bookingDetailsClient.createBooking(requestBody);
 
+    // Verify the created booking matches the request
     BookingDetailsAssert.assertThat(bookingDetails).isCreatedFrom(requestBody);
 
+    // Add the created booking to the pool for reuse in other tests
     bookingDetailsPool.push(bookingDetails);
   }
 
@@ -62,10 +66,13 @@ class CreateBookingTest {
   @Test
   @DisplayName("Should not create booking when total price is negative")
   void shouldNotCreateBookingWithNegativeTotalPrice() {
+    // Prepare a booking request payload with a negative total price
     Booking requestBody = bookingFactory.getWithNegativeTotalPrice();
 
+    // Attempt to create the booking and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(requestBody);
 
+    // Verify a bad request status code is returned
     StringResponseAssert.assertThat(response).isBadRequest();
   }
 
@@ -73,17 +80,23 @@ class CreateBookingTest {
   @ParameterizedTest(name = "{1}")
   @MethodSource("providerMissingFieldBookings")
   void shouldNotCreateBookingTest(Booking request, String description) {
+    // Attempt to create the booking with missing fields and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
+    // Verify an internal server error status code is returned
     StringResponseAssert.assertThat(response).isInternalServerError();
   }
 
   @DisplayName("Should not create booking with random multiple missing required fields")
   @Test
   void shouldNotCreateBookingWithRandomMissingFieldsTest() {
+    // Prepare a booking request payload with random missing required fields
     Booking request = bookingFactory.getWithRandomMissingRequiredFields();
+
+    // Attempt to create the booking and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
+    // Verify an internal server error status code is returned
     StringResponseAssert.assertThat(response).isInternalServerError();
   }
 

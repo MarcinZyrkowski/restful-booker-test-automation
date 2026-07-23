@@ -44,58 +44,74 @@ class FetchBookingsIdsTest {
   @Test
   @DisplayName("Fetch all booking ids")
   void fetchAllBookingIdsTest() {
+    // Send request to fetch all booking IDs without filters
     List<BookingId> response = fetchBookingClient.getBookingIds(null, null, null, null);
 
+    // Verify the returned list is not empty
     BookingIdListAssert.assertThat(response).isNotEmpty();
   }
 
   @Test
   @DisplayName("Fetch booking ids with filter by first name")
   void fetchBookingIdsWithFilterByFirstNameTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Send request to fetch booking IDs filtered by first name
     List<BookingId> response =
         fetchBookingClient.getBookingIds(booking.firstName(), null, null, null);
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Test
   @DisplayName("Fetch booking ids with filter by last name")
   void fetchBookingIdsWithFilterByLastNameTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Send request to fetch booking IDs filtered by last name
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, booking.lastName(), null, null);
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Test
   @DisplayName("Fetch booking ids with filter by non-existent first name")
   void fetchBookingIdsWithFilterByNonExistentFirstNameTest() {
+    // Generate a random non-existent first name
     String nonExistentFirstName = BookerStringUtils.randomAlphaNumericSequence();
 
+    // Send request to fetch booking IDs filtered by the non-existent first name
     List<BookingId> response =
         fetchBookingClient.getBookingIds(nonExistentFirstName, null, null, null);
 
+    // Verify the retrieved list is empty
     BookingIdListAssert.assertThat(response).isEmpty();
   }
 
   @Test
   @DisplayName("Fetch booking ids with filter by non-existent last name")
   void fetchBookingIdsWithFilterByNonExistentLastNameTest() {
+    // Generate a random non-existent last name
     String nonExistentLastName = BookerStringUtils.randomAlphaNumericSequence();
 
+    // Send request to fetch booking IDs filtered by the non-existent last name
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, nonExistentLastName, null, null);
 
+    // Verify the retrieved list is empty
     BookingIdListAssert.assertThat(response).isEmpty();
   }
 
@@ -105,14 +121,18 @@ class FetchBookingsIdsTest {
   @Test
   @DisplayName("Fetch booking ids with filter by check in date (equal to booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Send request to fetch booking IDs filtered by the exact check-in date
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, booking.bookingDates().checkIn(), null);
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
@@ -120,31 +140,40 @@ class FetchBookingsIdsTest {
   @DisplayName(
       "Fetch booking ids with filter by check in date (earlier than booking check in date)")
   void fetchBookingIdsWithFilterByCheckInDateEarlierThanTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Calculate a date earlier than the booking's check-in date
     LocalDate bookingCheckIn = dateMapper.mapStringToLocalDate(booking.bookingDates().checkIn());
     LocalDate filterCheckIn = DateGenerator.getRandomDateBefore(bookingCheckIn, 50);
 
+    // Send request to fetch booking IDs filtered by the earlier check-in date
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, filterCheckIn.toString(), null);
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Test
   @DisplayName("Fetch booking ids with filter by checkout date (equal to booking checkout date)")
   void fetchBookingIdsWithFilterByCheckOutDateTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Send request to fetch booking IDs filtered by the exact check-out date
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, null, booking.bookingDates().checkOut());
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
@@ -155,17 +184,22 @@ class FetchBookingsIdsTest {
   @DisplayName(
       "Fetch booking ids with filter by checkout date (earlier than booking checkout date)")
   void fetchBookingIdsWithFilterByCheckOutDateLessThanTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Calculate a date earlier than the booking's check-out date
     LocalDate bookingCheckOut = dateMapper.mapStringToLocalDate(booking.bookingDates().checkOut());
     LocalDate filterCheckOut = DateGenerator.getRandomDateBefore(bookingCheckOut, 50);
 
+    // Send request to fetch booking IDs filtered by the earlier check-out date
     List<BookingId> response =
         fetchBookingClient.getBookingIds(null, null, null, filterCheckOut.toString());
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
@@ -175,18 +209,24 @@ class FetchBookingsIdsTest {
   @Test
   @DisplayName("Fetch booking ids with combination of all filters")
   void fetchBookingIdsWithMixedFiltersTest() {
+    // Retrieve an existing booking from the pool
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     Booking booking = bookingDetails.booking();
 
+    // Randomly select between the booking's actual details or null for each filter
     String firstName = BookerRandomUtils.randomOf(null, booking.firstName());
     String lastName = BookerRandomUtils.randomOf(null, booking.lastName());
     String checkIn = BookerRandomUtils.randomOf(null, booking.bookingDates().checkIn());
     String checkOut = BookerRandomUtils.randomOf(null, booking.bookingDates().checkOut());
+
+    // Send request to fetch booking IDs using the mixed filters
     List<BookingId> response =
         fetchBookingClient.getBookingIds(firstName, lastName, checkIn, checkOut);
 
+    // Verify the retrieved list contains the pooled booking's ID
     BookingIdListAssert.assertThat(response).containsBookingId(bookingDetails.bookingId());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 }

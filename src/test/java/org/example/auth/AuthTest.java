@@ -35,18 +35,23 @@ class AuthTest {
   @Test
   @DisplayName("Create token with valid user")
   void createTokenTest() {
+    // Attempt to create a token for the valid admin user
     Token token = tokenClient.createToken(adminUser);
 
+    // Verify the returned token length
     TokenAssert.assertThat(token).hasLengthOf(15);
   }
 
   @Test
   @DisplayName("Token should not be created for invalid user")
   void createTokenWithInvalidUserTest() {
+    // Generate user object with invalid credentials
     User invalidUser = userFactory.getWithInvalidCredentials();
 
+    // Attempt to create a token and expect an error response
     ErrorResponse errorResponse = tokenClient.createTokenExpectingError(invalidUser);
 
+    // Verify the response contains the 'Bad credentials' error message
     ErrorResponseAssert.assertThat(errorResponse).hasReason("Bad credentials");
   }
 }

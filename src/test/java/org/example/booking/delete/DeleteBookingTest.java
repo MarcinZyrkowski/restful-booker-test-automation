@@ -41,14 +41,19 @@ class DeleteBookingTest {
   @Issue(value = Bugs.DELETE_RETURNS_201_CREATED_BUG)
   @DisplayName("Delete booking using basic auth")
   void deleteBookingUsingBasicAuthTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Send request to delete the booking using basic auth
     String deleteResponse = deleteBookingClient.deleteBooking(bookingId);
+    // Verify a created status code is returned for deletion
     StringResponseAssert.assertThat(deleteResponse).isCreated();
 
+    // Attempt to fetch the deleted booking and expect an error
     String fetchResponse =
         fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
+    // Verify the booking is no longer found
     StringResponseAssert.assertThat(fetchResponse).isNotFound();
   }
 
@@ -56,29 +61,38 @@ class DeleteBookingTest {
   @Issue(value = Bugs.DELETE_RETURNS_201_CREATED_BUG)
   @DisplayName("Delete booking using token")
   void deleteBookingUsingTokenTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Generate a valid authentication token
     Token tokenResponse = tokenClient.createToken(adminUser);
     String token = tokenResponse.token();
 
+    // Send request to delete the booking using the generated token
     String deleteResponse = deleteBookingClient.deleteBooking(bookingId, token);
+    // Verify a created status code is returned for deletion
     StringResponseAssert.assertThat(deleteResponse).isCreated();
 
+    // Attempt to fetch the deleted booking and expect an error
     String fetchResponse =
         fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
+    // Verify the booking is no longer found
     StringResponseAssert.assertThat(fetchResponse).isNotFound();
   }
 
   @Test
   @DisplayName("Delete booking using invalid token")
   void deleteBookingUsingInvalidTokenTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     int bookingId = bookingDetails.bookingId();
 
+    // Attempt to delete the booking using an invalid token and expect an error
     String invalidToken = "invalid-token";
     String response = deleteBookingClient.deleteBookingExpectingError(bookingId, invalidToken);
 
+    // Verify a forbidden status code is returned
     StringResponseAssert.assertThat(response).isForbidden();
   }
 }

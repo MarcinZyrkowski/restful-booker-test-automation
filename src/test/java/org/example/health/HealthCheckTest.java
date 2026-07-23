@@ -28,8 +28,10 @@ class HealthCheckTest {
   @Test
   @DisplayName("Verify Health Check")
   void verifyHealthCheck() {
+    // Send health check ping request
     String response = healthClient.healthCheck();
 
+    // Verify a created status code is returned
     StringResponseAssert.assertThat(response).isCreated();
   }
 }

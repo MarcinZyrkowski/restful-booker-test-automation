@@ -35,32 +35,42 @@ class FetchBookingTest {
   @Test
   @DisplayName("Fetch booking by id")
   void fetchBookingTest() {
+    // Retrieve an existing booking from the pool or create a new one
     BookingDetails bookingDetails = bookingDetailsPool.popOrCreate();
     String bookingId = String.valueOf(bookingDetails.bookingId());
 
+    // Send request to fetch the booking by its ID
     Booking actualBooking = fetchBookingClient.getBookingById(bookingId);
+    // Verify the fetched booking matches the pooled booking details
     BookingAssert.assertThat(actualBooking).isEqualToBooking(bookingDetails.booking());
 
+    // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Test
   @DisplayName("Fetch booking by id that doesn't exist")
   void fetchBookingByIdThatNotExistsTest() {
+    // Generate a random non-existent booking ID
     String nonExistentBookingId = BookerRandomUtils.randomLongAsString(100_000, 200_000);
 
+    // Attempt to fetch the non-existent booking and expect an error
     String response = fetchBookingClient.getBookingByIdExpectingError(nonExistentBookingId);
 
+    // Verify a not found status code is returned
     StringResponseAssert.assertThat(response).isNotFound();
   }
 
   @Test
   @DisplayName("Fetch booking by id with random alphanumeric string sequence")
   void fetchBookingWithRandomAlphanumericIdTest() {
+    // Generate a random alphanumeric string to use as an invalid ID
     String randomId = BookerStringUtils.randomAlphaNumericSequence();
 
+    // Attempt to fetch using the invalid ID and expect an error
     String response = fetchBookingClient.getBookingByIdExpectingError(randomId);
 
+    // Verify a not found status code is returned
     StringResponseAssert.assertThat(response).isNotFound();
   }
 }
