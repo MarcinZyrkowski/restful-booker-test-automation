@@ -1,6 +1,6 @@
 # 🚀 Restful Booker Test Automation Framework
 
-This project is a Java-based, enterprise-grade test automation framework designed to run automated API tests against the [Restful Booker API](https://restful-booker.herokuapp.com/apidoc).
+This project is a Java-based, enterprise-grade test automation framework designed to run automated API tests against the [Restful Booker API](https://restful-booker.herokuapp.com/apidoc). It uses a modern tech stack focused on maintainability, readability, and robust reporting.
 
 ![Java Version](https://img.shields.io/badge/Java-21-orange.svg?style=flat-square&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.5-brightgreen.svg?style=flat-square&logo=springboot)
@@ -12,48 +12,39 @@ This project is a Java-based, enterprise-grade test automation framework designe
 
 ---
 
-## 🏗️ Architecture & Component Design
+## 🛠 Tech Stack & Dependencies
 
-The framework utilizes a highly modular, multi-layered architecture backed by **Spring Dependency Injection** and **AssertJ Fluent Assertions** to promote decoupling, clean boundaries, and highly readable tests.
+The project is built with the following core technologies:
 
-### 📁 Directory Layout Overview
-```text
-src/
-├── main/java/org/example/
-│   ├── api/               # Low-level RestAssured API client definitions (RestApi, BookerApi)
-│   ├── assertion/         # Domain-specific, fluent AssertJ custom assertions (extends AbstractAssert)
-│   │   ├── auth/          # TokenAssert
-│   │   ├── booking/       # BookingAssert, BookingDetailsAssert, BookingIdListAssert
-│   │   └── common/        # ErrorResponseAssert, StringResponseAssert, ResponseAssertion
-│   ├── client/            # High-level orchestration clients grouped by business capability sub-scopes
-│   │   ├── booking/       # FetchBookingClient, DeleteBookingClient, UpdateBookingClient, PartialUpdateBookingClient
-│   │   ├── bookingdetails/# BookingDetailsClient (creation operations)
-│   │   ├── health/        # HealthClient
-│   │   └── token/         # TokenClient
-│   ├── config/            # Spring @Configuration & application properties loading
-│   ├── dataprovider/      # Parameterized payloads for data-driven JUnit tests
-│   ├── factory/           # Entity generation workflows (BookingFactory, UserFactory)
-│   ├── generator/         # Specialized builder generators for request payloads and dates
-│   ├── helper/            # Domain-specific helpers and workflows (e.g., entity merging)
-│   ├── mapper/            # Converters & mapping layers (ResponseMapper, DateMapper)
-│   ├── model/             # Lombok-powered request/response DTO models
-│   ├── pool/              # Thread-safe entity caching / state management
-│   ├── tags/              # Custom JUnit 5 annotations (@Regression, @Debug)
-│   ├── tracking/          # Central dictionary of known bugs and issues
-│   └── utils/             # Domain-agnostic pure utility/helper classes
-└── main/resources/        # Environment profile-specific configuration files
-```
+- **Language:** Java 21 (configured toolchain)
+- **Dependency Management & Build:** Gradle
+- **API Client:** RestAssured (version 5.5.6)
+- **Test Runner:** JUnit 5 (JUnit BOM 5.10.0)
+- **Dependency Injection:** Spring Boot Starter Test (version 3.5.5)
+- **Reporting:** Allure (version 2.26.0) with AspectJ weaver (version 1.9.22.1) for test step instrumentation
+- **Code Quality:** Spotless (version 6.22.0) using Google Java Format (version 1.30.0), Lombok (version 1.18.40)
+- **Data Generation:** DataFaker (version 2.5.4)
 
-### 📐 Factory vs. Generator vs. Helper vs. Utils
+---
 
-To maintain clear separation of concerns, the framework differentiates between these four layers:
+## 🏗 Architecture & Design Layers
 
-| Component Type | Responsibility | Spring Bean? | Examples | When to Use |
-| :--- | :--- | :--- | :--- | :--- |
-| **Factory** | High-level orchestration of complete, valid or invalid test entities. | **Yes** (`@Component`) | `BookingFactory`, `UserFactory` | Use in tests to quickly arrange test data with descriptive, readable method names (e.g., `bookingFactory.getWithAllValidFields()`). |
-| **Generator** | Reusable builder-pattern payload construction and date/time manipulation. | **No** (Static utility / builder) | `BookingGenerator`, `DateTimesGenerator` | Use to define granular construction steps, random field modifications, or generic fake data generation logic. |
-| **Helper** | Domain-specific, rich business workflows (e.g., merging entity states). | **Yes** (`@Component`) | `BookingHelper` | Use when performing operations specific to domain models (like merging a patch update) that are used across multiple steps or tests. |
-| **Utils** | Domain-agnostic pure static functions for generic logic. | **No** (Static methods only) | `CollectionUtils`, `BookerStringUtils`, `FakerUtils` | Use for general-purpose helpers (e.g., checking if a list is empty, custom string formatting) that have zero knowledge of restful-booker domain models. |
+The framework utilizes a highly modular, multi-layered architecture backed by **Spring Dependency Injection** and **AssertJ Fluent Assertions** to promote decoupling, clean boundaries, and highly readable tests:
+
+- **Dependency Injection in Tests:** Test classes are annotated with `@SpringBootTest` and directly autowire only the specific dependencies (clients, steps, pools, factories, assertions) they require. This prevents the "God Object" anti-pattern and couples tests only to the components they actually use.
+- **API Layer (`org.example.api`):** Wraps RestAssured to make low-level HTTP calls. 
+  - `RestApi` configures the base URI, content type, and Allure/logging filters.
+  - `BookerApi` contains specific endpoint paths and request mapping definitions (e.g., ping, auth, booking).
+- **Client Layer (`org.example.client`):** Contains business-level, developer-friendly orchestration clients. These clients make the low-level API calls, assert successful status codes, and map HTTP responses into clean domain objects/Strings for tests. Grouped into business sub-scopes (`booking`, `bookingdetails`, `token`, `health`).
+- **Assertion Layer (`org.example.assertion`):** Provides domain-specific, fluent assertions (`common`, `booking`, `auth`).
+- **Model Layer (`org.example.model`):** Holds DTOs (Data Transfer Objects) for request and response payloads, utilizing Lombok `@Data` and `@Builder` patterns.
+- **Factory Layer (`org.example.factory`):** Encapsulates entity generation workflows (e.g., `BookingFactory`, `UserFactory`) for preparing test data.
+- **Data Provider Layer (`org.example.dataprovider`):** Supplies parameterized payloads for JUnit parameterized tests (e.g., invalid fields, edge case inputs).
+- **Pool Layer (`org.example.pool`):** Manages states of test entities across different test scopes to speed up execution.
+- **Config Layer (`org.example.config`):** Uses Spring `@Configuration` to load environment properties.
+- **Mapper Layer (`org.example.mapper`):** Contains components for object conversion and data translation (e.g., `ResponseMapper`, `DateMapper`).
+- **Tracking Layer (`org.example.tracking`):** Houses definitions for known bugs and issues to keep test results clear.
+- **Utilities (`org.example.utils`):** Shared, pure helper classes (e.g., collection utilities, custom string formatters).
 
 ---
 
@@ -66,8 +57,8 @@ To optimize execution speed and prevent rate-limiting or service degradation on 
 - Guarantees test thread safety with non-blocking concurrent queues.
 
 ### 🧪 SDK-Grade Client & API Separation
-- **API Layer (`BookerApi`)**: Low-level endpoint pathways, headers, and HTTP request actions using RestAssured.
-- **Client Layer (`*Client`)**: High-level, developer-friendly orchestration APIs that run operations, verify response code boundaries, map JSON bodies to models, and return structured Java objects to tests.
+- **API Layer**: Low-level endpoint pathways, headers, and HTTP request actions using RestAssured.
+- **Client Layer**: High-level, developer-friendly orchestration APIs that run operations, verify response code boundaries, map JSON bodies to models, and return structured Java objects to tests.
 
 ### 🎯 Fluent Custom AssertJ Assertions
 All assertions are implemented as specialized AssertJ classes inheriting from `AbstractAssert`. Tests achieve industry-standard readability without requiring Spring container autowiring:
@@ -84,17 +75,14 @@ We isolate test noise using explicit annotations coupled with a known bug regist
 
 ---
 
-## ⚙️ Configuration & Environment Profiles
+## ⚙️ Configuration & Environment
 
-Configurations are managed dynamically using Spring Boot properties.
+Configuration properties are loaded from `application.properties` into `SpringConfig.java`.
 
-**Available Profiles:** `dev`, `qa`
-**Available Tags:** `regression`, `debug`, `bug`
+### Environment Profiles
+The framework supports environment-specific profiles (e.g., `qa`, `dev`) loaded from profile-specific properties files (`application-dev.properties`, `application-qa.properties`).
 
-### Active Environment Override
-Define environment parameters inside `src/main/resources/application-{profile}.properties` and activate them via system properties. 
-
-Here are examples showing how to execute tests with all possible configurations—setting the environment profile (`qa`) and filtering tests by combining include/exclude tags:
+To activate a profile:
 
 | OS / Shell | Command (Environment + Tags) |
 | :--- | :--- |
@@ -111,6 +99,12 @@ To inject parameters at runtime (e.g., CI/CD), use the following overrides:
 ---
 
 ## 🚀 Command Reference & Running Tests
+
+### Prerequisites
+- JDK 21
+- Gradle (wrapper included)
+
+### Key Commands
 
 | Task | Command | Description |
 | :--- | :--- | :--- |
@@ -141,3 +135,27 @@ When tests run in GitHub Actions:
    ```bash
    allure open allure-report/allureReport
    ```
+
+---
+
+## 📝 Development Conventions
+
+- **Lombok Annotation Preferences:**
+  - Use `@Data` for DTOs.
+  - Use `@Builder` for constructing complex configurations or request payloads.
+  - Use `@RequiredArgsConstructor` for constructor-based dependency injection in components.
+- **Reporting Steps:**
+  - Annotate client methods and step orchestrations with `@Step("Description")` to write detailed, human-readable step entries in the Allure reports.
+- **Test Documentation:**
+  - Every action or logical group of actions within a test method must be concisely described using inline comments.
+- **Custom JUnit 5 Tags:**
+  - Standard tags are defined under `org.example.tags` (e.g., `@Regression`, `@Debug`). Use these annotations instead of raw `@Tag("name")` strings.
+- **Automated Formatting:**
+  - The project strictly adheres to **Google Java Format**.
+  - The `compileJava` task has a dependency on `spotlessApply`. Hence, compiling or running tests via `./gradlew` will automatically format files before execution.
+- **Assertions Style:**
+  - Prefer using custom assertion classes inside `org.example.assertion` extending AssertJ's `AbstractAssert<Self, Actual>` to enable native fluent testing interfaces.
+  - Do not use static imports for `Assertions`. Always import `org.assertj.core.api.Assertions;` and use `Assertions.assertThat` explicitly in code (avoid fully-qualified class names like `org.assertj.core.api.Assertions.assertThat` in method bodies).
+- **Data Providers vs Factories:**
+  - Use **Data Providers** (`@MethodSource`) *only* for multi-parameter cases where the same test logic applies to various inputs.
+  - Use **Factories** to provide objects for single-case scenarios to keep tests simpler and more direct.

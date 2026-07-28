@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum StringResponseBody {
+public enum HttpStatusText {
   CREATED("Created"),
   BAD_REQUEST("Bad Request"),
   FORBIDDEN("Forbidden"),

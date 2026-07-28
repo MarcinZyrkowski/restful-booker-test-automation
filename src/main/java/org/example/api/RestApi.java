@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RestApi {
 
-  protected final SpringConfig springConfig;
+  private final SpringConfig springConfig;
 
   public RequestSpecification basicRequest() {
     return RestAssured.given()

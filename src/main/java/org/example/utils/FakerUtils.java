@@ -7,25 +7,25 @@ import net.datafaker.Faker;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FakerUtils {
 
-  private static final Faker FAKER = new Faker();
+  private static final ThreadLocal<Faker> FAKER = ThreadLocal.withInitial(Faker::new);
 
   public static String generatePassword() {
-    return FAKER.credentials().password();
+    return FAKER.get().credentials().password();
   }
 
   public static String generateFirstName() {
-    return FAKER.name().firstName();
+    return FAKER.get().name().firstName();
   }
 
   public static String generateLastName() {
-    return FAKER.name().lastName();
+    return FAKER.get().name().lastName();
   }
 
   public static String generateFullName() {
-    return FAKER.name().fullName();
+    return FAKER.get().name().fullName();
   }
 
   public static String generateSentence() {
-    return FAKER.lorem().sentence();
+    return FAKER.get().lorem().sentence();
   }
 }

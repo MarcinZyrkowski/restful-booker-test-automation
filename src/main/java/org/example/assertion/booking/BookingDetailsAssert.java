@@ -1,5 +1,6 @@
 package org.example.assertion.booking;
 
+import io.qameta.allure.Step;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.example.model.service.dto.common.Booking;
@@ -15,6 +16,7 @@ public class BookingDetailsAssert extends AbstractAssert<BookingDetailsAssert, B
     return new BookingDetailsAssert(actual);
   }
 
+  @Step("Verify booking details are created from expected booking")
   public BookingDetailsAssert isCreatedFrom(Booking expectedBooking) {
     isNotNull();
 

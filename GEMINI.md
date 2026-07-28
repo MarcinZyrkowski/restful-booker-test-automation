@@ -164,13 +164,15 @@ You can use the configured Allure Gradle plugin:
   - Use `@RequiredArgsConstructor` for constructor-based dependency injection in components.
 - **Reporting Steps:**
   - Annotate client methods and step orchestrations with `@Step("Description")` to write detailed, human-readable step entries in the Allure reports.
+- **Test Documentation:**
+  - Every action or logical group of actions within a test method must be concisely described using inline comments.
 - **Custom JUnit 5 Tags:**
   - Standard tags are defined under `org.example.tags` (e.g., `@Regression`, `@Debug`). Use these annotations instead of raw `@Tag("name")` strings.
 - **Automated Formatting:**
   - The project strictly adheres to **Google Java Format**.
   - The `compileJava` task has a dependency on `spotlessApply`. Hence, compiling or running tests via `./gradlew` will automatically format files before execution.
 - **Assertions Style:**
-  - Prefer using custom assertion classes inside `org.example.assertion` extending AssertJ's `AbstractAssert<Self, Actual>` to enable native fluent testing interfaces.
+  - **Always** use custom assertion classes inside `org.example.assertion` extending AssertJ's `AbstractAssert<Self, Actual>` to enable native fluent testing interfaces. Do not use Spring `@Component` classes with void-returning assertion methods.
   - Do not use static imports for `Assertions`. Always import `org.assertj.core.api.Assertions;` and use `Assertions.assertThat` explicitly in code (avoid fully-qualified class names like `org.assertj.core.api.Assertions.assertThat` in method bodies).
 - **Data Providers vs Factories:**
   - Use **Data Providers** (`@MethodSource`) *only* for multi-parameter cases where the same test logic applies to various inputs.

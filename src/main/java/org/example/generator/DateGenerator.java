@@ -6,16 +6,18 @@ import lombok.NoArgsConstructor;
 import org.example.utils.BookerRandomUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DateTimesGenerator {
+public class DateGenerator {
+
+  private static final int MAX_FUTURE_YEARS = 2;
 
   public static LocalDate getRandomFutureDate() {
     LocalDate now = LocalDate.now();
-    LocalDate twoYearsLater = now.plusYears(2);
+    LocalDate twoYearsLater = now.plusYears(MAX_FUTURE_YEARS);
 
     long minDay = now.toEpochDay() + 1;
     long maxDay = twoYearsLater.toEpochDay();
 
-    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomLong(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -33,7 +35,7 @@ public class DateTimesGenerator {
       maxDay = minDay + 1;
     }
 
-    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomLong(minDay, maxDay + 1);
 
     return LocalDate.ofEpochDay(randomDay);
   }
@@ -51,7 +53,7 @@ public class DateTimesGenerator {
       minDay = maxDay - 1;
     }
 
-    long randomDay = BookerRandomUtils.randomNumber(minDay, maxDay + 1);
+    long randomDay = BookerRandomUtils.randomLong(minDay, maxDay + 1);
     return LocalDate.ofEpochDay(randomDay);
   }
 }

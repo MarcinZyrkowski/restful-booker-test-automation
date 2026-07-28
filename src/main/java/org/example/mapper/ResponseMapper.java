@@ -3,10 +3,10 @@ package org.example.mapper;
 import io.restassured.response.Response;
 import java.util.List;
 import org.example.model.service.dto.common.Booking;
-import org.example.model.service.dto.response.auth.ErrorResponse;
 import org.example.model.service.dto.response.auth.Token;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.model.service.dto.response.booking.BookingId;
+import org.example.model.service.dto.response.common.ErrorResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,7 +36,7 @@ public class ResponseMapper {
     return mapTo(response, BookingDetails.class);
   }
 
-  public Booking mapToBookingRequestResponse(Response response) {
+  public Booking mapToBooking(Response response) {
     return mapTo(response, Booking.class);
   }
 }

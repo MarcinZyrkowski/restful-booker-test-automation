@@ -1,6 +1,11 @@
 package org.example.booking.create;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import java.util.stream.Stream;
 import org.example.assertion.booking.BookingDetailsAssert;
 import org.example.assertion.common.StringResponseAssert;
@@ -11,6 +16,7 @@ import org.example.factory.booking.BookingFactory;
 import org.example.model.service.dto.common.Booking;
 import org.example.model.service.dto.response.booking.BookingDetails;
 import org.example.pool.BookingDetailsPool;
+import org.example.tags.Bug;
 import org.example.tags.Regression;
 import org.example.tracking.Bugs;
 import org.junit.jupiter.api.Disabled;
@@ -23,6 +29,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Severity(SeverityLevel.CRITICAL)
+@Epic("Booking API")
+@Feature("Booking Management")
+@Story("Create Booking")
 @Regression
 @SpringBootTest(classes = SpringConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -37,24 +47,32 @@ class CreateBookingTest {
   @Test
   @DisplayName("Create booking with all valid fields")
   void createBookingTest() {
+    // Prepare a valid booking request payload
     Booking requestBody = bookingFactory.getWithAllValidFields();
 
+    // Send request to create the booking
     BookingDetails bookingDetails = bookingDetailsClient.createBooking(requestBody);
 
+    // Verify the created booking matches the request
     BookingDetailsAssert.assertThat(bookingDetails).isCreatedFrom(requestBody);
 
+    // Add the created booking to the pool for reuse in other tests
     bookingDetailsPool.push(bookingDetails);
   }
 
   @Issue(value = Bugs.NEGATIVE_TOTAL_PRICE_BUG)
   @Disabled(value = "Skipped because of bug: " + Bugs.NEGATIVE_TOTAL_PRICE_BUG)
+  @Bug
   @Test
   @DisplayName("Should not create booking when total price is negative")
   void shouldNotCreateBookingWithNegativeTotalPrice() {
+    // Prepare a booking request payload with a negative total price
     Booking requestBody = bookingFactory.getWithNegativeTotalPrice();
 
+    // Attempt to create the booking and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(requestBody);
 
+    // Verify a bad request status code is returned
     StringResponseAssert.assertThat(response).isBadRequest();
   }
 
@@ -62,17 +80,23 @@ class CreateBookingTest {
   @ParameterizedTest(name = "{1}")
   @MethodSource("providerMissingFieldBookings")
   void shouldNotCreateBookingTest(Booking request, String description) {
+    // Attempt to create the booking with missing fields and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
+    // Verify an internal server error status code is returned
     StringResponseAssert.assertThat(response).isInternalServerError();
   }
 
   @DisplayName("Should not create booking with random multiple missing required fields")
   @Test
   void shouldNotCreateBookingWithRandomMissingFieldsTest() {
+    // Prepare a booking request payload with random missing required fields
     Booking request = bookingFactory.getWithRandomMissingRequiredFields();
+
+    // Attempt to create the booking and expect an error
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
+    // Verify an internal server error status code is returned
     StringResponseAssert.assertThat(response).isInternalServerError();
   }
 

@@ -7,4 +7,6 @@ public interface Bugs {
       "Check out booking filter should return all bookings greater than or equal than provided date. doesn't work with strict greater than";
   String NEGATIVE_TOTAL_PRICE_BUG =
       "Service accepts negative total price when creating bookings (should return Bad Request)";
+  String DELETE_RETURNS_201_CREATED_BUG =
+      "DELETE endpoint returns 201 Created instead of 200 OK or 204 No Content";
 }

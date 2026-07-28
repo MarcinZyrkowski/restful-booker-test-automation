@@ -60,6 +60,8 @@ tasks.withType(Test).configureEach {
             excludeTags project.getProperty('excludeTags').split(',')
         }
     }
+    // Configure javaagent for test execution
+    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
 }
 
 // Spotless code formatting configuration
@@ -78,11 +80,7 @@ tasks.named('compileJava') {
     dependsOn tasks.named('spotlessApply')
 }
 
-test {
-    useJUnitPlatform()
-    // Configure javaagent for test execution
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
-}
+
 
 // disabled boot jar, the project is automation project instead of spring boot application
 bootJar {

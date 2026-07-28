@@ -17,7 +17,7 @@ public class BookerRandomUtils {
     return values[RANDOM.randomInt(0, values.length)];
   }
 
-  public static long randomNumber(long includedMin, long excludedMax) {
+  public static long randomLong(long includedMin, long excludedMax) {
     if (includedMin > excludedMax) {
       throw new IllegalArgumentException("includedMin should be <= excludedMax");
     }
@@ -31,8 +31,22 @@ public class BookerRandomUtils {
     return (includedMin + offset);
   }
 
-  public static String randomNumberAsString(long includedMin, long excludedMax) {
-    return String.valueOf(randomNumber(includedMin, excludedMax));
+  public static int randomInt(int includedMin, int excludedMax) {
+    if (includedMin > excludedMax) {
+      throw new IllegalArgumentException("includedMin should be <= excludedMax");
+    }
+
+    if (includedMin == excludedMax) {
+      return includedMin;
+    }
+
+    int range = excludedMax - includedMin; // always positive here
+    int offset = RANDOM.randomInt(0, range); // [0, range)
+    return (includedMin + offset);
+  }
+
+  public static String randomLongAsString(long includedMin, long excludedMax) {
+    return String.valueOf(randomLong(includedMin, excludedMax));
   }
 
   public static boolean randomBoolean() {
