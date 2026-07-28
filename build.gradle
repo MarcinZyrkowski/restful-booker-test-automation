@@ -61,7 +61,8 @@ tasks.withType(Test).configureEach {
         }
     }
     // Configure javaagent for test execution
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+    jvmArgs = ["-javaagent:${configurations.agent.singleFile}", "-Daj.weaving.dump=false"]
+    maxHeapSize = "1g"
 }
 
 // Spotless code formatting configuration
