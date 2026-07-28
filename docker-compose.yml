@@ -1,0 +1,21 @@
+services:
+  tests:
+    build: .
+    image: restful-booker-tests:latest
+    container_name: restful-booker-tests
+    # Map the build folder to the host so we can access Allure reports after the run
+    volumes:
+      - ./build:/app/build
+    environment:
+      # Profile environment (qa, dev, etc.)
+      - SPRING_PROFILES_ACTIVE=qa
+      
+      # You can override base URLs or credentials here if needed:
+      # - BOOKER_BASE_URL=https://restful-booker.herokuapp.com
+      # - BOOKER_USERNAME=admin
+      # - BOOKER_PASSWORD=password123
+    
+    # You can override the command to run specific tags, for example:
+    # command: ["./gradlew", "test", "-PincludeTags=regression", "--no-daemon"]
+    # Or to build the allure report directly within the container:
+    # command: ["./gradlew", "test", "allureReport", "--no-daemon"]

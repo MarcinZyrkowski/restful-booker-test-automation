@@ -3,7 +3,7 @@ java = "21"
 springBoot = "3.5.5"
 springDependencyManagement = "1.1.7"
 lombokPlugin = "9.0.0"
-allurePlugin = "3.0.0"
+allurePlugin = "4.1.0"
 spotlessPlugin = "6.22.0"
 
 lombok = "1.18.40"
@@ -11,7 +11,7 @@ restAssured = "5.5.6"
 datafaker = "2.5.4"
 jackson = "2.20.0"
 aspectj = "1.9.22.1"
-allure = "2.26.0"
+allure = "2.35.3"
 googleJavaFormat = "1.30.0"
 junit = "5.10.0"
 
@@ -36,7 +36,7 @@ aspectj-weaver = { group = "org.aspectj", name = "aspectjweaver", version.ref = 
 
 # API Testing
 rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref = "restAssured" }
-allure-junit5 = { group = "io.qameta.allure", name = "allure-junit5", version.ref = "allure" }
+allure-jupiter = { group = "io.qameta.allure", name = "allure-jupiter", version.ref = "allure" }
 allure-rest-assured = { group = "io.qameta.allure", name = "allure-rest-assured", version.ref = "allure" }
 
 [plugins]

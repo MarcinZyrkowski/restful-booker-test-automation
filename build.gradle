@@ -46,7 +46,7 @@ dependencies {
     implementation libs.rest.assured
 
     // Allure dependencies
-    implementation libs.allure.junit5
+    implementation libs.allure.jupiter
     implementation libs.allure.rest.assured
     agent libs.aspectj.weaver
 }
@@ -88,4 +88,8 @@ bootJar {
 }
 jar {
     enabled = true
+}
+
+allure {
+    version = "2.44.0"
 }
