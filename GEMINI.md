@@ -41,7 +41,7 @@ The project follows a multi-layered architecture to separate concerns, enforce c
   - `booking` (e.g., booking details validation, ID presence checks)
   - `auth` (e.g., token response structure validations)
 - **Model Layer (`org.example.model`):** 
-  Holds DTOs (Data Transfer Objects) for request and response payloads, utilizing Lombok `@Data` and `@Builder` patterns.
+  Holds DTOs (Data Transfer Objects) for request and response payloads, utilizing native Java 21 `record` classes to ensure immutability.
 - **Factory Layer (`org.example.factory`):** 
   Encapsulates entity generation workflows (e.g., `BookingFactory`, `UserFactory`) for preparing test data.
 - **Data Provider Layer (`org.example.dataprovider`):** 
@@ -159,7 +159,7 @@ You can use the configured Allure Gradle plugin:
 ## 📝 Development Conventions
 
 - **Lombok Annotation Preferences:**
-  - Use `@Data` for DTOs.
+  - DTOs must be native Java 21 `record` classes (do not use `@Data`).
   - Use `@Builder` for constructing complex configurations or request payloads.
   - Use `@RequiredArgsConstructor` for constructor-based dependency injection in components.
 - **Reporting Steps:**

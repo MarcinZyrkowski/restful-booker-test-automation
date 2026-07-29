@@ -16,7 +16,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Created")
-  public StringResponseAssert isCreated() {
+  public StringResponseAssert hasCreatedMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(
@@ -26,7 +26,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Bad Request")
-  public StringResponseAssert isBadRequest() {
+  public StringResponseAssert hasBadRequestMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(
@@ -37,7 +37,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Forbidden")
-  public StringResponseAssert isForbidden() {
+  public StringResponseAssert hasForbiddenMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(
@@ -48,7 +48,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Not Found")
-  public StringResponseAssert isNotFound() {
+  public StringResponseAssert hasNotFoundMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(
@@ -59,7 +59,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Internal Server Error")
-  public StringResponseAssert isInternalServerError() {
+  public StringResponseAssert hasInternalServerErrorMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(
@@ -70,7 +70,7 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
   }
 
   @Step("Verify response text is Method Not Allowed")
-  public StringResponseAssert isMethodNotAllowed() {
+  public StringResponseAssert hasMethodNotAllowedMessage() {
     isNotNull();
     Assertions.assertThat(actual)
         .withFailMessage(

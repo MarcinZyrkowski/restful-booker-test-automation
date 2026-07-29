@@ -108,7 +108,7 @@ class UpdateBookingTest {
         updateBookingClient.updateBookingExpectingError(bookingId, bookingUpdate, invalidToken);
 
     // Verify a forbidden status code is returned
-    StringResponseAssert.assertThat(response).isForbidden();
+    StringResponseAssert.assertThat(response).hasForbiddenMessage();
 
     // Return the original booking to the pool
     bookingDetailsPool.push(bookingDetails);
@@ -128,6 +128,6 @@ class UpdateBookingTest {
         updateBookingClient.updateBookingExpectingError(nonExistentBookingId, bookingUpdate);
 
     // Verify a method not allowed status code is returned
-    StringResponseAssert.assertThat(response).isMethodNotAllowed();
+    StringResponseAssert.assertThat(response).hasMethodNotAllowedMessage();
   }
 }

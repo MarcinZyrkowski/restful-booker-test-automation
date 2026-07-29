@@ -32,6 +32,6 @@ class HealthCheckTest {
     String response = healthClient.healthCheck();
 
     // Verify a created status code is returned
-    StringResponseAssert.assertThat(response).isCreated();
+    StringResponseAssert.assertThat(response).hasCreatedMessage();
   }
 }
