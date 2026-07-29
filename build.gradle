@@ -26,6 +26,9 @@ configurations {
         canBeResolved = true
         canBeConsumed = true
     }
+    all {
+        exclude group: 'io.qameta.allure', module: 'allure-assertj'
+    }
 }
 
 dependencies {

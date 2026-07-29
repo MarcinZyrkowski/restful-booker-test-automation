@@ -1,6 +1,7 @@
 package org.example.booking.create;
 
 import io.qameta.allure.*;
+import java.util.stream.Stream;
 import org.example.assertion.booking.BookingDetailsAssert;
 import org.example.assertion.common.StringResponseAssert;
 import org.example.client.bookingdetails.BookingDetailsClient;
@@ -22,8 +23,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.stream.Stream;
 
 @Severity(SeverityLevel.CRITICAL)
 @Epic("Booking API")
