@@ -7,6 +7,9 @@ import org.example.model.service.enums.HttpStatusText;
 
 public class StringResponseAssert extends AbstractAssert<StringResponseAssert, String> {
 
+  private static final String EXPECTED_RESPONSE_TEXT_MESSAGE =
+      "Expected response text to be %s but was %s";
+
   protected StringResponseAssert(String actual) {
     super(actual, StringResponseAssert.class);
   }
@@ -15,68 +18,46 @@ public class StringResponseAssert extends AbstractAssert<StringResponseAssert, S
     return new StringResponseAssert(actual);
   }
 
-  @Step("Verify response text is Created")
-  public StringResponseAssert hasCreatedMessage() {
+  private void hasResponseMessage(HttpStatusText statusText) {
     isNotNull();
     Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s", HttpStatusText.CREATED.getBody(), actual)
-        .isEqualTo(HttpStatusText.CREATED.getBody());
+        .withFailMessage(EXPECTED_RESPONSE_TEXT_MESSAGE, statusText.getBody(), actual)
+        .isEqualTo(statusText.getBody());
+  }
+
+  @Step("Verify response text is Created")
+  public StringResponseAssert hasCreatedMessage() {
+    hasResponseMessage(HttpStatusText.CREATED);
     return this;
   }
 
   @Step("Verify response text is Bad Request")
   public StringResponseAssert hasBadRequestMessage() {
-    isNotNull();
-    Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s",
-            HttpStatusText.BAD_REQUEST.getBody(), actual)
-        .isEqualTo(HttpStatusText.BAD_REQUEST.getBody());
+    hasResponseMessage(HttpStatusText.BAD_REQUEST);
     return this;
   }
 
   @Step("Verify response text is Forbidden")
   public StringResponseAssert hasForbiddenMessage() {
-    isNotNull();
-    Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s",
-            HttpStatusText.FORBIDDEN.getBody(), actual)
-        .isEqualTo(HttpStatusText.FORBIDDEN.getBody());
+    hasResponseMessage(HttpStatusText.FORBIDDEN);
     return this;
   }
 
   @Step("Verify response text is Not Found")
   public StringResponseAssert hasNotFoundMessage() {
-    isNotNull();
-    Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s",
-            HttpStatusText.NOT_FOUND.getBody(), actual)
-        .isEqualTo(HttpStatusText.NOT_FOUND.getBody());
+    hasResponseMessage(HttpStatusText.NOT_FOUND);
     return this;
   }
 
   @Step("Verify response text is Internal Server Error")
   public StringResponseAssert hasInternalServerErrorMessage() {
-    isNotNull();
-    Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s",
-            HttpStatusText.INTERNAL_SERVER_ERROR.getBody(), actual)
-        .isEqualTo(HttpStatusText.INTERNAL_SERVER_ERROR.getBody());
+    hasResponseMessage(HttpStatusText.INTERNAL_SERVER_ERROR);
     return this;
   }
 
   @Step("Verify response text is Method Not Allowed")
   public StringResponseAssert hasMethodNotAllowedMessage() {
-    isNotNull();
-    Assertions.assertThat(actual)
-        .withFailMessage(
-            "Expected response text to be %s but was %s",
-            HttpStatusText.METHOD_NOT_ALLOWED.getBody(), actual)
-        .isEqualTo(HttpStatusText.METHOD_NOT_ALLOWED.getBody());
+    hasResponseMessage(HttpStatusText.METHOD_NOT_ALLOWED);
     return this;
   }
 }

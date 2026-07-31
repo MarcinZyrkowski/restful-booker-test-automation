@@ -2,7 +2,7 @@
 
 This project is a Java-based test automation framework for the [Restful Booker API](https://restful-booker.herokuapp.com/apidoc). It uses a modern tech stack focused on maintainability, readability, and robust reporting.
 
----
+***
 
 ## 🛠 Tech Stack & Dependencies
 
@@ -17,7 +17,7 @@ The project is built with the following core technologies (specified in [build.g
 - **Code Quality:** Spotless (version 6.22.0) using Google Java Format (version 1.30.0), Lombok (version 1.18.40)
 - **Data Generation:** DataFaker (version 2.5.4)
 
----
+***
 
 ## 🏗 Architecture & Design Layers
 
@@ -57,7 +57,7 @@ The project follows a multi-layered architecture to separate concerns, enforce c
 - **Utilities (`org.example.utils`):** 
   Shared, pure helper classes (e.g., collection utilities, custom string formatters).
 
----
+***
 
 ## ⚙️ Configuration & Environment
 
@@ -85,7 +85,7 @@ booker.auth.password=${BOOKER_PASSWORD:password123}
 - `@ComponentScan` scans everything under the `org.example` package.
 - `SpringConfig` instantiates a default `@Bean` user using the credentials mapped from the active profile or environment properties.
 
----
+***
 
 ## 🔄 Entity Pooling Strategy
 
@@ -97,7 +97,7 @@ To optimize test execution speed and prevent the API from getting overwhelmed wi
   - After creating a booking in a test, push it to the pool: `bookingDetailsPool.push(response)`.
   - Bookings are treated as immutable records to prevent state mutation race conditions.
 
----
+***
 
 ## 🐛 Bug & Issue Tracking Conventions
 
@@ -110,7 +110,7 @@ Known issues in the target API are explicitly tracked using constants and test a
   1. Add `@Issue(value = Bugs.BUG_CONSTANT)` to link it in Allure.
   2. Combine it with `@Disabled("Skipped because of bug: " + Bugs.BUG_CONSTANT)` to prevent failure noise in regression runs.
 
----
+***
 
 ## 🚀 Building and Running
 
@@ -154,7 +154,7 @@ You can use the configured Allure Gradle plugin:
 - Once downloaded and unzipped, open a terminal in the unzipped `reports/` folder and run:
   `allure open allure-report/allureReport`
 
----
+***
 
 ## 📝 Development Conventions
 
