@@ -1,11 +1,6 @@
 package org.example.booking.create;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Issue;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import java.util.stream.Stream;
 import org.example.assertion.booking.BookingDetailsAssert;
 import org.example.assertion.common.StringResponseAssert;
@@ -73,7 +68,7 @@ class CreateBookingTest {
     String response = bookingDetailsClient.createBookingExpectingError(requestBody);
 
     // Verify a bad request status code is returned
-    StringResponseAssert.assertThat(response).isBadRequest();
+    StringResponseAssert.assertThat(response).hasBadRequestMessage();
   }
 
   @DisplayName("Should not create booking with missing required field")
@@ -84,7 +79,7 @@ class CreateBookingTest {
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
     // Verify an internal server error status code is returned
-    StringResponseAssert.assertThat(response).isInternalServerError();
+    StringResponseAssert.assertThat(response).hasInternalServerErrorMessage();
   }
 
   @DisplayName("Should not create booking with random multiple missing required fields")
@@ -97,7 +92,7 @@ class CreateBookingTest {
     String response = bookingDetailsClient.createBookingExpectingError(request);
 
     // Verify an internal server error status code is returned
-    StringResponseAssert.assertThat(response).isInternalServerError();
+    StringResponseAssert.assertThat(response).hasInternalServerErrorMessage();
   }
 
   Stream<Arguments> providerMissingFieldBookings() {

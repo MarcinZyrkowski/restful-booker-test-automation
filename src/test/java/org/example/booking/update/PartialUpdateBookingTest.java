@@ -128,7 +128,7 @@ class PartialUpdateBookingTest {
             nonExistentBookingId, partialBookingUpdate);
 
     // Verify a method not allowed status code is returned
-    StringResponseAssert.assertThat(response).isMethodNotAllowed();
+    StringResponseAssert.assertThat(response).hasMethodNotAllowedMessage();
   }
 
   @Test
@@ -148,7 +148,7 @@ class PartialUpdateBookingTest {
             bookingId, partialBookingUpdate, invalidToken);
 
     // Verify a forbidden status code is returned
-    StringResponseAssert.assertThat(response).isForbidden();
+    StringResponseAssert.assertThat(response).hasForbiddenMessage();
 
     // Return the booking to the pool
     bookingDetailsPool.push(bookingDetails);

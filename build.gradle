@@ -26,6 +26,9 @@ configurations {
         canBeResolved = true
         canBeConsumed = true
     }
+    all {
+        exclude group: 'io.qameta.allure', module: 'allure-assertj'
+    }
 }
 
 dependencies {
@@ -46,7 +49,7 @@ dependencies {
     implementation libs.rest.assured
 
     // Allure dependencies
-    implementation libs.allure.junit5
+    implementation libs.allure.jupiter
     implementation libs.allure.rest.assured
     agent libs.aspectj.weaver
 }
@@ -61,7 +64,8 @@ tasks.withType(Test).configureEach {
         }
     }
     // Configure javaagent for test execution
-    jvmArgs = ["-javaagent:${configurations.agent.singleFile}"]
+    jvmArgs = ["-javaagent:${configurations.agent.singleFile}", "-Daj.weaving.dump=false"]
+    maxHeapSize = "1g"
 }
 
 // Spotless code formatting configuration
@@ -88,4 +92,8 @@ bootJar {
 }
 jar {
     enabled = true
+}
+
+allure {
+    version = "2.44.0"
 }

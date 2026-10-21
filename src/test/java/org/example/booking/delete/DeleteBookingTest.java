@@ -48,13 +48,13 @@ class DeleteBookingTest {
     // Send request to delete the booking using basic auth
     String deleteResponse = deleteBookingClient.deleteBooking(bookingId);
     // Verify a created status code is returned for deletion
-    StringResponseAssert.assertThat(deleteResponse).isCreated();
+    StringResponseAssert.assertThat(deleteResponse).hasCreatedMessage();
 
     // Attempt to fetch the deleted booking and expect an error
     String fetchResponse =
         fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
     // Verify the booking is no longer found
-    StringResponseAssert.assertThat(fetchResponse).isNotFound();
+    StringResponseAssert.assertThat(fetchResponse).hasNotFoundMessage();
   }
 
   @Test
@@ -72,13 +72,13 @@ class DeleteBookingTest {
     // Send request to delete the booking using the generated token
     String deleteResponse = deleteBookingClient.deleteBooking(bookingId, token);
     // Verify a created status code is returned for deletion
-    StringResponseAssert.assertThat(deleteResponse).isCreated();
+    StringResponseAssert.assertThat(deleteResponse).hasCreatedMessage();
 
     // Attempt to fetch the deleted booking and expect an error
     String fetchResponse =
         fetchBookingClient.getBookingByIdExpectingError(String.valueOf(bookingId));
     // Verify the booking is no longer found
-    StringResponseAssert.assertThat(fetchResponse).isNotFound();
+    StringResponseAssert.assertThat(fetchResponse).hasNotFoundMessage();
   }
 
   @Test
@@ -93,6 +93,6 @@ class DeleteBookingTest {
     String response = deleteBookingClient.deleteBookingExpectingError(bookingId, invalidToken);
 
     // Verify a forbidden status code is returned
-    StringResponseAssert.assertThat(response).isForbidden();
+    StringResponseAssert.assertThat(response).hasForbiddenMessage();
   }
 }

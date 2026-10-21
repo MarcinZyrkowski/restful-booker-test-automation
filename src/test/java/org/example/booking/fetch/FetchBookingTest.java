@@ -58,7 +58,7 @@ class FetchBookingTest {
     String response = fetchBookingClient.getBookingByIdExpectingError(nonExistentBookingId);
 
     // Verify a not found status code is returned
-    StringResponseAssert.assertThat(response).isNotFound();
+    StringResponseAssert.assertThat(response).hasNotFoundMessage();
   }
 
   @Test
@@ -71,6 +71,6 @@ class FetchBookingTest {
     String response = fetchBookingClient.getBookingByIdExpectingError(randomId);
 
     // Verify a not found status code is returned
-    StringResponseAssert.assertThat(response).isNotFound();
+    StringResponseAssert.assertThat(response).hasNotFoundMessage();
   }
 }
