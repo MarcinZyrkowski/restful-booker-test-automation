@@ -55,6 +55,10 @@ dependencies {
 }
 
 tasks.withType(Test).configureEach {
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
     useJUnitPlatform {
         if (project.hasProperty('includeTags')) {
             includeTags project.getProperty('includeTags').split(',')
